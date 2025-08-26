@@ -1,0 +1,107 @@
+:root {
+  --background-gradient-start: #817070;
+  --background-gradient-end: #7e6161;
+  --text-color: #eef2f7;
+  --navbar-bg: rgba(26, 38, 52, 0.95);
+  --input-bg: rgba(255, 255, 255, 0.1);
+  --input-placeholder: rgba(255, 255, 255, 0.7);
+  --button-bg: rgba(0, 150, 255, 0.6);
+  --button-hover-bg: rgba(0, 150, 255, 0.8);
+  --icon-btn-bg: rgba(255, 255, 255, 0.1);
+  --icon-btn-hover-bg: rgba(255, 255, 255, 0.2);
+  --dropdown-bg: rgba(26, 38, 52, 0.95);
+  --dropdown-hover: rgba(255, 255, 255, 0.195);
+  --divider-color: rgba(255, 255, 255, 0.2);
+  --table-bg: rgba(26, 38, 52, 0.8);
+  --table-hover-bg: rgb(52, 71, 92);
+  --tooltip-bg: rgba(255, 255, 255, 0.15);
+  --tooltip-border: rgba(255, 255, 255, 0.15);
+  --pagination-bg: rgba(255, 255, 255, 0.1);
+  --pagination-hover: rgba(255, 255, 255, 0.2);
+  --pagination-active: rgba(0, 150, 255, 0.8);
+  --footer-bg: #111;
+  --footer-text: white;
+  --footer-border: rgb(118, 118, 118);
+}
+
+/* Updated CSS with variables */
+
+html,
+body {
+  background: linear-gradient(135deg, var(--background-gradient-start), var(--background-gradient-end));
+  color: var(--text-color);
+}
+
+.navbar {
+  background: var(--navbar-bg);
+}
+
+.navbar__search input {
+  background: var(--input-bg);
+}
+
+.navbar__search input::placeholder {
+  color: var(--input-placeholder);
+}
+
+.navbar__search button {
+  background: var(--button-bg);
+}
+
+.navbar__search button:hover {
+  background: var(--button-hover-bg);
+}
+
+.icon-button {
+  background: var(--icon-btn-bg);
+}
+
+.icon-button:hover {
+  background: var(--icon-btn-hover-bg);
+}
+
+.dropdown__menu {
+  background: var(--dropdown-bg);
+}
+
+.dropdown__menu li a:hover {
+  background: var(--dropdown-hover);
+}
+
+.dropdown__divider {
+  background: var(--divider-color);
+}
+
+.custom-table {
+  background: var(--table-bg);
+}
+
+.custom-table tbody tr:hover {
+  background: var(--table-hover-bg);
+}
+
+.tooltip-content {
+  background: var(--tooltip-bg);
+}
+
+.tooltip-content::before {
+  border-bottom-color: var(--tooltip-border);
+}
+
+.page-btn {
+  background: var(--pagination-bg);
+}
+
+.page-btn:hover:not(:disabled) {
+  background: var(--pagination-hover);
+}
+
+.page-btn.active {
+  background: var(--pagination-active);
+}
+
+.footer {
+  background: var(--footer-bg);
+  color: var(--footer-text);
+  border-top: 0.5px solid var(--footer-border);
+}

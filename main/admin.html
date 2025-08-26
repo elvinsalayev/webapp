@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="az">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Admin — Dashboard</title>
+    <style>
+      :root {
+        --bg1: #2b3340;
+        --bg2: #5b6166;
+        --card: #0f1720;
+        --accent: #e71e03;
+        --muted: rgba(255, 255, 255, 0.75);
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+        background: linear-gradient(110deg, var(--bg1), var(--bg2));
+        color: #eef2f7;
+      }
+
+      .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 22px;
+        background: rgba(26, 38, 52, 0.95);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      }
+      .brand {
+        font-weight: 700;
+        background: linear-gradient(
+          -45deg,
+          #ed0505 25%,
+          #ff7b00 25%,
+          #e71e03 50%
+        );
+        -webkit-background-clip: text;
+        color: transparent;
+      }
+
+      .wrap {
+        max-width: 1400px;
+        margin: 24px auto;
+        padding: 0 18px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 280px 1fr 360px;
+        gap: 18px;
+      }
+      @media (max-width: 1100px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .right-col {
+          order: 2;
+        }
+      }
+
+      .sidebar {
+        background: rgba(20, 28, 36, 0.6);
+        padding: 16px;
+        border-radius: 10px;
+      }
+      .card {
+        background: var(--card);
+        padding: 14px;
+        border-radius: 10px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+      }
+      .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+      @media (max-width: 1200px) {
+        .kpi-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      .kpi {
+        padding: 12px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.02);
+      }
+      .kpi h6 {
+        font-size: 13px;
+        margin-bottom: 6px;
+      }
+      .kpi .num {
+        font-weight: 800;
+        font-size: 20px;
+      }
+
+      .charts {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+      @media (max-width: 900px) {
+        .charts {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .table-responsive {
+        overflow: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        font-size: 13px;
+      }
+
+      .users-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .user-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 10px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .btn {
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-weight: 700;
+      }
+      .btn.primary {
+        background: linear-gradient(90deg, #ff3c3c, #ff8a3c);
+        color: #fff;
+      }
+      .btn.ghost {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        color: var(--muted);
+      }
+
+      .footer {
+        margin-top: 18px;
+        text-align: center;
+        color: var(--muted);
+        padding: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="brand">Slide — Admin</div>
+      <div style="display: flex; gap: 8px; align-items: center">
+        <div class="pill">Admin</div>
+      </div>
+    </nav>
+
+    <div class="wrap">
+      <div class="grid">
+        <aside class="sidebar card">
+          <h4>Admin tools</h4>
+          <div
+            style="
+              margin-top: 12px;
+              display: flex;
+              flex-direction: column;
+              gap: 8px;
+            "
+          >
+            <button class="btn ghost" id="manageUsers">İstifadəçilər</button>
+            <button class="btn ghost" id="manageMods">Moderatorlar</button>
+            <button class="btn ghost" id="systemSettings">
+              Sistem Ayarları
+            </button>
+            <button class="btn ghost" id="viewLogs">Giriş / Loglar</button>
+            <button class="btn ghost" id="exportData">Export CSV</button>
+          </div>
+        </aside>
+
+        <main>
+          <div class="kpi-grid">
+            <div class="kpi card">
+              <h6>Ümumi istifadəçilər</h6>
+              <div class="num" id="k_users">1,240</div>
+            </div>
+            <div class="kpi card">
+              <h6>Gözləyən qeydiyyatlar</h6>
+              <div class="num" id="k_pending">3</div>
+            </div>
+            <div class="kpi card">
+              <h6>Aktiv sessiyalar</h6>
+              <div class="num" id="k_sessions">18</div>
+            </div>
+            <div class="kpi card">
+              <h6>Həftəlik aktiv</h6>
+              <div class="num" id="k_weekly">512</div>
+            </div>
+          </div>
+
+          <div class="charts">
+            <div class="card">
+              <h5>Son fəaliyyət (30 gün)</h5>
+              <div
+                style="
+                  height: 180px;
+                  display: grid;
+                  place-items: center;
+                  color: var(--muted);
+                "
+              >
+                Grafik (chart.js və ya recharts ilə inteqrasiya et)
+              </div>
+            </div>
+            <div class="card">
+              <h5>Server status</h5>
+              <div style="margin-top: 8px">
+                <div class="small">CPU: 34% | RAM: 58% | Disk: 72%</div>
+              </div>
+              <div style="margin-top: 12px">
+                <button class="btn ghost">View metrics</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card table-responsive">
+            <h5>Son qeydiyyatlar / fəaliyyət</h5>
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>İstifadəçi</th>
+                  <th>Mağaza</th>
+                  <th>Status</th>
+                  <th>Tarix</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>J10236</td>
+                  <td>parts_center</td>
+                  <td>Parts Center</td>
+                  <td>Gözləyir</td>
+                  <td>2025-08-12</td>
+                  <td><button class="btn ghost">Detallar</button></td>
+                </tr>
+                <tr>
+                  <td>J10235</td>
+                  <td>autoservis_baku</td>
+                  <td>AutoServis Baku</td>
+                  <td>Təsdiq edildi</td>
+                  <td>2025-08-11</td>
+                  <td><button class="btn ghost">Detallar</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </main>
+
+        <aside class="right-col">
+          <div class="card">
+            <h5>Moderatorlar</h5>
+            <div class="users-list" id="modsList">
+              <div class="user-item">
+                <div>
+                  <strong>Mod_Ali</strong>
+                  <div class="small">mod@slide.az</div>
+                </div>
+                <div class="actions">
+                  <button class="btn ghost">Profil</button
+                  ><button class="btn primary">Rol ver</button>
+                </div>
+              </div>
+              <div class="user-item">
+                <div>
+                  <strong>Mod_Gul</strong>
+                  <div class="small">gul@slide.az</div>
+                </div>
+                <div class="actions">
+                  <button class="btn ghost">Profil</button
+                  ><button class="btn primary">Rol ver</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top: 12px">
+            <h5>Quick actions</h5>
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                margin-top: 8px;
+              "
+            >
+              <button class="btn primary" id="approveAll">
+                Hamısını təsdiq et
+              </button>
+              <button class="btn ghost" id="revokeAccess">
+                Girişləri ləğv et
+              </button>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="footer">© 2025 Slide — Admin panel</div>
+    </div>
+
+    <script>
+      // basic demo actions
+      document.getElementById("exportData").addEventListener("click", () => {
+        alert("CSV export demo — backend tələb olunur");
+      });
+      document.getElementById("manageMods").addEventListener("click", () => {
+        alert("Moderator idarəetmə — yeni səhifə əlavə edə bilərik");
+      });
+      document.getElementById("approveAll").addEventListener("click", () => {
+        if (confirm("Hamısını təsdiq etmək istədiyinizə əminsiniz?")) {
+          alert("Hamısı təsdiq edildi (demo)");
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+.tire {
+    animation: rotation 2000ms infinite linear;
+    transform-origin: 50% 50%;
+}
+.rim {
+    animation: rotation 1200ms infinite linear;
+    transform-origin: 50% 50%;
+}
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+   }
+    to {
+        transform: rotate(360deg);
+   }
+}

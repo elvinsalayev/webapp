@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="az">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Admin Dashboard — Dark Theme (Dashboard only)</title>
+    <style>
+      :root {
+        --bg: #0b0f14;
+        --panel: #0f1720;
+        --muted: #98a0aa;
+        --text: #e6eef6;
+        --accent: #7c5cff;
+        --accent-2: #36d6b8;
+        --shadow: 0 8px 24px rgba(2, 6, 23, 0.6);
+        --radius: 12px;
+        --glass-border: rgba(255, 255, 255, 0.04);
+        --ui-gap: 16px;
+        --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono",
+          monospace;
+        --sans: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body,
+      #app {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: var(--sans);
+        background: linear-gradient(180deg, var(--bg), #061018 130%);
+        color: var(--text);
+        -webkit-font-smoothing: antialiased;
+        padding: 24px;
+      }
+      .center-wrap {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .card {
+        background: linear-gradient(
+          180deg,
+          var(--panel),
+          rgba(255, 255, 255, 0.02)
+        );
+        border-radius: var(--radius);
+        padding: 18px;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--glass-border);
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+      .dot {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+      }
+      .app-shell {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 20px;
+      }
+      .sidebar {
+        height: calc(100vh - 140px);
+        position: sticky;
+        top: 28px;
+      }
+      .nav {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .nav button {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+      }
+      .nav button.active {
+        color: var(--text);
+        background: linear-gradient(
+          90deg,
+          rgba(124, 92, 255, 0.12),
+          rgba(54, 214, 184, 0.04)
+        );
+      }
+      .topbar {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 14px;
+      }
+      .searchbar {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.03);
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid var(--glass-border);
+      }
+      .searchbar input {
+        border: none;
+        background: transparent;
+        color: var(--text);
+        width: 100%;
+      }
+      .table-wrap {
+        overflow: auto;
+        border-radius: 10px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      th,
+      td {
+        padding: 12px 10px;
+        text-align: left;
+      }
+      thead th {
+        position: sticky;
+        top: 0;
+        background: transparent;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      tbody tr {
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.03);
+      }
+      .chip {
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 13px;
+        background: rgba(255, 255, 255, 0.02);
+        display: inline-flex;
+        gap: 6px;
+        align-items: center;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 10px;
+        background: linear-gradient(90deg, var(--accent), #5b47ff);
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      .btn.ghost {
+        background: transparent;
+        border: 1px solid var(--glass-border);
+        color: var(--text);
+      }
+      .small {
+        padding: 6px 8px;
+        border-radius: 8px;
+        font-size: 13px;
+      }
+      .muted-xs {
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .right {
+        margin-left: auto;
+      }
+      .kbd {
+        font-family: var(--mono);
+        background: rgba(255, 255, 255, 0.03);
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 12px;
+      }
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(2, 6, 23, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 60;
+      }
+      .modal {
+        width: 720px;
+        max-width: 95%;
+        border-radius: 12px;
+        padding: 18px;
+      }
+      @media (max-width: 900px) {
+        .app-shell {
+          grid-template-columns: 1fr;
+        }
+        .sidebar {
+          position: relative;
+          height: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" class="center-wrap">
+      <!-- APP SHELL ONLY (no login/register) -->
+      <div id="appShell">
+        <div class="app-shell">
+          <aside class="sidebar card">
+            <div class="logo">
+              <div class="dot">AD</div>
+              <div>
+                <div style="font-weight: 700">YourCompany</div>
+                <div class="muted-xs">Admin dashboard</div>
+              </div>
+              <div class="right muted-xs">v1.0</div>
+            </div>
+
+            <nav class="nav" id="mainNav">
+              <button data-section="overview" class="active">Dashboard</button>
+              <button data-section="products">Products</button>
+              <button data-section="users">Users</button>
+              <button data-section="pending">Pending approvals</button>
+              <button data-section="settings">Settings</button>
+            </nav>
+
+            <div style="margin-top: 18px" class="muted-xs">
+              Giriş: <strong id="curUserLabel">Demo Admin</strong>
+            </div>
+            <div style="display: flex; gap: 8px; margin-top: 12px">
+              <button id="themeToggle" class="btn small">Tema</button>
+            </div>
+          </aside>
+
+          <main>
+            <div class="topbar">
+              <div class="searchbar card" style="flex: 1">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  style="opacity: 0.8"
+                >
+                  <path
+                    d="M21 21l-4.35-4.35"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
+                  <circle
+                    cx="11"
+                    cy="11"
+                    r="6"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                  ></circle>
+                </svg>
+                <input
+                  id="globalSearch"
+                  placeholder="Axtar — mal adı, filial, istifadəçi..."
+                />
+                <div class="right muted-xs">
+                  Press <span class="kbd">/</span> to focus
+                </div>
+              </div>
+              <div style="display: flex; gap: 8px; align-items: center">
+                <div class="muted-xs">
+                  Role: <strong id="curRole">admin</strong>
+                </div>
+              </div>
+            </div>
+
+            <section id="overviewSection" class="card fadein">
+              <h2 style="margin: 0 0 12px 0">Overview</h2>
+              <div style="display: flex; gap: 12px; flex-wrap: wrap">
+                <div
+                  class="card"
+                  style="flex: 1; min-width: 220px; padding: 12px"
+                >
+                  <div class="muted">Ümumi məhsullar</div>
+                  <div
+                    style="font-size: 20px; font-weight: 700; margin-top: 6px"
+                    id="statProducts"
+                  >
+                    0
+                  </div>
+                </div>
+                <div
+                  class="card"
+                  style="flex: 1; min-width: 220px; padding: 12px"
+                >
+                  <div class="muted">Qeydiyyatda gözləyən istifadəçilər</div>
+                  <div
+                    style="font-size: 20px; font-weight: 700; margin-top: 6px"
+                    id="statPending"
+                  >
+                    0
+                  </div>
+                </div>
+                <div
+                  class="card"
+                  style="flex: 1; min-width: 220px; padding: 12px"
+                >
+                  <div class="muted">Aktiv istifadəçilər</div>
+                  <div
+                    style="font-size: 20px; font-weight: 700; margin-top: 6px"
+                    id="statUsers"
+                  >
+                    0
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section
+              id="productsSection"
+              class="card fadein"
+              style="margin-top: 12px; display: none"
+            >
+              <!-- <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 12px;
+                  margin-bottom: 12px;
+                "
+              >
+                <h3 style="margin: 0">Products</h3>
+                <div class="muted-xs">
+                  (malların siyahısı və hansı filialda olduğu)
+                </div>
+                <div class="right controls">
+                  <button id="addProductBtn" class="btn small">
+                    Məhsul əlavə et
+                  </button>
+                  <select id="branchFilter" class="small">
+                    <option value="">Bütün filiallar</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="table-wrap">
+                <table id="productsTable">
+                  <thead>
+                    <tr>
+                      <th>Məhsul</th>
+                      <th>SKU</th>
+                      <th>Filial</th>
+                      <th>Sayı</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div> -->
+
+              <!-- Modern Dark Data Table — paste inside your dashboard products area -->
+              <div class="card modern-table" id="modernPartsTable">
+                <div class="table-head">
+                  <h3>Mallar — Ehtiyat hissələri</h3>
+                  <div class="controls">
+                    <div class="muted">
+                      Səhifə: <span id="mp_currentPage">1</span>/<span
+                        id="mp_totalPages"
+                        >1</span
+                      >
+                    </div>
+                    <div class="pager" id="mp_pager"></div>
+                  </div>
+                </div>
+
+                <div class="table-wrap no-scroll">
+                  <table aria-label="Ehtiyat hissələri" id="mp_table">
+                    <thead>
+                      <tr>
+                        <th>OEM №</th>
+                        <th>BREND KODU</th>
+                        <th>BREND ADI</th>
+                        <th>MAL ADI</th>
+                        <th>ÜNVAN</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="table-foot">
+                  <div class="left muted-xs" id="mp_summary"></div>
+                  <div class="right">
+                    <button class="btn ghost" id="mp_prev">Prev</button>
+                    <button class="btn ghost" id="mp_next">Next</button>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section
+              id="usersSection"
+              class="card fadein"
+              style="margin-top: 12px; display: none"
+            >
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 12px;
+                  margin-bottom: 12px;
+                "
+              >
+                <h3 style="margin: 0">Users</h3>
+                <div class="muted-xs">Aktiv istifadəçilər və rolları</div>
+              </div>
+              <div class="table-wrap">
+                <table id="usersTable">
+                  <thead>
+                    <tr>
+                      <th>Ad</th>
+                      <th>Username</th>
+                      <th>Filial</th>
+                      <th>Telefon</th>
+                      <th>Role</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </section>
+
+            <section
+              id="pendingSection"
+              class="card fadein"
+              style="margin-top: 12px; display: none"
+            >
+              <h3>Pending approvals</h3>
+              <div class="muted-xs" style="margin-bottom: 8px">
+                Yeni qeydiyyatlar burada görünəcək. Admin telefonla əlaqə
+                saxladıqdan sonra təsdiq edəcək.
+              </div>
+              <div class="table-wrap">
+                <table id="pendingTable">
+                  <thead>
+                    <tr>
+                      <th>Ad</th>
+                      <th>Username</th>
+                      <th>Filial</th>
+                      <th>Telefon</th>
+                      <th>Submitted</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </section>
+
+            <section
+              id="settingsSection"
+              class="card fadein"
+              style="margin-top: 12px; display: none"
+            >
+              <h3>Settings</h3>
+              <div class="muted-xs">Bu demo üçün əsas ayarlar.</div>
+              <div
+                style="
+                  margin-top: 12px;
+                  display: flex;
+                  gap: 12px;
+                  flex-wrap: wrap;
+                "
+              >
+                <div class="card" style="padding: 12px; min-width: 220px">
+                  <div class="muted">Tema dəyiş</div>
+                  <div style="margin-top: 10px">
+                    <button id="toggleColorMode" class="btn small">
+                      Tünd/Rəngli
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </main>
+        </div>
+      </div>
+
+      <div id="modalRoot"></div>
+    </div>
+
+    <script>
+      /*
+      Yenilənmiş dashboard-only versiya
+      Əsas düzəlişlər:
+       - login/qeydiyyat UI çıxarıldı (sən login istəməmişdin)
+       - modal yaratma/handler strukturu tam yenidən yazıldı (inline <script> və setTimeout hacks aradan qaldırıldı)
+       - branch filter düzgün yenilənir və seçimi saxlayır
+       - '/' qısayolu yalnız input/textarea-da deyilken işləyir
+       - event delegation sabitləndi və null-check əlavə edildi
+    */
+
+      const LS = {
+        products: "demo_products",
+        users: "demo_users",
+        pending: "demo_pending",
+      };
+
+      function seedDemo() {
+        if (!localStorage.getItem(LS.products)) {
+          const p = [
+            {
+              id: id(),
+              name: "Smartphone X12",
+              sku: "SPX12",
+              branch: "Bakı - Nizami",
+              qty: 14,
+            },
+            {
+              id: id(),
+              name: "Laptop Pro 14",
+              sku: "LTP14",
+              branch: "Gəncə",
+              qty: 6,
+            },
+            {
+              id: id(),
+              name: "Wireless Mouse V2",
+              sku: "WMV2",
+              branch: "Bakı - Nizami",
+              qty: 40,
+            },
+            {
+              id: id(),
+              name: "Headphones Z",
+              sku: "HPZ",
+              branch: "Sumqayıt",
+              qty: 10,
+            },
+          ];
+          localStorage.setItem(LS.products, JSON.stringify(p));
+        }
+        if (!localStorage.getItem(LS.users)) {
+          const u = [
+            {
+              id: id(),
+              name: "Admin",
+              username: "admin",
+              phone: "",
+              branch: "HQ",
+              role: "admin",
+              pass: "1234",
+            },
+            {
+              id: id(),
+              name: "Moderator",
+              username: "mod",
+              phone: "",
+              branch: "HQ",
+              role: "moderator",
+              pass: "1234",
+            },
+          ];
+          localStorage.setItem(LS.users, JSON.stringify(u));
+        }
+        if (!localStorage.getItem(LS.pending))
+          localStorage.setItem(LS.pending, JSON.stringify([]));
+      }
+
+      function id() {
+        return Math.random().toString(36).slice(2, 9);
+      }
+      function read(k) {
+        return JSON.parse(localStorage.getItem(k) || "null");
+      }
+      function write(k, v) {
+        localStorage.setItem(k, JSON.stringify(v));
+      }
+
+      // Robust modal helper
+      function showModal({
+        title = "",
+        html = "",
+        primaryText = "Save",
+        onPrimary = null,
+      }) {
+        const root = document.getElementById("modalRoot");
+        root.innerHTML = "";
+        const backdrop = document.createElement("div");
+        backdrop.className = "modal-backdrop";
+        const modal = document.createElement("div");
+        modal.className = "modal card";
+        modal.innerHTML = `<h3 style="margin-top:0">${title}</h3><div class="modal-body">${html}</div><div style="display:flex;gap:8px;margin-top:12px"><button class="btn primary">${primaryText}</button><button class="btn ghost close">Close</button></div>`;
+        backdrop.appendChild(modal);
+        root.appendChild(backdrop);
+
+        const primaryBtn = modal.querySelector(".primary");
+        const closeBtn = modal.querySelector(".close");
+
+        function close() {
+          root.innerHTML = "";
+        }
+        closeBtn.addEventListener("click", close);
+        backdrop.addEventListener("click", (e) => {
+          if (e.target === backdrop) close();
+        });
+        if (typeof onPrimary === "function") {
+          primaryBtn.addEventListener("click", () => {
+            try {
+              onPrimary({ close });
+            } catch (err) {
+              console.error(err);
+            }
+          });
+        }
+        // return handles if caller wants to programmatically close
+        return { close };
+      }
+
+      // Render functions
+      function renderProducts() {
+        const tbody = document.querySelector("#productsTable tbody");
+        tbody.innerHTML = "";
+        const products = read(LS.products) || [];
+        const branchFilter = document.getElementById("branchFilter").value;
+        const q = document
+          .getElementById("globalSearch")
+          .value.trim()
+          .toLowerCase();
+        const rows = products.filter(
+          (p) =>
+            (!branchFilter || p.branch === branchFilter) &&
+            (p.name.toLowerCase().includes(q) ||
+              p.sku.toLowerCase().includes(q) ||
+              p.branch.toLowerCase().includes(q))
+        );
+        rows.forEach((p) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `<td>${escapeHtml(p.name)}</td><td>${escapeHtml(
+            p.sku
+          )}</td><td>${escapeHtml(p.branch)}</td><td>${
+            p.qty
+          }</td><td><div style="display:flex;gap:8px"><button class='small btn ghost' data-action='edit' data-id='${
+            p.id
+          }'>Edit</button><button class='small btn ghost' data-action='del' data-id='${
+            p.id
+          }'>Delete</button></div></td>`;
+          tbody.appendChild(tr);
+        });
+        // populate branch filter but preserve selection
+        const branches = Array.from(
+          new Set((read(LS.products) || []).map((x) => x.branch))
+        );
+        const bf = document.getElementById("branchFilter");
+        const prev = bf.value || "";
+        bf.innerHTML =
+          '<option value="">Bütün filiallar</option>' +
+          branches
+            .map(
+              (b) =>
+                `<option value="${escapeHtml(b)}">${escapeHtml(b)}</option>`
+            )
+            .join("");
+        bf.value = prev;
+        document.getElementById("statProducts").textContent = (
+          read(LS.products) || []
+        ).length;
+      }
+
+      function renderUsers() {
+        const tbody = document.querySelector("#usersTable tbody");
+        tbody.innerHTML = "";
+        const users = read(LS.users) || [];
+        const q = document
+          .getElementById("globalSearch")
+          .value.trim()
+          .toLowerCase();
+        users
+          .filter(
+            (u) =>
+              u.name.toLowerCase().includes(q) ||
+              u.username.toLowerCase().includes(q) ||
+              u.branch.toLowerCase().includes(q)
+          )
+          .forEach((u) => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `<td>${escapeHtml(u.name)}</td><td>${escapeHtml(
+              u.username
+            )}</td><td>${escapeHtml(u.branch)}</td><td>${escapeHtml(
+              u.phone || "-"
+            )}</td><td>${escapeHtml(
+              u.role
+            )}</td><td><div style="display:flex;gap:8px"><button class='small btn ghost' data-action='setrole' data-id='${
+              u.id
+            }'>Set Role</button><button class='small btn ghost' data-action='remove' data-id='${
+              u.id
+            }'>Remove</button></div></td>`;
+            tbody.appendChild(tr);
+          });
+        document.getElementById("statUsers").textContent = (
+          read(LS.users) || []
+        ).length;
+      }
+
+      function renderPending() {
+        const tbody = document.querySelector("#pendingTable tbody");
+        tbody.innerHTML = "";
+        const pending = read(LS.pending) || [];
+        pending.forEach((p) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `<td>${escapeHtml(p.name)}</td><td>${escapeHtml(
+            p.username
+          )}</td><td>${escapeHtml(p.branch)}</td><td>${escapeHtml(
+            p.phone
+          )}</td><td>${new Date(
+            p.submitted
+          ).toLocaleString()}</td><td><div style="display:flex;gap:8px"><button class='small btn' data-action='contact' data-id='${
+            p.id
+          }'>Contact</button><button class='small btn' data-action='approve' data-id='${
+            p.id
+          }'>Approve</button><button class='small btn ghost' data-action='reject' data-id='${
+            p.id
+          }'>Reject</button></div></td>`;
+          tbody.appendChild(tr);
+        });
+        document.getElementById("statPending").textContent = pending.length;
+      }
+
+      // CRUD helpers
+      function addProduct(obj) {
+        const p = read(LS.products) || [];
+        obj.id = id();
+        p.unshift(obj);
+        write(LS.products, p);
+        renderProducts();
+      }
+      function updateProduct(idVal, patch) {
+        const p = read(LS.products) || [];
+        const i = p.findIndex((x) => x.id === idVal);
+        if (i < 0) return;
+        p[i] = Object.assign({}, p[i], patch);
+        write(LS.products, p);
+        renderProducts();
+      }
+      function removeProduct(idVal) {
+        const p = read(LS.products) || [];
+        write(
+          LS.products,
+          p.filter((x) => x.id !== idVal)
+        );
+        renderProducts();
+      }
+      function setUserRole(idVal, role) {
+        const u = read(LS.users) || [];
+        const i = u.findIndex((x) => x.id === idVal);
+        if (i < 0) return;
+        u[i].role = role;
+        write(LS.users, u);
+        renderUsers();
+      }
+      function removeUser(idVal) {
+        const u = read(LS.users) || [];
+        write(
+          LS.users,
+          u.filter((x) => x.id !== idVal)
+        );
+        renderUsers();
+      }
+      function approvePending(idVal) {
+        const pending = read(LS.pending) || [];
+        const idx = pending.findIndex((p) => p.id === idVal);
+        if (idx < 0) return;
+        const user = pending[idx];
+        pending.splice(idx, 1);
+        write(LS.pending, pending);
+        const users = read(LS.users) || [];
+        users.push({
+          id: id(),
+          name: user.name,
+          username: user.username,
+          phone: user.phone,
+          branch: user.branch,
+          role: "user",
+          pass: user.pass,
+        });
+        write(LS.users, users);
+        renderPending();
+        renderUsers();
+      }
+      function rejectPending(idVal) {
+        const pending = read(LS.pending) || [];
+        const idx = pending.findIndex((p) => p.id === idVal);
+        if (idx < 0) return;
+        pending.splice(idx, 1);
+        write(LS.pending, pending);
+        renderPending();
+      }
+
+      // Utilities
+      function escapeHtml(s) {
+        return (s + "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      // Section navigation
+      function gotoSection(s) {
+        document
+          .querySelectorAll("#mainNav button")
+          .forEach((b) =>
+            b.classList.toggle("active", b.dataset.section === s)
+          );
+        document.getElementById("overviewSection").style.display =
+          s === "overview" ? "block" : "none";
+        document.getElementById("productsSection").style.display =
+          s === "products" ? "block" : "none";
+        document.getElementById("usersSection").style.display =
+          s === "users" ? "block" : "none";
+        document.getElementById("pendingSection").style.display =
+          s === "pending" ? "block" : "none";
+        document.getElementById("settingsSection").style.display =
+          s === "settings" ? "block" : "none";
+      }
+
+      // Init UI
+      function init() {
+        seedDemo();
+        document
+          .querySelectorAll("#mainNav button")
+          .forEach((b) =>
+            b.addEventListener("click", () => gotoSection(b.dataset.section))
+          );
+
+        document
+          .getElementById("globalSearch")
+          .addEventListener("input", () => {
+            renderProducts();
+            renderUsers();
+            renderPending();
+          });
+        // '/' shortcut - only when not focusing an input
+        window.addEventListener("keydown", (e) => {
+          const active = document.activeElement;
+          if (
+            e.key === "/" &&
+            active &&
+            active.tagName !== "INPUT" &&
+            active.tagName !== "TEXTAREA" &&
+            active.contentEditable !== "true"
+          ) {
+            e.preventDefault();
+            document.getElementById("globalSearch").focus();
+          }
+        });
+
+        // Branch filter
+        document
+          .getElementById("branchFilter")
+          .addEventListener("change", () => renderProducts());
+
+        // Products table actions (delegation)
+        document
+          .getElementById("productsTable")
+          .addEventListener("click", (e) => {
+            const btn = e.target.closest("button");
+            if (!btn) return;
+            const action = btn.dataset.action;
+            const idVal = btn.dataset.id;
+            if (action === "edit") {
+              const p = (read(LS.products) || []).find((x) => x.id === idVal);
+              if (!p) return;
+              showModal({
+                title: "Edit product",
+                html: `<div style="display:grid;gap:8px"><label>Product</label><input id='m_name' value='${escapeHtml(
+                  p.name
+                )}'><label>SKU</label><input id='m_sku' value='${escapeHtml(
+                  p.sku
+                )}'><label>Branch</label><input id='m_branch' value='${escapeHtml(
+                  p.branch
+                )}'><label>Qty</label><input id='m_qty' value='${
+                  p.qty
+                }' type='number'></div>`,
+                primaryText: "Save",
+                onPrimary: ({ close }) => {
+                  const name = document.getElementById("m_name").value.trim();
+                  const sku = document.getElementById("m_sku").value.trim();
+                  const branch = document
+                    .getElementById("m_branch")
+                    .value.trim();
+                  const qty =
+                    parseInt(document.getElementById("m_qty").value) || 0;
+                  if (!name || !sku) {
+                    alert("Ad və SKU tələb olunur");
+                    return;
+                  }
+                  updateProduct(idVal, { name, sku, branch, qty });
+                  close();
+                },
+              });
+            }
+            if (action === "del") {
+              if (confirm("Məhsulu silmək istədiyinizə əminsiniz?"))
+                removeProduct(idVal);
+            }
+          });
+
+        // Users table actions
+        document.getElementById("usersTable").addEventListener("click", (e) => {
+          const btn = e.target.closest("button");
+          if (!btn) return;
+          const action = btn.dataset.action;
+          const idVal = btn.dataset.id;
+          if (action === "setrole") {
+            showModal({
+              title: "Set role",
+              html: `<div style='display:grid;gap:8px'><select id='m_role'><option value='user'>user</option><option value='moderator'>moderator</option><option value='admin'>admin</option></select></div>`,
+              primaryText: "Apply",
+              onPrimary: ({ close }) => {
+                const sel = document.getElementById("m_role");
+                setUserRole(idVal, sel.value);
+                close();
+              },
+            });
+            // set current value after modal rendered
+            setTimeout(() => {
+              const u = (read(LS.users) || []).find((x) => x.id === idVal);
+              if (u) {
+                const sel = document.getElementById("m_role");
+                if (sel) sel.value = u.role;
+              }
+            }, 30);
+          }
+          if (action === "remove") {
+            if (confirm("İstifadəçini silmək istəyirsiniz?")) removeUser(idVal);
+          }
+        });
+
+        // Pending actions
+        document
+          .getElementById("pendingTable")
+          .addEventListener("click", (e) => {
+            const btn = e.target.closest("button");
+            if (!btn) return;
+            const action = btn.dataset.action;
+            const idVal = btn.dataset.id;
+            if (action === "contact") {
+              const p = (read(LS.pending) || []).find((x) => x.id === idVal);
+              if (!p) return;
+              showModal({
+                title: "Contact user",
+                html: `<div class='muted-xs'>Telefon: <strong>${escapeHtml(
+                  p.phone
+                )}</strong></div><div style='margin-top:8px' class='muted-xs'>Admin işçi ilə telefonla əlaqə saxladıqdan sonra "Approve" düyməsinə basacaq.</div>`,
+                primaryText: "Close",
+                onPrimary: ({ close }) => close(),
+              });
+            }
+            if (action === "approve") {
+              if (
+                confirm("Bu istifadəçini təsdiq etmək istədiyinizə əminsiniz?")
+              )
+                approvePending(idVal);
+            }
+            if (action === "reject") {
+              if (confirm("Qeydiyyatı rədd etmək istədiyinizə əminsiniz?"))
+                rejectPending(idVal);
+            }
+          });
+
+        // Add product
+        document
+          .getElementById("addProductBtn")
+          .addEventListener("click", () => {
+            showModal({
+              title: "Yeni məhsul əlavə et",
+              html: `<div style='display:grid;gap:8px'><label>Product</label><input id='m_name'><label>SKU</label><input id='m_sku'><label>Branch</label><input id='m_branch'><label>Qty</label><input id='m_qty' value='0' type='number'></div>`,
+              primaryText: "Add",
+              onPrimary: ({ close }) => {
+                const name = document.getElementById("m_name").value.trim();
+                const sku = document.getElementById("m_sku").value.trim();
+                const branch = document.getElementById("m_branch").value.trim();
+                const qty =
+                  parseInt(document.getElementById("m_qty").value) || 0;
+                if (!name || !sku) {
+                  alert("Ad və SKU tələb olunur");
+                  return;
+                }
+                addProduct({ name, sku, branch, qty });
+                close();
+              },
+            });
+          });
+
+        // Simple settings hooks
+        document.getElementById("themeToggle").addEventListener("click", () => {
+          alert("Demo: theme toggle clicked");
+        });
+        document
+          .getElementById("toggleColorMode")
+          .addEventListener("click", () => {
+            alert("Demo: burada server tərəfli temalar yerləşdirilə bilər");
+          });
+
+        renderAll();
+      }
+
+      function renderAll() {
+        renderProducts();
+        renderUsers();
+        renderPending();
+      }
+
+      document.addEventListener("DOMContentLoaded", init);
+    </script>
+    <script>
+        (function(){
+          /* ---------- Sample data (replace with your API data) ---------- */
+          const partsData = [
+            /* 25 sample items (for pagination demo) */
+            { oem:'OEM-001234', brandCode:'BMW-001', brand:'BMW', name:'Ön əyləc balatası', branch:'Bakı - Nizami', contacts:[{dept:'BMW Service Center', phone:'+994555555555'}] },
+            { oem:'OEM-001235', brandCode:'BMW-002', brand:'BMW', name:'Arxa əyləc disk', branch:'Bakı - Nizami', contacts:[{dept:'BMW Parts', phone:'+994555555556'}] },
+            { oem:'OEM-001236', brandCode:'BMW-003', brand:'BMW', name:'Sürücü hava yastığı', branch:'Gəncə', contacts:[{dept:'Gəncə BMW', phone:'+994501111111'}] },
+            { oem:'OEM-001237', brandCode:'TOY-032', brand:'Toyota', name:'Yağ filtri', branch:'Sumqayıt', contacts:[{dept:'Toyota Parts Hub', phone:'+994501234567'}] },
+            { oem:'OEM-001238', brandCode:'VW-010', brand:'Volkswagen', name:'Hava filtri', branch:'Bakı - Nizami', contacts:[{dept:'VW Parts Point', phone:'+994512345678'}] },
+            { oem:'OEM-001239', brandCode:'AUD-045', brand:'Audi', name:'Sürət sensoru', branch:'Gəncə', contacts:[{dept:'Audi Center', phone:'+994503333333'}] },
+            { oem:'OEM-001240', brandCode:'NIS-077', brand:'Nissan', name:'Motor yuyucu', branch:'Sumqayıt', contacts:[{dept:'Nissan Gəncə', phone:'+994506666666'}] },
+            { oem:'OEM-001241', brandCode:'MZD-009', brand:'Mazda', name:'Rul simidi', branch:'Bakı - Nizami', contacts:[{dept:'Mazda Service', phone:'+994507777777'}] },
+            { oem:'OEM-001242', brandCode:'HYU-011', brand:'Hyundai', name:'Alternator', branch:'Sumqayıt', contacts:[{dept:'Hyundai Hub', phone:'+994508888888'}] },
+            { oem:'OEM-001243', brandCode:'KIA-012', brand:'Kia', name:'Sürücü otağı lampası', branch:'Gəncə', contacts:[{dept:'KIA Parts', phone:'+994509999999'}] },
+        
+            /* second page (10) */
+            { oem:'OEM-001244', brandCode:'BMW-004', brand:'BMW', name:'Suspension bush', branch:'Bakı - Nizami', contacts:[{dept:'BMW Service Center', phone:'+994555121212'}] },
+            { oem:'OEM-001245', brandCode:'TOY-033', brand:'Toyota', name:'Şanzıman yağı', branch:'Sumqayıt', contacts:[{dept:'Toyota Parts Hub', phone:'+994502222222'}] },
+            { oem:'OEM-001246', brandCode:'VW-011', brand:'Volkswagen', name:'Karter kapağı', branch:'Bakı - Nizami', contacts:[{dept:'VW Parts', phone:'+994512121212'}] },
+            { oem:'OEM-001247', brandCode:'AUD-046', brand:'Audi', name:'Kabelloq', branch:'Gəncə', contacts:[{dept:'Audi Center', phone:'+994503121212'}] },
+            { oem:'OEM-001248', brandCode:'NIS-078', brand:'Nissan', name:'Radyator', branch:'Sumqayıt', contacts:[{dept:'Nissan Gəncə', phone:'+994506121212'}] },
+            { oem:'OEM-001249', brandCode:'MZD-010', brand:'Mazda', name:'Karter sızdırmazlığı', branch:'Bakı - Nizami', contacts:[{dept:'Mazda Service', phone:'+994507121212'}] },
+            { oem:'OEM-001250', brandCode:'HYU-012', brand:'Hyundai', name:'Bujilər', branch:'Sumqayıt', contacts:[{dept:'Hyundai Hub', phone:'+994508121212'}] },
+            { oem:'OEM-001251', brandCode:'KIA-013', brand:'Kia', name:'Yan güzgü', branch:'Gəncə', contacts:[{dept:'KIA Parts', phone:'+994509121212'}] },
+            { oem:'OEM-001252', brandCode:'BMW-005', brand:'BMW', name:'ABS sensor', branch:'Bakı - Nizami', contacts:[{dept:'BMW Service Center', phone:'+994555131313'}] },
+            { oem:'OEM-001253', brandCode:'TOY-034', brand:'Toyota', name:'Şüşə yuma motoru', branch:'Bakı - Nizami', contacts:[{dept:'Toyota Parts', phone:'+994502131313'}] },
+        
+            /* third page sample (5) */
+            { oem:'OEM-001254', brandCode:'VW-012', brand:'Volkswagen', name:'Ön amortizator', branch:'Gəncə', contacts:[{dept:'VW Gəncə', phone:'+994512131313'}] },
+            { oem:'OEM-001255', brandCode:'AUD-047', brand:'Audi', name:'Sürücü profil', branch:'Sumqayıt', contacts:[{dept:'Audi Service', phone:'+994503141414'}] },
+            { oem:'OEM-001256', brandCode:'NIS-079', brand:'Nissan', name:'Qaz pedalı', branch:'Bakı - Nizami', contacts:[{dept:'Nissan Baku', phone:'+994506141414'}] },
+            { oem:'OEM-001257', brandCode:'MZD-011', brand:'Mazda', name:'Qapı menteşəsi', branch:'Gəncə', contacts:[{dept:'Mazda Gəncə', phone:'+994507141414'}] },
+            { oem:'OEM-001258', brandCode:'KIA-014', brand:'Kia', name:'Batareya', branch:'Bakı - Nizami', contacts:[{dept:'Kia Baku', phone:'+994509141414'}] }
+          ];
+        
+          /* ---------- Pagination / render logic ---------- */
+          const PER_PAGE = 10;
+          let currentPage = 1;
+          const data = partsData; // replace with fetched data if needed
+        
+          const tableBody = document.querySelector('#mp_table tbody');
+          const pagerRoot = document.getElementById('mp_pager');
+          const currentPageLabel = document.getElementById('mp_currentPage');
+          const totalPagesLabel = document.getElementById('mp_totalPages');
+          const prevBtn = document.getElementById('mp_prev');
+          const nextBtn = document.getElementById('mp_next');
+          const summary = document.getElementById('mp_summary');
+        
+          function totalPages(){ return Math.max(1, Math.ceil(data.length / PER_PAGE)); }
+        
+          function renderPage(page=1){
+            currentPage = Math.min(Math.max(1, page), totalPages());
+            tableBody.innerHTML = '';
+            const start = (currentPage-1)*PER_PAGE;
+            const pageItems = data.slice(start, start + PER_PAGE);
+        
+            pageItems.forEach(item=>{
+              const tr = document.createElement('tr');
+        
+              // OEM, brand code, brand, name, address(cell)
+              const tdOEM = el('td', item.oem);
+              const tdBrandCode = el('td', item.brandCode);
+              const tdBrand = el('td', item.brand);
+              const tdName = el('td', item.name);
+        
+              const tdAddr = document.createElement('td');
+              tdAddr.className = 'addr-cell';
+              tdAddr.innerHTML = `${escapeHtml(item.branch)}
+                <button class="info-btn" aria-haspopup="true" aria-expanded="false" title="Ünvan məlumatları">
+                  <svg viewBox="0 0 24 24" fill="none" width="16" height="16" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.4"></circle><path d="M11.25 10.5h.75v5.25h-.75V10.5zM12 8.25a.66.66 0 1 0 0-1.32.66.66 0 0 0 0 1.32z" fill="currentColor"/></svg>
+                </button>`;
+        
+              // build popover
+              const pop = document.createElement('div');
+              pop.className = 'mp-popover';
+              pop.setAttribute('aria-hidden','true');
+        
+              const popTitle = document.createElement('div'); popTitle.className='pop-title'; popTitle.textContent = item.branch;
+              const ul = document.createElement('ul');
+              item.contacts.forEach(c=>{
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${escapeHtml(c.dept)}</strong><div style="font-size:13px;margin-top:4px"><a href="tel:${escapeHtml(c.phone)}">${formatPhone(c.phone)}</a></div>`;
+                ul.appendChild(li);
+              });
+              pop.appendChild(popTitle); pop.appendChild(ul);
+              tdAddr.appendChild(pop);
+        
+              tr.appendChild(tdOEM);
+              tr.appendChild(tdBrandCode);
+              tr.appendChild(tdBrand);
+              tr.appendChild(tdName);
+              tr.appendChild(tdAddr);
+              tableBody.appendChild(tr);
+            });
+        
+            // update pager
+            renderPager();
+            // update labels
+            currentPageLabel.textContent = currentPage;
+            totalPagesLabel.textContent = totalPages();
+            summary.textContent = `Göstərilən: ${start + 1} — ${Math.min(start + PER_PAGE, data.length)} / Ümumi: ${data.length}`;
+          }
+        
+          function renderPager(){
+            pagerRoot.innerHTML = '';
+            const pages = totalPages();
+            // show up to 7 page buttons centered around current
+            const maxVisible = 7;
+            let start = Math.max(1, currentPage - Math.floor(maxVisible/2));
+            let end = Math.min(pages, start + maxVisible -1);
+            if(end - start < maxVisible -1) start = Math.max(1, end - maxVisible +1);
+        
+            for(let p = start; p<=end; p++){
+              const b = document.createElement('button');
+              b.textContent = p;
+              b.dataset.page = p;
+              if(p === currentPage) b.classList.add('active');
+              b.addEventListener('click', ()=> renderPage(p));
+              pagerRoot.appendChild(b);
+            }
+          }
+        
+          // prev/next
+          prevBtn.addEventListener('click', ()=> renderPage(currentPage - 1));
+          nextBtn.addEventListener('click', ()=> renderPage(currentPage + 1));
+        
+          /* Popover interactions (delegation) */
+          const container = document.getElementById('modernPartsTable');
+          container.addEventListener('click', function(e){
+            const btn = e.target.closest('.info-btn');
+            if(!btn) return;
+            e.stopPropagation();
+            const cell = btn.closest('.addr-cell');
+            const pop = cell && cell.querySelector('.mp-popover');
+            if(!pop) return;
+            const isOpen = pop.getAttribute('aria-hidden') === 'false';
+            closeAllPopovers();
+            if(!isOpen){
+              pop.setAttribute('aria-hidden','false');
+              btn.setAttribute('aria-expanded','true');
+              // small accessible focus
+              pop.setAttribute('tabindex','-1');
+              pop.focus && pop.focus();
+              // ensure visible (no scroll), but we assume table area is fixed; if pop overlaps viewport you can reposition here
+            }
+          });
+        
+          function closeAllPopovers(){
+            container.querySelectorAll('.mp-popover[aria-hidden="false"]').forEach(p=>p.setAttribute('aria-hidden','true'));
+            container.querySelectorAll('.info-btn[aria-expanded="true"]').forEach(b=>b.setAttribute('aria-expanded','false'));
+          }
+        
+          // close on outside click / esc
+          document.addEventListener('click', function(e){
+            if(!e.target.closest('.mp-popover') && !e.target.closest('.info-btn')) closeAllPopovers();
+          });
+          document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeAllPopovers(); });
+        
+          // helpers
+          function el(tag, txt=''){ const t = document.createElement(tag); t.textContent = txt; return t; }
+          function escapeHtml(s){ return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,"&#039;"); }
+          function formatPhone(p){ /* pretty format +994 XXX XXX XX XX */ return (p||'').replace(/(\+?994)(\d{3})(\d{3})(\d{2})(\d{2})/,'$1 $2 $3 $4 $5'); }
+        
+          // initial render
+          renderPage(1);
+        })();
+        </script>
+  </body>
+</html>

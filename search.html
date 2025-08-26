@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+      .search {
+        display: flex;
+        margin: 20rem 1rem;
+      }
+      .search input {
+        flex: 1;
+        padding: 1.5rem 2rem;
+        border: none;
+        border-radius: 0.5rem 0 0 0.5rem;
+        background: var(--input-bg);
+        color: #fff;
+        font-size: 3rem;
+      }
+      .search input:focus {
+        outline: none;
+      }
+      .search input::placeholder {
+        color: var(--input-placeholder);
+      }
+      .search button {
+        padding: 1.5rem 2rem;
+        border: none;
+        border-radius: 0 0.5rem 0.5rem 0;
+        background: var(--button-bg);
+        color: #fff;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .search button:hover {
+        background: var(--button-hover-bg);
+      }
+      body{
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar__brand">
+        <a href="search.html">
+          <p data-heading="Slide" class="brand">Slide</p>
+        </a>
+      </div>
+      <div class="navbar__actions">
+        <button class="icon-button" aria-label="Favorites">❤️</button>
+        <div class="dropdown">
+          <button class="icon-button dropdown-toggle" aria-label="User menu">
+            ⋮
+          </button>
+          <ul class="dropdown__menu">
+            <li><a href="profile.html">Profil</a></li>
+            <li><a href="settings.html">Ayarlar</a></li>
+            <li class="dropdown__divider"></li>
+            <li><a href="login.html" class="text-danger">Çıxış</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- <form class="search" action="index.html">
+      <input type="search" placeholder="Nə axtarırsınız..." aria-label="Search" />
+      <button type="submit">Axtar</button>
+    </form> -->
+
+    <form class="search" action="index.html">
+      <input
+        id="searchInput"
+        type="search"
+        placeholder="Nə axtarırsınız..."
+        aria-label="Search"
+      />
+      <button type="submit">Axtar</button>
+    </form>
+
+    <script>
+      (function () {
+        const words = [
+          "Əyləc qəlibi",
+          "Mühərrik yağı",
+          "Fara",
+          "Hava filteri",
+          "Təkər",
+        ];
+
+        const input = document.getElementById("searchInput");
+        let wordIndex = 0;
+        let charIndex = 0;
+        let deleting = false;
+        let delay = 150; // hərf sürəti (ms)
+
+        function typeEffect() {
+          const currentWord = words[wordIndex];
+
+          if (!deleting) {
+            // yazma
+            input.placeholder = currentWord.substring(0, charIndex + 1);
+            charIndex++;
+            if (charIndex === currentWord.length) {
+              deleting = true;
+              delay = 1500; // tam yazıldıqdan sonra gözləmə
+            }
+          } else {
+            // silmə
+            input.placeholder = currentWord.substring(0, charIndex - 1);
+            charIndex--;
+            if (charIndex === 0) {
+              deleting = false;
+              wordIndex = (wordIndex + 1) % words.length; // növbəti söz
+            }
+          }
+          setTimeout(typeEffect, delay);
+          delay = deleting ? 50 : 150; // silmə daha sürətli olsun
+        }
+
+        typeEffect();
+      })();
+    </script>
+
+    <footer class="footer">
+      <p>&copy; 2025 App | <a href="#" class="footer__link">Bizə Qatıl</a></p>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

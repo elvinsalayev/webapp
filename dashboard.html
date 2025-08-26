@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="az">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Dashboard — Dark</title>
+    <style>
+      /* -----------------------------
+       Dark-mode variables (main)
+       ----------------------------- */
+      :root {
+        --dark-body-bg-color: #121318;
+        --dark-bg-color: #15181c;
+        --dark-surface: #1b1f24;
+        --dark-card: #1f2429;
+        --dark-headding-color: #ffffff;
+        --dark-paragraph-color: #c7ccd0;
+        --dark-primary-color: #22c55e; /* green */
+        --dark-primary-color-border: #2a313c;
+        --dark-grey-color: #2a313c;
+        --dark-border: rgba(255, 255, 255, 0.04);
+        --dark-muted: rgba(255, 255, 255, 0.06);
+        --dark-shadow: rgba(2, 6, 23, 0.6);
+        --radius: 10px;
+        --gap: 18px;
+        --fw-regular: 400;
+        --fw-medium: 500;
+        --fw-bold: 700;
+        --text-base: 14px;
+      }
+
+      /* -----------------------------
+       Base reset & layout
+       ----------------------------- */
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial;
+        font-size: var(--text-base);
+        color: var(--dark-paragraph-color);
+        background: linear-gradient(
+          180deg,
+          var(--dark-body-bg-color),
+          var(--dark-bg-color)
+        );
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* Site frame: header, sidebar, content, footer */
+      .app {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        grid-template-rows: 72px 1fr 56px;
+        grid-template-areas:
+          "sidebar header"
+          "sidebar main"
+          "sidebar footer";
+        height: 100vh;
+        gap: 0;
+      }
+
+      /* -----------------------------
+       Header (navbar)
+       ----------------------------- */
+      header.header {
+        grid-area: header;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 20px;
+        gap: 12px;
+        background: linear-gradient(180deg, var(--dark-surface), transparent);
+        border-bottom: 1px solid var(--dark-border);
+        backdrop-filter: blur(6px);
+        position: relative;
+        z-index: 10;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .brand .logo {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: var(--dark-primary-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #07130a;
+        font-weight: 800;
+      }
+      .brand h1 {
+        font-size: 16px;
+        margin: 0;
+        color: var(--dark-headding-color);
+        font-weight: var(--fw-bold);
+      }
+
+      .header-actions {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .search {
+        min-width: 260px;
+      }
+      .search input {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid var(--dark-border);
+        background: var(--dark-card);
+        color: var(--dark-paragraph-color);
+      }
+
+      .icon-btn {
+        height: 44px;
+        width: 44px;
+        border-radius: 10px;
+        background: var(--dark-card);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--dark-border);
+        cursor: pointer;
+      }
+
+      /* -----------------------------
+       Sidebar
+       ----------------------------- */
+      aside.sidebar {
+        grid-area: sidebar;
+        padding: 18px;
+        background: linear-gradient(
+          180deg,
+          var(--dark-bg-color),
+          var(--dark-surface)
+        );
+        border-right: 1px solid var(--dark-border);
+        overflow: auto;
+      }
+      .sidebar .nav {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .nav a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px;
+        border-radius: 8px;
+        color: var(--dark-paragraph-color);
+        text-decoration: none;
+        border: 1px solid transparent;
+      }
+      .nav a:hover {
+        background: var(--dark-card);
+        color: var(--dark-headding-color);
+        border-color: var(--dark-border);
+      }
+      .nav a.active {
+        background: linear-gradient(
+          180deg,
+          rgba(34, 197, 94, 0.12),
+          rgba(34, 197, 94, 0.04)
+        );
+        color: var(--dark-headding-color);
+        border: 1px solid rgba(34, 197, 94, 0.12);
+      }
+      .nav a .badge {
+        margin-left: auto;
+        background: rgba(255, 255, 255, 0.04);
+        padding: 4px 8px;
+        border-radius: 999px;
+        font-size: 12px;
+      }
+
+      /* Collapse control */
+      .sidebar .collapse {
+        display: none;
+      }
+
+      /* -----------------------------
+       Main content
+       ----------------------------- */
+      main.main {
+        grid-area: main;
+        padding: 20px;
+        overflow: auto;
+      }
+
+      .top-row {
+        display: flex;
+        gap: var(--gap);
+        align-items: center;
+        margin-bottom: 18px;
+      }
+      .card {
+        background: var(--dark-card);
+        padding: 16px;
+        border-radius: var(--radius);
+        border: 1px solid var(--dark-border);
+        box-shadow: 0 6px 20px var(--dark-shadow);
+      }
+
+      .content-grid {
+        display: grid;
+        grid-template-columns: 1fr 360px;
+        gap: 18px;
+      }
+
+      /* Table placeholder */
+      .table-wrap {
+        background: linear-gradient(180deg, var(--dark-card), transparent);
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid var(--dark-border);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        color: var(--dark-paragraph-color);
+      }
+      thead th {
+        font-weight: 600;
+        text-align: left;
+        padding: 12px 8px;
+        color: var(--dark-headding-color);
+        border-bottom: 1px solid var(--dark-border);
+      }
+      tbody td {
+        padding: 14px 8px;
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.03);
+      }
+      tbody tr:hover td {
+        background: rgba(255, 255, 255, 0.01);
+      }
+
+      /* Responsive small screens */
+      @media (max-width: 880px) {
+        .app {
+          grid-template-columns: 1fr;
+          grid-template-areas:
+            "header"
+            "main"
+            "footer";
+        }
+        aside.sidebar {
+          display: none;
+        }
+        .content-grid {
+          grid-template-columns: 1fr;
+        }
+        .search {
+          min-width: 120px;
+        }
+      }
+
+      /* -----------------------------
+       Footer
+       ----------------------------- */
+      footer.footer {
+        grid-area: footer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 20px;
+        border-top: 1px solid var(--dark-border);
+        background: linear-gradient(0deg, var(--dark-surface), transparent);
+        color: var(--dark-paragraph-color);
+      }
+
+      /* small helpers */
+      .muted {
+        color: var(--dark-paragraph-color);
+        font-size: 13px;
+      }
+      .h3 {
+        color: var(--dark-headding-color);
+        font-weight: 700;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+          "
+        >
+          <div
+            class="logo"
+            style="
+              width: 48px;
+              height: 48px;
+              border-radius: 10px;
+              background: var(--dark-primary-color);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-weight: 800;
+              color: #07130a;
+            "
+          >
+            D
+          </div>
+          <div>
+            <div style="color: var(--dark-headding-color); font-weight: 700">
+              Dashboard
+            </div>
+            <div class="muted" style="font-size: 12px">Admin panel</div>
+          </div>
+        </div>
+
+        <nav class="nav">
+          <a href="#" class="active"
+            ><span>🏠</span> Dashboard <span class="badge">4</span></a
+          >
+          <a href="#"><span>📁</span> Projects</a>
+          <a href="#"><span>👥</span> Users</a>
+          <a href="#"><span>⚙️</span> Settings</a>
+          <a href="#"><span>📊</span> Reports</a>
+        </nav>
+
+        <div style="margin-top: 18px" class="card">
+          <div style="font-size: 13px; color: var(--dark-paragraph-color)">
+            Storage
+          </div>
+          <div
+            style="
+              margin-top: 8px;
+              color: var(--dark-headding-color);
+              font-weight: 700;
+            "
+          >
+            1.2 TB / 2 TB
+          </div>
+        </div>
+      </aside>
+
+      <header class="header">
+        <div class="brand">
+          <div class="logo">D</div>
+          <h1>Company name</h1>
+        </div>
+
+        <div class="header-actions">
+          <div class="search"><input placeholder="Axtar..." /></div>
+          <div class="icon-btn" title="Notifications">🔔</div>
+          <div class="icon-btn" title="Profile">👤</div>
+        </div>
+      </header>
+
+      <main class="main">
+        <div class="top-row">
+          <div class="card" style="flex: 1">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <div>
+                <div class="muted">Overview</div>
+                <div class="h3">Welcome back, Admin</div>
+              </div>
+              <div style="text-align: right">
+                <div
+                  style="color: var(--dark-headding-color); font-weight: 700"
+                >
+                  Active Users
+                </div>
+                <div class="muted">320</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-grid">
+          <section>
+            <div class="card table-wrap">
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  margin-bottom: 12px;
+                "
+              >
+                <div
+                  style="font-weight: 700; color: var(--dark-headding-color)"
+                >
+                  Müştərilər
+                </div>
+                <div class="muted">Yüklənib: bugün</div>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Ad</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Hərəkətlər</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Elvin S.</td>
+                    <td>elvin@example.com</td>
+                    <td style="color: var(--dark-primary-color)">Active</td>
+                    <td>—</td>
+                  </tr>
+                  <tr>
+                    <td>Ayten K.</td>
+                    <td>ayten@example.com</td>
+                    <td style="color: #facc15">Pending</td>
+                    <td>—</td>
+                  </tr>
+                  <tr>
+                    <td>Jamal M.</td>
+                    <td>jamal@example.com</td>
+                    <td style="color: #ff4747">Blocked</td>
+                    <td>—</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div style="height: 18px"></div>
+
+            <div class="card">
+              <div
+                style="
+                  font-weight: 700;
+                  color: var(--dark-headding-color);
+                  margin-bottom: 8px;
+                "
+              >
+                Qısa qeydlər
+              </div>
+              <div class="muted">
+                Burada layihə ilə bağlı notlar və bildirişlər görünəcək.
+              </div>
+            </div>
+          </section>
+
+          <aside>
+            <div class="card" style="margin-bottom: 12px">
+              <div style="font-weight: 700; color: var(--dark-headding-color)">
+                Statistics
+              </div>
+              <div class="muted" style="margin-top: 8px">Grafik sahəsi</div>
+              <div
+                style="
+                  height: 120px;
+                  background: linear-gradient(
+                    90deg,
+                    rgba(255, 255, 255, 0.02),
+                    transparent
+                  );
+                  border-radius: 8px;
+                  margin-top: 10px;
+                "
+              ></div>
+            </div>
+
+            <div class="card">
+              <div style="font-weight: 700; color: var(--dark-headding-color)">
+                Quick Actions
+              </div>
+              <div
+                style="
+                  margin-top: 10px;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 8px;
+                "
+              >
+                <button class="icon-btn">+ Yeni</button>
+                <button class="icon-btn">Export</button>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </main>
+
+      <footer class="footer">
+        <div class="muted">© 2025 Company — Bütün hüquqlar qorunur</div>
+        <div class="muted">Version 1.0.0</div>
+      </footer>
+    </div>
+
+    <script>
+      // Minimal JS: toggle sidebar on small screens
+      // (you can extend this to remember collapse state)
+      (function () {
+        const mql = window.matchMedia("(max-width:880px)");
+        function handle(e) {
+          if (e.matches) {
+            document.querySelector(".sidebar").style.display = "none";
+          } else {
+            document.querySelector(".sidebar").style.display = "block";
+          }
+        }
+        mql.addListener(handle);
+        handle(mql);
+      })();
+    </script>
+  </body>
+</html>

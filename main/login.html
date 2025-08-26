@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="az">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Giriş — Slide</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <style>
+      :root {
+        --text-color: #eef2f7;
+        --card-bg: rgba(20, 28, 36, 0.6);
+        --input-bg: rgba(255, 255, 255, 0.03);
+        --input-border: rgba(255, 255, 255, 0.06);
+        --accent-strong: linear-gradient(90deg, #ff3c3c, #ff8a3c);
+        --muted: rgba(255, 255, 255, 0.65);
+      }
+      ::selection {
+        background: rgb(253, 135, 0);
+      }
+      /* reset */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background: #000;
+        color: var(--text-color);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100svh;
+        place-items: center;
+        padding: 1rem;
+      }
+
+      /* Custom cursor dairəsi (notice: selector uses class) */
+      .left-hero {
+        position: relative;
+        cursor: none;
+      } /* imleci gizlə yalnız bu blokda */
+      .cursor-circle {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100px;
+        height: 100px;
+        border: 3px solid red;
+        border-radius: 50%;
+        pointer-events: none;
+        transform: translate(
+          -50%,
+          -50%
+        ); /* mərkəzləşdirmək üçün əsas transform */
+        transition: transform 0.12s linear, opacity 0.12s ease;
+        opacity: 0; /* başlanğıcda görünməsin */
+        z-index: 5;
+        backdrop-filter: blur(0.5px);
+        background: rgba(255, 5, 5, 0);
+      }
+      /* Linklər üçün */
+      a.link {
+        color: var(--muted);
+        text-decoration: none;
+        position: relative;
+        transition: color 0.25s ease;
+      }
+      a.link::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -2px;
+        width: 100%;
+        height: 2px;
+        background: var(--accent-strong);
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.25s ease;
+      }
+      a.link:hover {
+        color: #fff;
+      }
+      a.link:hover::after {
+        transform: scaleX(1);
+        transform-origin: left;
+      }
+
+      /* Badgeler üçün */
+      .badge {
+        position: relative;
+        overflow: hidden;
+        transition: color 0.3s ease, background 0.5s ease;
+      }
+
+      .badge:hover::before {
+        left: 0;
+        cursor: pointer;
+      }
+      .badge:hover {
+        color: #fff;
+      }
+      .badge > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* container */
+      .wrap {
+        width: 100%;
+        max-width: 1100px;
+      }
+
+      /* card layout */
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 420px;
+        gap: 28px;
+        align-items: center;
+      }
+      @media (max-width: 980px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .right-panel {
+          order: -1;
+        }
+      }
+
+      /* left: info */
+      .left-hero {
+        padding: 28px;
+      }
+      .hero-title {
+        font-size: 28px;
+        font-weight: 800;
+        margin-bottom: 8px;
+      }
+      .hero-sub {
+        color: var(--muted);
+        line-height: 1.45;
+      }
+      .notice {
+        margin-top: 16px;
+        padding: 12px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.02);
+        color: var(--muted);
+      }
+
+      /* right: login card */
+      .card {
+        background: var(--card-bg);
+        border-radius: 12px;
+        padding: 22px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+      }
+      .card h3 {
+        margin-bottom: 4px;
+      }
+      .card p.lead {
+        color: var(--muted);
+        font-size: 13px;
+        margin-bottom: 14px;
+      }
+
+      .field {
+        margin-bottom: 12px;
+      }
+      label {
+        display: block;
+        font-size: 13px;
+        color: var(--muted);
+        margin-bottom: 6px;
+      }
+      input[type="text"],
+      input[type="password"],
+      input[type="tel"] {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid var(--input-border);
+        background: var(--input-bg);
+        color: var(--text-color);
+        font-size: 14px;
+      }
+      .field {
+        position: relative; /* toggle-pass üçün konteyneri nisbətləşdirir */
+      }
+
+      /* toggle düyməsinin input üzərinə düşməməsi üçün parol inputuna boşluq ver */
+      input[type="password"] {
+        padding-right: 48px; /* düymə üçün yer (36px + bir az margin) */
+      }
+
+      .toggle-pass {
+        position: absolute;
+        right: 8px;
+        top: 65%;
+        transform: translateY(-50%);
+        height: 28px;
+        width: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        color: var(--muted);
+      }
+      .toggle-pass:focus {
+        outline: 2px solid var(--focus-ring);
+        outline-offset: 2px;
+        border-radius: 6px;
+      }
+
+      .row {
+        display: flex;
+        gap: 10px;
+      }
+      .row-between {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .remember {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .btn-primary {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        background: var(--accent-strong);
+        color: #f1f1f1;
+        font-weight: 800;
+        cursor: pointer;
+        border: none;
+        opacity: 1;
+        transition: transform 0.15s ease-in-out, opacity 0.15s ease-in-out;
+      }
+      .btn-primary:hover {
+        opacity: 0.95;
+      }
+      .btn-primary:active {
+        opacity: 0.9;
+        transform: scale(0.99);
+      }
+      .btn-primary:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .btn-ghost {
+        width: 100%;
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        background: transparent;
+        color: var(--text-color);
+        cursor: pointer;
+      }
+
+      .small-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .divider {
+        height: 1px;
+        background: rgba(255, 255, 255, 0.06);
+        margin: 14px 0;
+        border-radius: 6px;
+      }
+
+      .accents {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      .badge {
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.03);
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      #myVideo {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        min-width: 100%;
+        min-height: 100%;
+        opacity: 0.2;
+        background: #000;
+        object-fit: cover;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #myVideo {
+          display: none;
+        }
+      }
+
+      /* daha maraqlı, modern card header */
+      .card-header {
+        margin-bottom: 18px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        text-align: center;
+      }
+
+      /* gradient text + accent underline animation */
+      .card-heading {
+        font-size: 52px;
+        font-weight: 800;
+        margin: 0;
+        line-height: 1.02;
+        display: inline-block;
+        background: linear-gradient(90deg, #ff5a3c 0%, #ff8b3b 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        position: relative;
+        letter-spacing: -0.2px;
+        padding-right: 10px;
+      }
+
+      /* small decorative pill at right of heading */
+      .card-heading::before {
+        content: "";
+        position: absolute;
+        right: -10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: linear-gradient(180deg, #ff6b4a, #ffb74a);
+        box-shadow: 0 4px 18px rgba(255, 120, 80, 0.12);
+      }
+
+      /* animated underline that grows on hover (and visible on focus within card) */
+      .card-heading::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        height: 4px;
+        width: 200px;
+        border-radius: 3px;
+        background: linear-gradient(90deg, #ff3c3c, #ff8a3c);
+        transform-origin: left;
+        transform: scaleX(0);
+        transition: transform 1000ms cubic-bezier(0.2, 0.9, 0.2, 1);
+        box-shadow: 0 6px 18px rgba(255, 100, 50, 0.08);
+      }
+      .card-header:hover .card-heading::after,
+      .card-header:focus-within .card-heading::after {
+        transform: scaleX(1);
+      }
+
+      /* lead text — daha yığcam və oxunaqlı */
+      .card-lead {
+        margin: 8px 0 0 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.45;
+        opacity: 0.95;
+        max-width: 36rem;
+      }
+
+      /* responsive kiçildilmə */
+      @media (max-width: 420px) {
+        .card-heading {
+          font-size: 18px;
+        }
+        .card-lead {
+          font-size: 13px;
+          max-width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <video autoplay loop muted playsinline id="myVideo">
+      <source src="../images/5309381-hd_1920_1080_25fps.mp4" type="video/mp4" />
+    </video>
+
+    <main class="wrap">
+      <div class="grid">
+        <div class="left-hero">
+          <div class="hero-title">Slide — Nümayəndələr üçün sürətli giriş</div>
+          <div class="hero-sub">
+            Bu hesab yalnız mağaza nümayəndələri üçün nəzərdə tutulub. Hesabınız
+            admin tərəfindən təsdiq olunmalıdır. Əgər hələ təsdiq olunmayıbsa,
+            "Bizə Qatıl" səhifəsindən müraciət edin.
+          </div>
+          <div class="notice">
+            Qeydə alınmış istifadəçilər üçün: giriş uğursuz olduqda, hesabınızın
+            statusunu admin paneldən yoxlayın — əks halda "Gözləyir" ola bilər.
+          </div>
+          <div class="accents">
+            <div class="badge">Sürətli</div>
+            <div class="badge">Etibarlı</div>
+            <div class="badge">Mağaza yönümlü</div>
+          </div>
+          <div class="cursor-circle" aria-hidden="true"></div>
+        </div>
+
+        <aside class="right-panel">
+          <div class="card" role="region" aria-label="Login card">
+            <div class="card-header">
+              <h1 class="card-heading">Daxil ol</h1>
+              <p class="lead card-lead">
+                İstifadəçi adınla daxil ol. Hesab aktiv deyilsə giriş
+                alınmayacaq.
+              </p>
+            </div>
+
+            <form id="loginForm" action="search.html">
+              <div class="field">
+                <label for="username">İstifadəçi adı</label>
+                <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  placeholder="İstifadəçi adınızı daxil edin"
+                  autocomplete="username"
+                  required
+                />
+                <!-- autofcous ola biler yuxarida -->
+              </div>
+
+              <div class="field">
+                <label for="password">Şifrə</label>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="Şifrənizi daxil edin"
+                  autocomplete="current-password"
+                  required
+                />
+                <button
+                  type="button"
+                  class="toggle-pass"
+                  id="togglePassword"
+                  aria-label="Şifrəni göstər"
+                  aria-pressed="false"
+                  title="Şifrəni göstər"
+                >
+                  <!-- eye icon (SVG) -->
+
+                  <svg
+                    id="eyeOpen"
+                    class="w-6 h-6 text-gray-800 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-width="2"
+                      d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"
+                    />
+                    <path
+                      stroke="currentColor"
+                      stroke-width="2"
+                      d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                    />
+                  </svg>
+
+                  <svg
+                    id="eyeClosed"
+                    aria-hidden="true"
+                    style="display: none"
+                    id="eyeClosed"
+                    class="w-6 h-6 text-gray-800 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                    />
+                  </svg>
+                </button>
+              </div>
+
+              <div class="row-between">
+                <label class="remember"
+                  ><input type="checkbox" id="remember" /> Məni xatırla</label
+                >
+                <a href="change-password.html" class="link">Şifrəni unutdum</a>
+              </div>
+
+              <div style="margin-top: 12px">
+                <button class="btn-primary" type="submit">Daxil ol</button>
+              </div>
+
+              <div class="divider" aria-hidden="true"></div>
+
+              <div class="small-row">
+                <span>Hesabın yoxdursa?</span>
+                <a href="join.html" class="link">Bizə Qatıl</a>
+              </div>
+            </form>
+          </div>
+        </aside>
+      </div>
+    </main>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script>
+      const form = document.getElementById("loginForm");
+      const demoBtn = document.getElementById("demoBtn");
+      const usernameEl = document.getElementById("username");
+      const passwordEl = document.getElementById("password");
+
+      // form.addEventListener("submit", async (e) => {
+      //   e.preventDefault();
+      //   const u = usernameEl.value.trim();
+      //   const p = passwordEl.value;
+      //   // if (!u || !p) return alert("İstifadəçi adı və şifrə lazımdır.");
+
+      //   try {
+      //     const res = await fetch("/api/login", {
+      //       method: "POST",
+      //       headers: { "Content-Type": "application/json" },
+      //       body: JSON.stringify({ username: u, password: p }),
+      //     });
+
+      //     const data = await res.json().catch(() => ({}));
+
+      //     // if (!res.ok) {
+      //     //   const msg =
+      //     //     data?.status === "pending"
+      //     //       ? "Hesabınız hələ təsdiqlənməyib. Zəhmət olmasa admin təsdiqini gözləyin."
+      //     //       : "Giriş uğursuz oldu. İstifadəçi adı/şifrə səhv və ya hesab aktiv deyil.";
+      //     //   return alert(msg);
+      //     // }
+
+      //     window.location.href = data.redirect || "search.html";
+      //   } catch (err) {
+      //     if (u === "demo" && p === "demo")
+      //       return (window.location.href = "../search.html");
+      //     alert(
+      //       "Serverə qoşulmaq mümkün olmadı. Demo üçün demo/demo istifadə et."
+      //     );
+      //   }
+      // });
+
+      // --- Custom cursor: follow mouse inside .left-hero ---
+      const hero = document.querySelector(".left-hero");
+      const circle = hero.querySelector(".cursor-circle");
+
+      // safety: ensure elements exist
+      if (hero && circle) {
+        // Mouse move: use transform translate3d added to base translate(-50%,-50%)
+        hero.addEventListener("mousemove", (e) => {
+          const rect = hero.getBoundingClientRect();
+          const x = Math.round(e.clientX - rect.left);
+          const y = Math.round(e.clientY - rect.top);
+          // keep the center by including translate(-50%,-50%) first
+          circle.style.transform = `translate(-50%,-50%) translate3d(${x}px, ${y}px, 0)`;
+          circle.style.opacity = "1";
+        });
+
+        // show/hide on enter/leave
+        hero.addEventListener("mouseenter", () => {
+          circle.style.opacity = "1";
+        });
+        hero.addEventListener("mouseleave", () => {
+          circle.style.opacity = "0";
+        });
+      }
+
+      // Password toggle
+      const toggle = document.getElementById("togglePassword");
+      const eyeOpen = document.getElementById("eyeOpen");
+      const eyeClosed = document.getElementById("eyeClosed");
+
+      toggle.addEventListener("click", () => {
+        const isPwd = passwordEl.type === "password";
+        passwordEl.type = isPwd ? "text" : "password";
+        toggle.setAttribute("aria-pressed", String(isPwd));
+        toggle.setAttribute(
+          "aria-label",
+          isPwd ? "Şifrəni gizlət" : "Şifrəni göstər"
+        );
+        toggle.title = isPwd ? "Şifrəni gizlət" : "Şifrəni göstər";
+        // swap icons
+        eyeOpen.style.display = isPwd ? "none" : "block";
+        eyeClosed.style.display = isPwd ? "block" : "none";
+      });
+
+      const sr = ScrollReveal();
+      sr.reveal(".left-hero", {
+        origin: "left",
+        distance: "60px",
+        duration: 2000,
+        interval: 200,
+        reset: true,
+        opacity: 0,
+        scale: 0.9,
+      });
+
+      sr.reveal(".right-panel", {
+        origin: "right",
+        distance: "60px",
+        duration: 2000,
+        interval: 200,
+        reset: true,
+        opacity: 0,
+        scale: 0.9,
+      });
+    </script>
+  </body>
+</html>

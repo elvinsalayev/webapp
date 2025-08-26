@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="az">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Admin Dashboard — Dark</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* -----------------------------
+       Polished Dark Theme Variables
+       ----------------------------- */
+      :root {
+        --bg: #0f1114; /* page background */
+        --panel: #131518; /* panels */
+        --surface: #171a1f; /* cards */
+        --muted: #9aa3ad; /* secondary text */
+        --text: #e6eef6; /* main text */
+        --accent: #22c55e; /* primary accent */
+        --accent-2: #06b6d4; /* secondary accent */
+        --danger: #ff5c5c;
+        --glass: rgba(255, 255, 255, 0.03);
+        --border: rgba(255, 255, 255, 0.04);
+        --shadow: 0 8px 30px rgba(2, 6, 23, 0.6);
+        --radius: 12px;
+        --gap: 18px;
+        --fw-regular: 400;
+        --fw-medium: 600;
+        --fw-bold: 800;
+        --base: 15px;
+      }
+
+      /* -----------------------------
+       Reset / base
+       ----------------------------- */
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body,
+      #root {
+        height: 100%;
+      }
+      body {
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+          Helvetica, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, var(--bg), #0a0b0d);
+        color: var(--text);
+        font-size: var(--base);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* -----------------------------
+       Layout grid
+       ----------------------------- */
+      .app {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        grid-template-rows: 72px 1fr 64px;
+        grid-template-areas: "sidebar header" "sidebar main" "sidebar footer";
+        height: 100vh;
+        gap: 0;
+      }
+
+      /* Header */
+      header.header {
+        grid-area: header;
+        padding: 14px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.01),
+          transparent
+        );
+        border-bottom: 1px solid var(--border);
+        backdrop-filter: blur(6px);
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, var(--accent), #16a34a);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        color: #07130a;
+      }
+      .brand h1 {
+        font-size: 16px;
+        margin: 0;
+        color: var(--text);
+      }
+      .header-controls {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .search {
+        min-width: 320px;
+      }
+      .search input {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid transparent;
+        background: var(--panel);
+        color: var(--text);
+        outline: none;
+      }
+      .icon-btn {
+        height: 44px;
+        width: 44px;
+        border-radius: 10px;
+        background: var(--panel);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--border);
+        cursor: pointer;
+      }
+
+      /* Sidebar */
+      aside.sidebar {
+        grid-area: sidebar;
+        padding: 20px;
+        background: linear-gradient(180deg, var(--panel), var(--surface));
+        border-right: 1px solid var(--border);
+        overflow: auto;
+      }
+      .profile {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+      .avatar {
+        width: 52px;
+        height: 52px;
+        border-radius: 10px;
+        background: linear-gradient(180deg, var(--accent), #16a34a);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        color: #07130a;
+      }
+      .profile .info {
+        line-height: 1;
+      }
+      .profile .info .name {
+        font-weight: 700;
+        color: var(--text);
+      }
+      .profile .info .role {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      nav.menu {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .menu a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        color: var(--muted);
+        text-decoration: none;
+        border: 1px solid transparent;
+      }
+      .menu a:hover {
+        background: var(--glass);
+        color: var(--text);
+        border-color: var(--border);
+      }
+      .menu a.active {
+        background: linear-gradient(
+          90deg,
+          rgba(34, 197, 94, 0.08),
+          rgba(6, 182, 212, 0.02)
+        );
+        color: var(--text);
+        border: 1px solid rgba(34, 197, 94, 0.09);
+      }
+
+      .side-footer {
+        margin-top: 18px;
+        padding-top: 12px;
+        border-top: 1px dashed rgba(255, 255, 255, 0.02);
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      /* Main */
+      main.main {
+        grid-area: main;
+        padding: 22px;
+        overflow: auto;
+      }
+      .grid-top {
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        margin-bottom: 18px;
+      }
+      .metric {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px;
+        border-radius: 12px;
+        background: linear-gradient(180deg, var(--surface), transparent);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+      }
+      .metric .left {
+        display: flex;
+        flex-direction: column;
+      }
+      .metric .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--text);
+      }
+      .metric .label {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .content {
+        display: grid;
+        grid-template-columns: 1fr 360px;
+        gap: 18px;
+      }
+      .card {
+        background: linear-gradient(180deg, var(--surface), transparent);
+        padding: 14px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+      }
+
+      /* Table */
+      .table-wrap {
+        overflow: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        color: var(--text);
+      }
+      thead th {
+        font-weight: 700;
+        text-align: left;
+        padding: 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        color: var(--text);
+      }
+      tbody td {
+        padding: 12px;
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.03);
+        color: var(--muted);
+      }
+      tbody tr:hover td {
+        background: rgba(255, 255, 255, 0.02);
+        color: var(--text);
+      }
+      .pill {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-weight: 600;
+      }
+      .pill.success {
+        background: rgba(34, 197, 94, 0.14);
+        color: var(--accent);
+      }
+      .pill.warn {
+        background: rgba(250, 204, 21, 0.08);
+        color: #facc15;
+      }
+      .pill.danger {
+        background: rgba(255, 92, 92, 0.08);
+        color: var(--danger);
+      }
+
+      /* Right column */
+      .mini-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .action-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: linear-gradient(180deg, var(--panel), transparent);
+        border: 1px solid var(--border);
+        cursor: pointer;
+      }
+
+      /* Footer */
+      footer.footer {
+        grid-area: footer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 20px;
+        border-top: 1px solid var(--border);
+        background: linear-gradient(0deg, var(--panel), transparent);
+        color: var(--muted);
+      }
+
+      /* responsive */
+      @media (max-width: 900px) {
+        .app {
+          grid-template-columns: 1fr;
+          grid-template-areas: "header" "main" "footer";
+        }
+        aside.sidebar {
+          display: none;
+        }
+        .content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* small UI flourishes */
+      .shadow-soft {
+        box-shadow: 0 10px 30px rgba(2, 6, 23, 0.5);
+      }
+      .muted {
+        color: var(--muted);
+      }
+    </style>
+
+    <!-- ====== NAVBAR CSS (scoped, paste into your <style> or stylesheet) ====== -->
+    <style>
+      /* Navbar — scoped styles: uses your existing CSS variables (e.g. --panel, --border, --text, --muted, --accent) */
+      .header.navbar-pro {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 20px;
+        gap: 16px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          transparent
+        );
+        border-bottom: 1px solid var(--border);
+        backdrop-filter: blur(6px);
+        position: relative;
+        z-index: 20;
+      }
+
+      /* Brand */
+      .header.navbar-pro .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 220px;
+      }
+      .header.navbar-pro .logo {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        color: #07130a;
+        background: linear-gradient(135deg, var(--accent), #16a34a);
+        box-shadow: 0 6px 18px rgba(34, 197, 94, 0.07);
+      }
+      .brand-meta .brand-title {
+        font-weight: 700;
+        color: var(--text);
+        font-size: 15px;
+      }
+      .brand-meta .brand-sub {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+
+      /* Center breadcrumb */
+      .nav-center {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding-left: 8px;
+      }
+      .breadcrumb ol {
+        list-style: none;
+        display: flex;
+        gap: 8px;
+        padding: 0;
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        align-items: center;
+      }
+      .breadcrumb li::after {
+        content: "/";
+        margin-left: 8px;
+        color: rgba(255, 255, 255, 0.04);
+      }
+      .breadcrumb li:last-child::after {
+        content: "";
+      }
+
+      /* Controls (right) */
+      .header-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      /* small button style */
+      .btn.icon,
+      .icon-btn {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 8px 10px;
+        border-radius: 10px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 44px;
+        min-height: 44px;
+      }
+      .icon-btn {
+        position: relative;
+      }
+
+      /* notification badge */
+      .icon-btn .badge {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        background: var(--accent);
+        color: #07130a;
+        font-weight: 700;
+        font-size: 11px;
+        padding: 2px 6px;
+        border-radius: 999px;
+        box-shadow: 0 3px 10px rgba(2, 6, 23, 0.5);
+      }
+
+      /* profile button */
+      .profile-btn {
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+        padding: 6px 10px;
+        border-radius: 10px;
+        background: linear-gradient(180deg, var(--panel), transparent);
+        border: 1px solid var(--border);
+        cursor: pointer;
+        color: var(--text);
+      }
+      .profile-btn .avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        background: linear-gradient(180deg, var(--accent), #16a34a);
+        color: #07130a;
+      }
+      .profile-btn .profile-name {
+        font-weight: 600;
+        color: var(--text);
+        font-size: 14px;
+      }
+
+      /* dropdown menu */
+      .dropdown {
+        position: relative;
+      }
+      .dropdown-menu {
+        position: absolute;
+        right: 0;
+        top: calc(100% + 10px);
+        min-width: 200px;
+        background: var(--surface);
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        box-shadow: 0 12px 40px rgba(2, 6, 23, 0.6);
+        padding: 8px;
+        display: none;
+        flex-direction: column;
+        gap: 6px;
+        z-index: 40;
+        transform-origin: top right;
+        transform: translateY(-6px) scale(0.98);
+        opacity: 0;
+        transition: opacity 0.16s ease, transform 0.16s ease;
+      }
+      .dropdown.open .dropdown-menu {
+        display: flex;
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+
+      .dropdown-menu button[role="menuitem"] {
+        background: transparent;
+        border: 0;
+        text-align: left;
+        padding: 10px;
+        border-radius: 8px;
+        color: var(--text);
+        cursor: pointer;
+        font-size: 14px;
+      }
+      .dropdown-menu button[role="menuitem"]:hover,
+      .dropdown-menu button[role="menuitem"]:focus {
+        background: rgba(255, 255, 255, 0.02);
+        outline: none;
+        color: var(--text);
+      }
+
+      .dropdown .divider {
+        height: 1px;
+        background: rgba(255, 255, 255, 0.02);
+        margin: 6px 0;
+      }
+
+      /* small helpers */
+      .visually-hidden {
+        position: absolute !important;
+        height: 1px;
+        width: 1px;
+        overflow: hidden;
+        clip: rect(1px, 1px, 1px, 1px);
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app" id="root">
+      <aside class="sidebar">
+        <div class="profile">
+          <div class="avatar">D</div>
+          <div class="info">
+            <div class="name">Dashboard</div>
+            <div class="role">Administrator</div>
+          </div>
+        </div>
+
+        <nav class="menu" aria-label="Main navigation">
+          <a href="#" class="active">🏠 Dashboard</a>
+          <a href="#">📁 Projects</a>
+          <a href="#">👥 Users</a>
+          <a href="#">📊 Reports</a>
+          <a href="#">⚙️ Settings</a>
+        </nav>
+
+        <div class="side-footer">
+          Server • Up • <strong style="color: var(--accent)">64GB</strong>
+        </div>
+      </aside>
+
+      <!-- <header class="header">
+        <div class="brand">
+          <div class="logo">D</div>
+          <h1>Company name</h1>
+        </div>
+        <div class="header-controls">
+          <div class="search" role="search">
+            <input placeholder="Axtar..." aria-label="Search" />
+          </div>
+          <button class="icon-btn" aria-label="Notifications">🔔</button>
+          <button class="icon-btn" aria-label="Profile">👤</button>
+        </div>
+      </header> -->
+      <!-- ====== NAVBAR (paste instead of your current <header class="header">) ====== -->
+      <header class="header navbar-pro">
+        <div class="brand">
+          <div class="logo" aria-hidden="true">D</div>
+          <div class="brand-meta">
+            <div class="brand-title">Company name</div>
+            <div class="brand-sub muted">Admin dashboard</div>
+          </div>
+        </div>
+
+        <div class="nav-center">
+          <!-- Breadcrumb / context -->
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+              <li>Home</li>
+              <li>Analytics</li>
+              <li class="muted">Customers</li>
+            </ol>
+          </nav>
+        </div>
+
+        <div class="header-controls">
+          <!-- Quick create with dropdown -->
+          <div class="dropdown" data-dropdown>
+            <button
+              class="btn icon"
+              data-dropdown-button
+              aria-haspopup="menu"
+              aria-expanded="false"
+            >
+              ➕ <span class="visually-hidden">Quick create</span>
+            </button>
+            <div class="dropdown-menu" role="menu" aria-hidden="true">
+              <button role="menuitem" tabindex="0">New customer</button>
+              <button role="menuitem" tabindex="0">New project</button>
+              <button role="menuitem" tabindex="0">Upload CSV</button>
+            </div>
+          </div>
+
+          <!-- Apps / Tools -->
+          <div class="dropdown" data-dropdown>
+            <button
+              class="btn icon"
+              data-dropdown-button
+              aria-haspopup="menu"
+              aria-expanded="false"
+              title="Apps"
+            >
+              ✨
+            </button>
+            <div class="dropdown-menu" role="menu" aria-hidden="true">
+              <button role="menuitem" tabindex="0">Reports</button>
+              <button role="menuitem" tabindex="0">Integrations</button>
+              <button role="menuitem" tabindex="0">API keys</button>
+            </div>
+          </div>
+
+          <!-- Notifications -->
+          <button
+            class="icon-btn"
+            aria-label="Notifications"
+            title="Notifications"
+          >
+            <span class="bell">🔔</span>
+            <span class="badge" aria-hidden="true">3</span>
+          </button>
+
+          <!-- Profile dropdown -->
+          <div class="dropdown profile-dd" data-dropdown>
+            <button
+              class="profile-btn"
+              data-dropdown-button
+              aria-haspopup="menu"
+              aria-expanded="false"
+              aria-label="User menu"
+            >
+              <span class="avatar">ES</span>
+              <span class="profile-name">Elvin S.</span>
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 20 20"
+                aria-hidden="true"
+              >
+                <path fill="currentColor" d="M5 7l5 5 5-5z" />
+              </svg>
+            </button>
+            <div class="dropdown-menu" role="menu" aria-hidden="true">
+              <button role="menuitem" tabindex="0">Profile</button>
+              <button role="menuitem" tabindex="0">Settings</button>
+              <div class="divider" role="separator"></div>
+              <button role="menuitem" tabindex="0">Sign out</button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main class="main">
+        <div class="grid-top">
+          <div class="metric shadow-soft">
+            <div class="left">
+              <div class="label">Overview</div>
+              <div class="value">Welcome back, Admin</div>
+            </div>
+            <div class="right">
+              <div class="label">Active</div>
+              <div class="value">320</div>
+            </div>
+          </div>
+          <div style="width: 240px" class="metric">
+            <div class="left">
+              <div class="label">Server</div>
+              <div class="value">64 GB</div>
+            </div>
+            <div class="right">
+              <div class="label">Status</div>
+              <div class="value" style="color: var(--accent)">Online</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content">
+          <section>
+            <div class="card table-wrap">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 12px;
+                "
+              >
+                <div style="font-weight: 700; color: var(--text)">
+                  Müştərilər
+                </div>
+                <div class="muted">Yüklənib: bugün</div>
+              </div>
+
+              <table>
+                <thead>
+                  <tr>
+                    <th>Ad</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th style="text-align: right">Hərəkətlər</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="color: var(--text)">Elvin S.</td>
+                    <td>elvin@example.com</td>
+                    <td><span class="pill success">Active</span></td>
+                    <td style="text-align: right">—</td>
+                  </tr>
+                  <tr>
+                    <td style="color: var(--text)">Ayten K.</td>
+                    <td>ayten@example.com</td>
+                    <td><span class="pill warn">Pending</span></td>
+                    <td style="text-align: right">—</td>
+                  </tr>
+                  <tr>
+                    <td style="color: var(--text)">Jamal M.</td>
+                    <td>jamal@example.com</td>
+                    <td><span class="pill danger">Blocked</span></td>
+                    <td style="text-align: right">—</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-top: 12px;
+                "
+              >
+                <div class="muted">Göstərilən: 1-3</div>
+                <div style="display: flex; gap: 8px">
+                  <button class="action-btn">Prev</button>
+                  <button class="action-btn">Next</button>
+                </div>
+              </div>
+            </div>
+
+            <div style="height: 18px"></div>
+
+            <div class="card">
+              <div
+                style="font-weight: 700; color: var(--text); margin-bottom: 8px"
+              >
+                Qısa qeydlər
+              </div>
+              <div class="muted">
+                Burada layihə ilə bağlı notlar və bildirişlər görünəcək.
+              </div>
+            </div>
+          </section>
+
+          <aside>
+            <div class="card" style="margin-bottom: 12px">
+              <div style="font-weight: 700; color: var(--text)">Statistics</div>
+              <div class="muted" style="margin-top: 8px">Grafik sahəsi</div>
+              <div
+                style="
+                  height: 140px;
+                  background: linear-gradient(
+                    90deg,
+                    rgba(255, 255, 255, 0.02),
+                    transparent
+                  );
+                  border-radius: 8px;
+                  margin-top: 10px;
+                "
+              ></div>
+            </div>
+
+            <div class="card">
+              <div style="font-weight: 700; color: var(--text)">
+                Quick Actions
+              </div>
+              <div
+                style="
+                  margin-top: 10px;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 10px;
+                "
+              >
+                <button class="action-btn">+ Yeni</button>
+                <button class="action-btn">Export</button>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </main>
+
+      <footer class="footer">
+        <div>© 2025 Company — Bütün hüquqlar qorunur</div>
+        <div class="muted">Version 1.0.0</div>
+      </footer>
+    </div>
+
+    <script>
+      // small responsive helper
+      (function () {
+        const mq = window.matchMedia("(max-width:900px)");
+        function update() {
+          document.querySelector(".sidebar").style.display = mq.matches
+            ? "none"
+            : "block";
+        }
+        mq.addListener(update);
+        update();
+      })();
+    </script>
+
+    <script>
+      /* Navbar dropdown behavior: accessible + outside click + Esc + keyboard nav */
+      (function () {
+        document.querySelectorAll("[data-dropdown]").forEach((dd) => {
+          const btn = dd.querySelector("[data-dropdown-button]");
+          const menu = dd.querySelector(".dropdown-menu");
+
+          function open() {
+            dd.classList.add("open");
+            btn.setAttribute("aria-expanded", "true");
+            menu.setAttribute("aria-hidden", "false");
+            // focus first item
+            const first = menu.querySelector('[role="menuitem"]');
+            if (first) first.focus();
+          }
+          function close() {
+            dd.classList.remove("open");
+            btn.setAttribute("aria-expanded", "false");
+            menu.setAttribute("aria-hidden", "true");
+          }
+          function toggle() {
+            dd.classList.contains("open") ? close() : open();
+          }
+
+          btn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            toggle();
+          });
+
+          // keyboard: Enter / Space toggle, Esc closes, arrows navigate
+          btn.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              toggle();
+            }
+            if (e.key === "ArrowDown") {
+              e.preventDefault();
+              open();
+            }
+          });
+
+          menu.addEventListener("keydown", function (e) {
+            const items = Array.from(
+              menu.querySelectorAll('[role="menuitem"]')
+            );
+            const idx = items.indexOf(document.activeElement);
+            if (e.key === "Escape") {
+              close();
+              btn.focus();
+            } else if (e.key === "ArrowDown") {
+              e.preventDefault();
+              const next = items[(idx + 1) % items.length];
+              if (next) next.focus();
+            } else if (e.key === "ArrowUp") {
+              e.preventDefault();
+              const prev = items[(idx - 1 + items.length) % items.length];
+              if (prev) prev.focus();
+            }
+          });
+
+          // close when clicking outside
+          document.addEventListener("click", function (ev) {
+            if (!dd.contains(ev.target)) close();
+          });
+
+          // close on resize for niceness
+          window.addEventListener("resize", close);
+        });
+      })();
+    </script>
+  </body>
+</html>

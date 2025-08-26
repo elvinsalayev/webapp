@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="az">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Slide — Admin Dashboard (Clean)</title>
+    <style>
+      :root{
+        --bg:#f4f6f9;
+        --card:#ffffff;
+        --muted:#6b7280;
+        --accent:#2563eb;
+        --accent-2:#06b6d4;
+        --success:#16a34a;
+        --danger:#ef4444;
+        --radius:12px;
+        --shadow: 0 6px 18px rgba(17,24,39,0.06);
+        --glass: rgba(16,24,40,0.02);
+      }
+
+      *{box-sizing:border-box}
+      html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue';background:var(--bg);color:#0f172a}
+
+      /* layout */
+      .shell{max-width:1400px;margin:28px auto;padding:20px;display:grid;grid-template-columns:220px 1fr 320px;gap:18px}
+      @media(max-width:1100px){.shell{grid-template-columns:1fr;}}
+
+      /* sidebar */
+      .sidebar{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px}
+      .logo{font-weight:800;color:var(--accent)}
+      .nav{margin-top:12px;display:flex;flex-direction:column;gap:6px}
+      .nav button{background:transparent;border:none;text-align:left;padding:10px;border-radius:8px;cursor:pointer;color:var(--muted);font-weight:600}
+      .nav button.active{background:linear-gradient(90deg,var(--glass),transparent);color:#0f172a}
+
+      /* header area (top bar) */
+      .header{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px}
+      .search{display:flex;gap:8px;align-items:center;background:var(--card);padding:10px;border-radius:999px;box-shadow:var(--shadow);width:100%;max-width:720px}
+      .search input{border:none;outline:none;font-size:14px;background:transparent}
+      .top-actions{display:flex;gap:8px;align-items:center}
+      .icon{background:var(--card);padding:10px;border-radius:10px;box-shadow:var(--shadow);cursor:pointer}
+
+      /* main content */
+      .panel{background:var(--card);padding:16px;border-radius:var(--radius);box-shadow:var(--shadow)}
+      .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px}
+      @media(max-width:900px){.kpis{grid-template-columns:repeat(1,1fr)}}
+      .kpi{padding:16px;border-radius:10px;background:linear-gradient(180deg, #fff, #fbfdff)}
+      .kpi .label{font-size:13px;color:var(--muted)}
+      .kpi .value{font-size:20px;font-weight:800;margin-top:6px}
+
+      .split{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+      @media(max-width:900px){.split{grid-template-columns:1fr}}
+
+      /* tables */
+      .table-wrap{overflow:auto}
+      table{width:100%;border-collapse:collapse;font-size:14px}
+      thead th{background:transparent;text-align:left;padding:10px;color:var(--muted);font-weight:700;border-bottom:1px solid #eef2f7}
+      tbody td{padding:10px;border-bottom:1px solid #f3f6f9}
+      tbody tr:hover td{background:linear-gradient(90deg, #fff, #f8fbff)}
+
+      .btn{padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:700}
+      .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white}
+      .btn.ghost{background:transparent;border:1px solid #e6eefc;color:var(--muted)}
+      .small{font-size:13px;color:var(--muted)}
+
+      /* product address popover */
+      .addr-cell{position:relative}
+      .info-btn{background:transparent;border:none;color:var(--accent);cursor:pointer;padding:6px;border-radius:6px}
+      .popover{position:absolute;left:0;top:calc(100% + 8px);min-width:260px;background:var(--card);border-radius:8px;padding:10px;box-shadow:var(--shadow);display:none;z-index:40}
+      .popover.show{display:block}
+      .branch{display:flex;gap:8px;padding:8px;border-radius:8px;align-items:center}
+      .branch .logo{width:36px;height:36px;border-radius:6px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:white;font-weight:800}
+      .branch .meta{font-size:13px}
+      .branch .meta .name{font-weight:700}
+      .branch .meta .phone{color:var(--muted);font-size:13px}
+
+      /* pagination */
+      .pager{display:flex;gap:8px;align-items:center;justify-content:flex-end;margin-top:12px}
+      .pager button{padding:8px 10px;border-radius:8px;border:1px solid #eef2f7;background:white;cursor:pointer}
+
+      /* right column */
+      .right-col .panel{margin-bottom:12px}
+
+      /* modal */
+      .overlay{position:fixed;inset:0;display:grid;place-items:center;background:rgba(15,23,42,0.45);z-index:200;opacity:0;pointer-events:none;transition:opacity 160ms}
+      .overlay.show{opacity:1;pointer-events:auto}
+      .modal{background:var(--card);padding:14px;border-radius:10px;width:480px;box-shadow:var(--shadow)}
+
+      /* responsive tweaks */
+      @media(max-width:700px){
+        .search{max-width:100%}
+      }
+
+    </style>
+  </head>
+  <body>
+    <!-- Clean admin dashboard (new file) -->
+    <div class="header">
+      <div class="search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input id="globalSearch" placeholder="Axtar: istifadəçi, mağaza, OEM..." />
+      </div>
+      <div class="top-actions">
+        <div class="icon small">🔔</div>
+        <div class="icon small" id="openInvite">➕ Dəvət et</div>
+        <div style="text-align:right"><div style="font-weight:700">Admin</div><div class="small">admin@slide.az</div></div>
+      </div>
+    </div>
+
+    <div class="shell" role="application">
+      <aside class="sidebar" aria-label="Səhifələr">
+        <div class="logo">Slide Admin</div>
+        <nav class="nav" role="navigation" aria-label="Admin menyu">
+          <button class="active" data-view="overview">Overview</button>
+          <button data-view="users">Users</button>
+          <button data-view="registrations">Registrations</button>
+          <button data-view="products">Products</button>
+          <button data-view="logs">Logs</button>
+          <button data-view="settings">Settings</button>
+        </nav>
+      </aside>
+
+      <main>
+        <!-- overview -->
+        <section class="panel view" id="view-overview">
+          <div class="kpis">
+            <div class="kpi"><div class="label">Ümumi istifadəçilər</div><div class="value" id="k_users">1,842</div><div class="small">Bütün istifadəçilər</div></div>
+            <div class="kpi"><div class="label">Gözləyən qeydiyyatlar</div><div class="value" id="k_pending">7</div><div class="small">Təsdiq gözləyən</div></div>
+            <div class="kpi"><div class="label">Aktiv sessiyalar</div><div class="value" id="k_sessions">24</div><div class="small">Onlayn hazırda</div></div>
+          </div>
+
+          <div class="split">
+            <div class="panel">
+              <h3>Son fəaliyyət</h3>
+              <div id="chart" style="height:220px;display:grid;place-items:center;color:var(--muted)">Grafik (Chart inteqrasiya)</div>
+            </div>
+
+            <div class="panel">
+              <h3>Quick insights</h3>
+              <div class="small">Yeni mesajlar: 4</div>
+              <div class="small">Server xətaları: 2</div>
+              <div style="height:12px"></div>
+              <h4 style="margin-bottom:8px">Gözləyən qeydiyyatlar</h4>
+              <div class="table-wrap">
+                <table id="pendingTable">
+                  <thead><tr><th>ID</th><th>İstifadəçi</th><th>Mağaza</th><th>Tarix</th><th></th></tr></thead>
+                  <tbody>
+                    <tr data-id="J10250"><td>J10250</td><td>autoservice_1</td><td>Auto Service</td><td>2025-08-14</td><td><button class="btn primary" data-action="approve">Təsdiq et</button></td></tr>
+                    <tr data-id="J10251"><td>J10251</td><td>parts_shop</td><td>Parts Shop</td><td>2025-08-13</td><td><button class="btn primary" data-action="approve">Təsdiq et</button></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- users -->
+        <section class="panel view" id="view-users" style="display:none">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <h3>İstifadəçilər</h3>
+            <div style="display:flex;gap:8px">
+              <input id="usersSearch" placeholder="Axtar istifadəçi..." style="padding:8px;border-radius:8px;border:1px solid #eef2f7" />
+              <button class="btn primary" id="inviteUserBtn">Dəvət et</button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table id="usersTable">
+              <thead><tr><th>İstifadəçi</th><th>Email</th><th>Rol</th><th>Status</th><th></th></tr></thead>
+              <tbody>
+                <tr><td>musteveliye123</td><td>mammad@shop.az</td><td><select data-field="role"><option>user</option><option selected>store_rep</option><option>moderator</option><option>admin</option></select></td><td>Active</td><td><button class="btn ghost" data-action="impersonate">Giriş et</button></td></tr>
+                <tr><td>seller_baku</td><td>info@seller.az</td><td><select data-field="role"><option selected>user</option><option>store_rep</option><option>moderator</option><option>admin</option></select></td><td>Active</td><td><button class="btn ghost" data-action="impersonate">Giriş et</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- registrations -->
+        <section class="panel view" id="view-registrations" style="display:none">
+          <h3>Yeni qeydiyyatlar</h3>
+          <div class="table-wrap">
+            <table id="regsTable">
+              <thead><tr><th>ID</th><th>İstifadəçi</th><th>Telefon</th><th>Mağaza</th><th>Vəziyyət</th><th></th></tr></thead>
+              <tbody>
+                <tr data-id="J10300"><td>J10300</td><td>new_shop</td><td>050 111 11 11</td><td>New Shop</td><td>Gözləyir</td><td><button class="btn primary" data-action="finalApprove">Final təsdiq</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- products -->
+        <section class="panel view" id="view-products" style="display:none">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <h3>Məhsullar</h3>
+            <div style="display:flex;gap:8px">
+              <input id="productsSearch" placeholder="Axtar OEM, brend, mal..." style="padding:8px;border-radius:8px;border:1px solid #eef2f7" />
+              <button class="btn ghost" id="exportProducts">Export</button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table id="prodTable">
+              <thead><tr><th>OEM №</th><th>BREND KODU</th><th>BREND ADI</th><th>MAL ADI</th><th>ÜNVAN</th></tr></thead>
+              <tbody>
+                <tr data-detail='{"branches":[{"name":"Babek","phone":"050 555 55 55","brands":"MBZ","logo":"M"},{"name":"Nerimanov","phone":"055 444 44 44","brands":"BMW","logo":"B"}] }'>
+                  <td>1244100681</td>
+                  <td>3897</td>
+                  <td>FEBI</td>
+                  <td>Podvesnoy 124…</td>
+                  <td class="addr-cell">Babek <button class="info-btn" aria-expanded="false" title="Ünvan məlumatı">ℹ</button>
+                    <div class="popover" role="dialog" aria-hidden="true"></div>
+                  </td>
+                </tr>
+
+                <tr data-detail='{"branches":[{"name":"Babek","phone":"050 555 55 55","brands":"MBZ","logo":"M"},{"name":"Nerimanov","phone":"055 444 44 44","brands":"BMW","logo":"B"},{"name":"Yasamal","phone":"070 333 33 33","brands":"Toyota","logo":"T"}] }'>
+                  <td>1244100682</td>
+                  <td>3901</td>
+                  <td>TRW</td>
+                  <td>Amortisör 220…</td>
+                  <td class="addr-cell">Nerimanov <button class="info-btn" aria-expanded="false" title="Ünvan məlumatı">ℹ</button>
+                    <div class="popover" role="dialog" aria-hidden="true"></div>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- logs -->
+        <section class="panel view" id="view-logs" style="display:none">
+          <h3>Activity Logs</h3>
+          <div style="max-height:420px;overflow:auto;margin-top:8px;background:var(--card);padding:8px;border-radius:8px">
+            <div class="small">2025-08-14 09:12 — admin daxil oldu</div>
+            <div class="small">2025-08-13 02:10 — sistem backup tamamlandı</div>
+          </div>
+        </section>
+
+        <!-- settings -->
+        <section class="panel view" id="view-settings" style="display:none">
+          <h3>Sistem Ayarları</h3>
+          <div class="small">SMTP, Backup, API və s. buradan idarə olunur.</div>
+        </section>
+
+      </main>
+
+      <aside class="right-col">
+        <div class="panel">
+          <h4>Real-time Feed</h4>
+          <div class="small">parts_shop — 2 dəqiqə əvvəl — yeni qeydiyyat</div>
+          <div class="small">Backup — 1 saat əvvəl tamamlandı</div>
+        </div>
+
+        <div class="panel">
+          <h4>Quick actions</h4>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px">
+            <button class="btn primary" id="approveAll">Hamısını təsdiq et</button>
+            <button class="btn ghost" id="reindex">Reindex</button>
+            <button class="btn ghost" id="runBackup">Backup</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h4>System</h4>
+          <div class="small">Uptime: 7d 4h · Version: 1.0.0</div>
+          <div style="margin-top:8px"><button class="btn ghost" id="downloadLogs">Download logs</button></div>
+        </div>
+      </aside>
+
+      <!-- invite modal -->
+      <div class="overlay" id="inviteModal" aria-hidden>
+        <div class="modal">
+          <h3>Dəvət et</h3>
+          <div style="display:flex;gap:8px;margin-top:12px"><input id="inviteEmail" placeholder="email@shop.az" style="flex:1;padding:8px;border-radius:8px;border:1px solid #eef2f7" /><select id="inviteRole" style="padding:8px;border-radius:8px;border:1px solid #eef2f7"><option>store_rep</option><option>moderator</option><option>admin</option></select></div>
+          <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px"><button class="btn ghost" id="cancelInvite">Ləğv et</button><button class="btn primary" id="sendInviteConfirm">Göndər</button></div>
+        </div>
+      </div>
+
+    </div>
+
+    <script>
+      // Defensive utilities
+      const $ = (sel, ctx=document) => ctx.querySelector(sel);
+      const $$ = (sel, ctx=document) => Array.from(ctx.querySelectorAll(sel));
+      function safeAdd(el, ev, fn){ if(el) el.addEventListener(ev, fn); }
+
+      // View routing
+      $$('.nav button').forEach(btn=> safeAdd(btn,'click', ()=>{
+        $$('.nav button').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const view = btn.dataset.view;
+        $$('.view').forEach(s=> s.style.display = s.id === 'view-'+view ? '' : 'none');
+        window.scrollTo({top:0,behavior:'smooth'});
+      }));
+
+      // Global search filters tables and lists
+      safeAdd($('#globalSearch'), 'input', (e)=>{
+        const q = e.target.value.trim().toLowerCase();
+        if(!q) { $$('.table-wrap tbody tr').forEach(r=> r.style.display=''); return; }
+        $$('.table-wrap tbody tr').forEach(r=> r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none');
+      });
+
+      // Pending approvals
+      safeAdd($('#pendingTable'), 'click', (e)=>{
+        const btn = e.target.closest('button'); if(!btn) return; const tr = btn.closest('tr'); const id = tr?.dataset.id; const action = btn.dataset.action;
+        if(action === 'approve'){
+          if(confirm('Bu qeydiyyatı təsdiq etmək istədiyinizə əminsiniz?')){
+            // demo: remove row, update counter
+            tr?.remove(); const left = $$('#pendingTable tbody tr').length; safeSetText('#k_pending', left);
+            alert(id + ' təsdiq edildi (demo)');
+          }
+        }
+      });
+
+      // Invite modal
+      safeAdd($('#openInvite'), 'click', ()=> openInvite());
+      safeAdd($('#inviteUserBtn'), 'click', ()=> openInvite());
+      safeAdd($('#cancelInvite'), 'click', ()=> closeInvite());
+      safeAdd($('#sendInviteConfirm'), 'click', ()=>{
+        const email = ($('#inviteEmail')||{}).value ? $('#inviteEmail').value.trim() : '';
+        const role = ($('#inviteRole')||{}).value || 'store_rep';
+        if(!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return alert('Düzgün email daxil edin');
+        alert('Dəvət göndərildi: '+email+' (rol: '+role+') — demo'); closeInvite();
+      });
+      function openInvite(){ const modal = $('#inviteModal'); if(modal) { modal.classList.add('show'); modal.removeAttribute('aria-hidden'); $('#inviteEmail') && $('#inviteEmail').focus(); } }
+      function closeInvite(){ const modal = $('#inviteModal'); if(modal) { modal.classList.remove('show'); modal.setAttribute('aria-hidden','true'); } }
+
+      // Products popovers (address details)
+      $$('#prodTable tbody tr').forEach(tr=>{
+        const detail = tr.dataset.detail;
+        const pop = tr.querySelector('.popover');
+        if(!pop) return;
+        try{
+          const obj = JSON.parse(detail || '{}');
+          if(!Array.isArray(obj.branches) || obj.branches.length === 0) { pop.innerHTML = '<div class="small">Heç bir filial məlumatı yoxdur.</div>'; }
+          else{
+            pop.innerHTML = '';
+            obj.branches.forEach(b=>{
+              const row = document.createElement('div'); row.className = 'branch';
+              row.innerHTML = `<div class="logo">${escapeHtml((b.logo||b.name||'S').slice(0,1))}</div><div class="meta"><div class="name">${escapeHtml(b.name||'—')}</div><div class="phone">${escapeHtml(b.brands||'')} · ${escapeHtml(b.phone||'—')}</div></div>`;
+              pop.appendChild(row);
+            });
+          }
+        }catch(err){ pop.innerHTML = '<div class="small">Məlumat oxunmadı.</div>'; }
+
+        const btn = tr.querySelector('.info-btn');
+        safeAdd(btn, 'click', ()=>{
+          const isOpen = pop.classList.contains('show'); $$('.popover').forEach(p=>p.classList.remove('show'));
+          if(isOpen){ pop.classList.remove('show'); btn.setAttribute('aria-expanded','false'); }
+          else{ pop.classList.add('show'); btn.setAttribute('aria-expanded','true'); }
+        });
+      });
+
+      // Close popovers when clicking outside or pressing ESC
+      safeAdd(document, 'click', (e)=>{ if(e.target.closest('.info-btn')) return; $$('.popover.show').forEach(p=>p.classList.remove('show')); });
+      safeAdd(document, 'keydown', (e)=>{ if(e.key === 'Escape') { $$('.popover.show').forEach(p=>p.classList.remove('show')); closeInvite(); } });
+
+      // helpers
+      function escapeHtml(s){ return String(s||'').replace(/[&<>\"']/g, c=> ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":"&#39;"})[c]); }
+      function safeSetText(sel,val){ const el = document.querySelector(sel); if(el) el.textContent = val; }
+
+      // small utilities
+      safeAdd($('#globalSearch'),'keydown', (e)=>{ if(e.key === 'Enter') e.preventDefault(); });
+
+      // init: ensure view start
+      (function init(){ $$('.view').forEach(s=> s.style.display = s.id === 'view-overview' ? '' : 'none'); })();
+
+    </script>
+  </body>
+</html>

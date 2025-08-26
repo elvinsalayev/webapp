@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="az">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Ayarlar — Slide</title>
+    <style>
+      :root {
+        --background-gradient-start: #343a48;
+        --background-gradient-end: #6b7074;
+        --text-color: #eef2f7;
+        --muted: rgba(255, 255, 255, 0.65);
+        --navbar-bg: rgba(26, 38, 52, 0.95);
+        --card-bg: rgba(20, 28, 36, 0.6);
+        --accent: linear-gradient(90deg, #ff3c3c, #ff8a3c);
+        --input-bg: rgba(255, 255, 255, 0.03);
+        --input-border: rgba(255, 255, 255, 0.06);
+        --danger: #ff3b3b;
+      }
+
+      /* reset */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+        background: linear-gradient(
+          110deg,
+          var(--background-gradient-start),
+          var(--background-gradient-end)
+        );
+        color: var(--text-color);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 24px;
+        background: var(--navbar-bg);
+        backdrop-filter: blur(6px);
+      }
+      .brand {
+        font-weight: 700;
+        font-size: 20px;
+        background: linear-gradient(
+          -45deg,
+          #ed0505 25%,
+          #ff7b00 25%,
+          #e71e03 50%
+        );
+        -webkit-background-clip: text;
+        color: transparent;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 3.5rem auto;
+        padding: 1rem;
+      }
+      .layout {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 20px;
+      }
+      @media (max-width: 980px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .sidebar {
+        background: var(--card-bg);
+        padding: 18px;
+        border-radius: 12px;
+        position: sticky;
+        top: 80px;
+      }
+      .sidebar h3 {
+        margin-bottom: 8px;
+      }
+      .sidebar p {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .nav-list {
+        margin-top: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .nav-item {
+        padding: 10px;
+        border-radius: 8px;
+        cursor: pointer;
+        color: var(--muted);
+        border: 1px solid transparent;
+      }
+      .nav-item.active {
+        background: rgba(255, 255, 255, 0.02);
+        border-color: rgba(255, 255, 255, 0.03);
+        font-weight: 700;
+      }
+
+      .card {
+        background: var(--card-bg);
+        padding: 18px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+      }
+      .section {
+        margin-bottom: 18px;
+      }
+      .section h4 {
+        margin-bottom: 6px;
+      }
+      .section p {
+        color: var(--muted);
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+
+      label {
+        display: block;
+        font-size: 13px;
+        color: var(--muted);
+        margin-bottom: 6px;
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="tel"],
+      select,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid var(--input-border);
+        background: var(--input-bg);
+        color: var(--text-color);
+      }
+      textarea {
+        min-height: 90px;
+      }
+
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .switch {
+        position: relative;
+        width: 46px;
+        height: 26px;
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 999px;
+        cursor: pointer;
+      }
+      .switch .dot {
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 20px;
+        height: 20px;
+        background: white;
+        border-radius: 50%;
+        transition: transform 160ms;
+      }
+      .switch.on {
+        background: linear-gradient(90deg, #36d37b, #2ecc71);
+      }
+      .switch.on .dot {
+        transform: translateX(20px);
+      }
+
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .controls {
+        display: flex;
+        gap: 10px;
+        margin-top: 12px;
+      }
+      .btn {
+        padding: 10px 14px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        font-weight: 700;
+      }
+      .btn.primary {
+        background: var(--accent);
+        color: #fff;
+      }
+      .btn.ghost {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        color: var(--text-color);
+      }
+      .btn.danger {
+        background: transparent;
+        border: 1px solid rgba(255, 0, 0, 0.12);
+        color: var(--danger);
+      }
+
+      .small {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .api-key {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .api-key input {
+        font-family: monospace;
+      }
+
+      .divider {
+        height: 1px;
+        background: rgba(255, 255, 255, 0.03);
+        margin: 12px 0;
+        border-radius: 6px;
+      }
+
+      /* danger zone */
+      .danger {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 59, 59, 0.06),
+          transparent
+        );
+        padding: 12px;
+        border-radius: 8px;
+      }
+      .danger p {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      /* modals */
+      .overlay {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 120;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 160ms;
+      }
+      .overlay.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .modal {
+        background: #0e1620;
+        padding: 18px;
+        border-radius: 12px;
+        color: var(--text-color);
+        width: 420px;
+      }
+      .modal h3 {
+        margin-bottom: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar__brand">
+        <a href="search.html" class="brand">Slide</a>
+      </div>
+      <div style="display: flex; gap: 8px; align-items: center">
+        <button
+          class="icon-button"
+          aria-label="Favorites"
+          style="
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            color: var(--text-color);
+          "
+        >
+          ❤️
+        </button>
+        <div
+          style="
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            display: grid;
+            place-items: center;
+          "
+        >
+          ⋮
+        </div>
+      </div>
+    </nav>
+
+    <main class="container">
+      <div class="layout">
+        <aside class="sidebar">
+          <h3>Ayarlar</h3>
+          <p class="small">
+            Burada hesab, bildirişlər, təhlükəsizlik və görünüş ayarlarını idarə
+            edə bilərsən.
+          </p>
+
+          <div class="nav-list">
+            <div class="nav-item active" data-target="account">
+              Hesab & Mağaza
+            </div>
+            <div class="nav-item" data-target="notifications">Bildirişlər</div>
+            <div class="nav-item" data-target="privacy">Gizlilik</div>
+            <div class="nav-item" data-target="security">Təhlükəsizlik</div>
+            <div class="nav-item" data-target="preferences">Görünüş & Dil</div>
+            <div class="nav-item" data-target="integrations">
+              inteqrasiyalar
+            </div>
+            <div class="nav-item" data-target="billing">
+              Ödəniş & Plan (ixtiyari)
+            </div>
+            <div class="nav-item" data-target="danger">Təhlükə bölgəsi</div>
+          </div>
+        </aside>
+
+        <section>
+          <div class="card" id="account">
+            <div class="section">
+              <h4>Hesab & Mağaza</h4>
+              <p>
+                İstifadəçi adı readonlydır (admin tərəfindən dəyişdirilə bilər).
+                Əlaqə və mağaza məlumatlarını buradan redaktə et.
+              </p>
+
+              <div class="two-col">
+                <div>
+                  <label>İstifadəçi adı</label>
+                  <input id="s_username" type="text" readonly />
+                </div>
+                <div>
+                  <label>Status</label>
+                  <input id="s_status" type="text" readonly />
+                </div>
+              </div>
+
+              <div style="margin-top: 12px" class="two-col">
+                <div>
+                  <label>Əlaqə şəxsi</label>
+                  <input id="s_repName" type="text" />
+                </div>
+                <div>
+                  <label>Telefon</label>
+                  <input id="s_phone" type="tel" />
+                </div>
+              </div>
+
+              <div style="margin-top: 12px">
+                <label>Mağaza / Filial</label>
+                <input id="s_shop" type="text" />
+              </div>
+
+              <div style="margin-top: 12px" class="two-col">
+                <div>
+                  <label>Şəhər</label>
+                  <input id="s_city" type="text" />
+                </div>
+                <div>
+                  <label>Brendlər</label>
+                  <input id="s_brands" type="text" placeholder="Toyota, BMW" />
+                </div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="section">
+              <h4>Ümumi qeyd</h4>
+              <p class="small">
+                Burada etdiyiniz dəyişikliklər admin tərəfindən yoxlanıla bilər;
+                xüsusilə mağaza məlumatı dəyişdikdə yenidən təsdiq tələb oluna
+                bilər.
+              </p>
+
+              <div class="controls">
+                <button class="btn primary" id="saveAccount">
+                  Dəyişiklikləri Saxla
+                </button>
+                <button class="btn ghost" id="resetAccount">Sıfırla</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" id="notifications" style="display: none">
+            <div class="section">
+              <h4>Bildirişlər</h4>
+              <p>
+                Bildiriş növlərini seç — bu sahələri qismən istifadə etmək
+                istəməsən belə layout pozulmayacaq.
+              </p>
+
+              <div
+                class="row"
+                style="margin-top: 8px; justify-content: space-between"
+              >
+                <div>
+                  <label>Email bildirişləri</label>
+                  <div class="row">
+                    <div class="switch" id="toggleEmail">
+                      <div class="dot"></div>
+                    </div>
+                    <div class="muted">
+                      Yeni sifariş, mesaj və xəbərdarlıqlar üçün
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <label>SMS bildirişləri</label>
+                  <div class="row">
+                    <div class="switch" id="toggleSms">
+                      <div class="dot"></div>
+                    </div>
+                    <div class="muted">Əhəmiyyətli zənglər üçün</div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="margin-top: 12px; display: flex; gap: 10px">
+                <button class="btn primary" id="saveNotifications">
+                  Saxla
+                </button>
+                <button class="btn ghost" id="resetNotifications">
+                  Sıfırla
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" id="privacy" style="display: none">
+            <div class="section">
+              <h4>Gizlilik</h4>
+              <p>Profil məlumatlarının görünürlüğünü idarə et.</p>
+
+              <div style="margin-top: 8px">
+                <label>Profil görünürlüğü</label>
+                <select id="visibility">
+                  <option value="private">Yalnız mən</option>
+                  <option value="store">Mağaza nümayəndələri</option>
+                  <option value="public">İctimai</option>
+                </select>
+                <div class="small" style="margin-top: 8px">
+                  "İctimai" seçsəniz, profiliniz axtarış nəticələrində
+                  görsənəcək.
+                </div>
+              </div>
+
+              <div style="margin-top: 12px; display: flex; gap: 10px">
+                <button class="btn primary" id="savePrivacy">Saxla</button>
+                <button class="btn ghost" id="resetPrivacy">Sıfırla</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" id="security" style="display: none">
+            <div class="section">
+              <h4>Təhlükəsizlik</h4>
+              <p>Hesab təhlükəsizliyini artırmaq üçün seçimlər.</p>
+
+              <div style="margin-top: 8px">
+                <label>İki faktorlu doğrulama (2FA)</label>
+                <div class="row">
+                  <div class="switch" id="toggle2fa">
+                    <div class="dot"></div>
+                  </div>
+                  <div class="muted">
+                    Telefon və ya authenticator istifadə et
+                  </div>
+                </div>
+              </div>
+
+              <div style="margin-top: 12px">
+                <label>Aktiv sessiyalar</label>
+                <div class="small">
+                  Tarixçə və aktiv cihazları izləyib lazım olmayanları çıxara
+                  bilərsən.
+                </div>
+                <div style="margin-top: 8px">
+                  <button class="btn ghost" id="viewSessions">
+                    Sessiyaları göstər
+                  </button>
+                </div>
+              </div>
+
+              <div style="margin-top: 12px; display: flex; gap: 10px">
+                <button class="btn primary" id="saveSecurity">Saxla</button>
+                <button class="btn ghost" id="resetSecurity">Sıfırla</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" id="preferences" style="display: none">
+            <div class="section">
+              <h4>Görünüş & Dil</h4>
+              <p>Sadə seçimlər: tema, dil və cədvəl sıxlığı.</p>
+
+              <div class="two-col">
+                <div>
+                  <label>Tema</label>
+                  <select id="theme">
+                    <option value="dark">Qara (default)</option>
+                    <option value="light">Açıq</option>
+                  </select>
+                </div>
+                <div>
+                  <label>Dil</label>
+                  <select id="lang">
+                    <option value="az">Azərbaycan</option>
+                    <option value="en">English</option>
+                  </select>
+                </div>
+              </div>
+
+              <div style="margin-top: 12px">
+                <label>Verilənlər cədvəlində sıra sayı</label>
+                <input
+                  id="itemsPerPage"
+                  type="number"
+                  min="5"
+                  max="200"
+                  value="25"
+                />
+                <div class="small" style="margin-top: 8px">
+                  Bu dəyəri dəyişsən cədvəldə göstərilən sətrlərin sayı
+                  dəyişəcək.
+                </div>
+              </div>
+
+              <div style="margin-top: 12px; display: flex; gap: 10px">
+                <button class="btn primary" id="savePref">Saxla</button>
+                <button class="btn ghost" id="resetPref">Sıfırla</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" id="integrations" style="display: none">
+            <div class="section">
+              <h4>İnteqrasiyalar & API</h4>
+              <p>
+                API açarı, üçüncü tərəf inteqrasiyaları və webhooklar burada
+                olacaq. Bu bölməni istifadə etməsən də dizayn zədələnməyəcək.
+              </p>
+
+              <div style="margin-top: 8px">
+                <label>API Açarı</label>
+                <div class="api-key">
+                  <input
+                    id="apiKey"
+                    type="text"
+                    readonly
+                    value="••••••••••••••"
+                  /><button class="btn ghost" id="regenKey">Yenilə</button>
+                </div>
+                <div class="small" style="margin-top: 8px">
+                  API açarını yalnız lazım olduqda paylaşın. Yenilədikdə əvvəlki
+                  açar etibarsız olacaq.
+                </div>
+              </div>
+
+              <div style="margin-top: 12px; display: flex; gap: 10px">
+                <button class="btn primary" id="saveInt">Saxla</button>
+                <button class="btn ghost" id="resetInt">Sıfırla</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" id="billing" style="display: none">
+            <div class="section">
+              <h4>Ödəniş & Plan</h4>
+              <p class="small">
+                Əgər tətbiqdə ödəniş və planlar istifadə etmirsənsə, bu bölmə
+                sadəcə informativ qalacaq və görünüş pozulmayacaq.
+              </p>
+
+              <div style="margin-top: 8px">
+                <label>Plan</label>
+                <input id="plan" type="text" readonly value="Pulsuz" />
+              </div>
+
+              <div style="margin-top: 12px; display: flex; gap: 10px">
+                <button class="btn ghost" id="manageBilling">
+                  Ödəniş idarə et
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" id="danger" style="display: none">
+            <div class="section danger">
+              <h4>Təhlükə bölgəsi</h4>
+              <p>
+                Hesabınızı silmək geri dönüşü olmayan əməliyyatdır. Sildikdən
+                sonra bütün məlumatlar itiriləcək.
+              </p>
+              <div
+                style="
+                  margin-top: 10px;
+                  display: flex;
+                  gap: 10px;
+                  align-items: center;
+                "
+              >
+                <button
+                  class="btn"
+                  id="deleteAccount"
+                  style="
+                    background: transparent;
+                    border: 1px solid rgba(255, 0, 0, 0.12);
+                    color: var(--danger);
+                  "
+                >
+                  Hesabı sil
+                </button>
+                <div class="small">
+                  Bu əməliyyatı yalnız lazım olduqda istifadə edin.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <div class="overlay" id="overlay">
+      <div class="modal" role="dialog" aria-modal="true">
+        <h3 id="modalTitle">Təsdiq</h3>
+        <p id="modalBody">Əminsiniz?</p>
+        <div
+          style="
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-top: 12px;
+          "
+        >
+          <button class="btn ghost" id="modalCancel">Ləğv et</button>
+          <button
+            class="btn"
+            id="modalConfirm"
+            style="background: var(--danger); color: #fff"
+          >
+            Təsdiq et
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <footer style="text-align: center; color: var(--muted); padding: 14px">
+      &copy; 2025 Slide
+    </footer>
+
+    <script>
+      // navigation
+      document.querySelectorAll(".nav-item").forEach((item) =>
+        item.addEventListener("click", () => {
+          document
+            .querySelectorAll(".nav-item")
+            .forEach((i) => i.classList.remove("active"));
+          item.classList.add("active");
+          const target = item.dataset.target;
+          document
+            .querySelectorAll("section .card")
+            .forEach((c) => (c.style.display = "none"));
+          const el = document.getElementById(target);
+          if (el) el.style.display = "block";
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        })
+      );
+
+      // simple toggle logic
+      function toggle(el) {
+        el.classList.toggle("on");
+      }
+      ["toggleEmail", "toggleSms", "toggle2fa"].forEach((id) => {
+        const el = document.getElementById(id);
+        el &&
+          el.addEventListener("click", (e) => {
+            toggle(el);
+          });
+      });
+
+      // navigation defaults
+      // populate demo data
+      const demo = {
+        username: "musteveliye123",
+        status: "Təsdiq olunmuş",
+        repName: "Məmməd Məmmədov",
+        phone: "050 999 99 99",
+        shop: "Slide Avto Baku",
+        city: "Bakı",
+        brands: "Toyota, BMW",
+      };
+      document.getElementById("s_username").value = demo.username;
+      document.getElementById("s_status").value = demo.status;
+      document.getElementById("s_repName").value = demo.repName;
+      document.getElementById("s_phone").value = demo.phone;
+      document.getElementById("s_shop").value = demo.shop;
+      document.getElementById("s_city").value = demo.city;
+      document.getElementById("s_brands").value = demo.brands;
+
+      // save handlers (each section)
+      async function saveSection(endpoint, formData) {
+        try {
+          const res = await fetch(endpoint, { method: "POST", body: formData });
+          if (!res || !res.ok) {
+            alert(
+              "Server cavab vermədi. Demo rejimində saxlandı yerli yaddaşa."
+            );
+            return;
+          }
+          alert("Saxlanıldı");
+        } catch (err) {
+          console.error(err);
+          alert("Xəta — serverə qoşula bilmədi.");
+        }
+      }
+
+      document.getElementById("saveAccount").addEventListener("click", () => {
+        const fd = new FormData();
+        ["s_repName", "s_phone", "s_shop", "s_city", "s_brands"].forEach((id) =>
+          fd.append(id, document.getElementById(id).value)
+        );
+        saveSection("/api/settings/account", fd);
+      });
+
+      document
+        .getElementById("saveNotifications")
+        .addEventListener("click", () => {
+          const fd = new FormData();
+          fd.append(
+            "email",
+            document.getElementById("toggleEmail").classList.contains("on")
+          );
+          fd.append(
+            "sms",
+            document.getElementById("toggleSms").classList.contains("on")
+          );
+          saveSection("/api/settings/notifications", fd);
+        });
+
+      document.getElementById("savePrivacy").addEventListener("click", () => {
+        const fd = new FormData();
+        fd.append("visibility", document.getElementById("visibility").value);
+        saveSection("/api/settings/privacy", fd);
+      });
+
+      document.getElementById("saveSecurity").addEventListener("click", () => {
+        const fd = new FormData();
+        fd.append(
+          "2fa",
+          document.getElementById("toggle2fa").classList.contains("on")
+        );
+        saveSection("/api/settings/security", fd);
+      });
+
+      document.getElementById("savePref").addEventListener("click", () => {
+        const fd = new FormData();
+        fd.append("theme", document.getElementById("theme").value);
+        fd.append("lang", document.getElementById("lang").value);
+        fd.append(
+          "itemsPerPage",
+          document.getElementById("itemsPerPage").value
+        );
+        saveSection("/api/settings/preferences", fd);
+      });
+
+      document.getElementById("regenKey").addEventListener("click", () => {
+        if (
+          !confirm(
+            "API açarını yeniləmək istədiyinizə əminsiniz? Əsas açar etibarsız olacaq."
+          )
+        )
+          return;
+        // demo: replace with real call
+        document.getElementById("apiKey").value =
+          "••••••••" + Math.floor(Math.random() * 9000 + 1000);
+        alert("Yeni API açarı yaradıldı (demo).");
+      });
+
+      document.getElementById("deleteAccount").addEventListener("click", () => {
+        document.getElementById("overlay").classList.add("show");
+        document.getElementById("modalTitle").textContent = "Hesabı sil";
+        document.getElementById("modalBody").textContent =
+          "Hesabı silmək istəyirsiniz? Bütün məlumatlar silinəcək.";
+        document.getElementById("modalConfirm").onclick = confirmDelete;
+      });
+
+      document.getElementById("modalCancel").addEventListener("click", () => {
+        document.getElementById("overlay").classList.remove("show");
+      });
+
+      function confirmDelete() {
+        document.getElementById("overlay").classList.remove("show");
+        // call delete endpoint
+        if (confirm("Əminsiniz? Bu əməliyyat geri alınmır.")) {
+          // demo: redirect to goodbye
+          alert("Hesab silindi (demo).");
+          window.location.href = "login.html";
+        }
+      }
+
+      document.getElementById("viewSessions").addEventListener("click", () => {
+        alert("Sessiyalar paneli: demo. Backend ilə inteqrasiya edin.");
+      });
+
+      // keep design stable when optional sections removed: nav click simply won't find section -> nothing breaks
+    </script>
+  </body>
+</html>

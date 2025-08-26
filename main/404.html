@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="az">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 — Tapılmadı</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <style>
+      :root {
+        --background-gradient-start: #343a48;
+        --background-gradient-end: #6b7074;
+        --text-color: #eef2f7;
+        --navbar-bg: rgba(26, 38, 52, 0.95);
+        --button-bg: rgba(255, 0, 0, 0.65);
+        --button-hover: rgb(255, 0, 0);
+        --card-bg: rgba(26, 38, 52, 0.7);
+        --muted: rgba(255, 255, 255, 0.55);
+      }
+      /* center layout */
+      .wrap {
+        max-width: 1100px;
+        margin: 6vh auto;
+        padding: 24px;
+      }
+
+      /* card */
+      .card {
+        background: var(--card-bg);
+        border-radius: 12px;
+        padding: 48px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+        display: flex;
+        gap: 32px;
+        align-items: center;
+      }
+
+      .left {
+        flex: 1;
+        min-width: 240px;
+      }
+      .right {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+      }
+
+      .huge {
+        font-size: 96px;
+        line-height: 0.9;
+        font-weight: 800;
+        color: white;
+      }
+      .title {
+        font-size: 22px;
+        font-weight: 700;
+        margin-top: 6px;
+      }
+      .subtitle {
+        color: var(--muted);
+        margin-top: 8px;
+      }
+
+      .actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 18px;
+      }
+      .btn {
+        padding: 10px 18px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        font-weight: 700;
+      }
+      .btn--primary {
+        background: var(--button-bg);
+        color: white;
+      }
+      .btn--ghost {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        color: var(--text-color);
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+        transition: transform 160ms ease;
+      }
+
+      /* search small */
+      .mini-search {
+        display: flex;
+        gap: 8px;
+        width: 100%;
+        margin-top: 8px;
+      }
+      .mini-search input {
+        flex: 1;
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text-color);
+      }
+
+      /* suggestion list */
+      .help-list {
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .help-list li {
+        margin: 8px 0;
+      }
+
+      /* cute illustration */
+      .illus {
+        width: 220px;
+        height: 220px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.03),
+          rgba(255, 255, 255, 0.01)
+        );
+        box-shadow: inset 0 -6px 20px rgba(0, 0, 0, 0.4);
+      }
+      .illus svg {
+        width: 160px;
+        height: 160px;
+        opacity: 0.95;
+      }
+
+      /* footer */
+      .footer {
+        margin-top: 28px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      /* responsive */
+      @media (max-width: 820px) {
+        .card {
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+        }
+        .left,
+        .right {
+          width: 100%;
+        }
+        .right {
+          align-items: center;
+        }
+        .huge {
+          font-size: 72px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar__brand">
+        <a href="search.html">
+          <p data-heading="Slide" class="brand">Slide</p>
+        </a>
+      </div>
+      <form class="navbar__search">
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Nə axtarırıq..."
+          aria-label="Search"
+        />
+        <button type="submit">Axtar</button>
+      </form>
+      <div class="navbar__actions">
+        <button class="icon-button" aria-label="Favorites">❤️</button>
+        <div class="dropdown">
+          <button class="icon-button dropdown-toggle" aria-label="User menu">
+            ⋮
+          </button>
+          <ul class="dropdown__menu">
+            <li><a href="profile.html">Profil</a></li>
+            <li><a href="settings.html">Ayarlar</a></li>
+            <li class="dropdown__divider"></li>
+            <li><a href="login.html" class="text-danger">Çıxış</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="wrap">
+      <div class="card">
+        <div class="left">
+          <div class="huge">404</div>
+          <div class="title">Səhifə tapılmadı</div>
+          <div class="subtitle">
+            Üzr istəyirik — soruşduğunuz səhifə mövcud deyil və ya köçürülüb.
+          </div>
+
+          <div class="actions">
+            <a href="search.html"
+              ><button class="btn btn--primary">Ana Səhifəyə Qayıt</button></a
+            >
+            <button
+              class="btn btn--ghost"
+              onclick="document.getElementById('mini').focus()"
+            >
+              Axtar
+            </button>
+          </div>
+
+          <div class="mini-search" style="width: 100%">
+            <input id="mini" placeholder="Mal adı, OEM № və ya filial axtar" />
+            <button
+              class="btn btn--primary"
+              style="padding: 10px 14px"
+              onclick="alert('Search demo — inteqrasiya lazım')"
+            >
+              Axtar
+            </button>
+          </div>
+
+          <ul class="help-list">
+            <li>Linkin düzgün yazıldığını yoxla.</li>
+            <li>Ana səhifəyə qayıdıb axtarışını təkrar et.</li>
+            <li>
+              Əgər problem davam edirsə, bizə
+              <a
+                href="#"
+                style="color: var(--text-color); text-decoration: underline"
+                >müraciət et</a
+              >.
+            </li>
+          </ul>
+        </div>
+
+        <div class="right">
+          <div class="illus" aria-hidden>
+            <!-- simple SVG illustration -->
+            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+              <g fill="none" fill-rule="evenodd">
+                <rect
+                  width="64"
+                  height="64"
+                  rx="12"
+                  fill="rgba(255,255,255,0.02)"
+                />
+                <path
+                  d="M20 44c0-6 8-10 12-10s12 4 12 10"
+                  stroke="rgba(255,255,255,0.6)"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <circle
+                  cx="32"
+                  cy="22"
+                  r="8"
+                  stroke="rgba(255,255,255,0.9)"
+                  stroke-width="2"
+                />
+                <path
+                  d="M10 54c6-6 18-10 22-10s16 4 24 10"
+                  stroke="rgba(255,255,255,0.06)"
+                  stroke-width="3"
+                />
+              </g>
+            </svg>
+          </div>
+
+          <div style="max-width: 260px">
+            <div style="font-weight: 700; font-size: 14px; margin-bottom: 6px">
+              Təkliflər
+            </div>
+            <div style="color: var(--muted); font-size: 13px">
+              Axtarış çubuğundan istifadə edərək dəqiq mal adını, OEM № və ya
+              filial adını daxil et. Nəticələr göstərilmirsə, mal bəlkə də
+              bazada yoxdur.
+            </div>
+
+            <div style="margin-top: 12px; font-size: 13px; color: var(--muted)">
+              Qısa yollar:
+              <ul
+                style="margin-top: 8px; color: var(--muted); padding-left: 18px"
+              >
+                <li>Ana səhifə — Slide</li>
+                <li>Profil və Ayarlar menyusundan çıxış</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <p>&copy; 2025 App | <a href="#" class="footer__link">Bizə Qatıl</a></p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+  </body>
+</html>

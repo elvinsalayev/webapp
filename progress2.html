@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Car Progress Bars — Debugged & Different Set</title>
+  <style>
+    :root{--bg:#081022;--card:#0b1220;--muted:#9aa7b2;--accent:#00d1ff;--accent2:#39d353;--danger:#ff6b6b}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;color:#e6eef6;background:linear-gradient(180deg,#04111a 0%, #071327 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+    .grid{width:100%;max-width:1200px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{background:linear-gradient(180deg,var(--card), #061022);padding:18px;border-radius:12px;box-shadow:0 8px 30px rgba(3,10,18,0.6);border:1px solid rgba(255,255,255,0.03)}
+    h3{margin:0 0 8px;font-size:16px}
+    p.sub{margin:0 0 12px;color:var(--muted);font-size:13px}
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    button{background:linear-gradient(90deg,#0ea5ff,#7c3aed);color:white;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:700}
+    button.reset{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+
+    /* -------------------------------------------------- */
+    /* 1) RPM Dial - semicircular arc + needle + rpm number */
+    .rpm-wrap{display:flex;flex-direction:column;align-items:center;gap:8px}
+    .rpm-svg{width:220px;height:140px}
+    .rpm-value{font-weight:800;font-size:20px}
+
+    /* arc style - no CSS transition on stroke-dashoffset (we animate in JS) */
+
+    /* -------------------------------------------------- */
+    /* 2) Gear Shift Bar - segmented */
+    .gear-track{position:relative;height:46px;background:linear-gradient(90deg,#071424,#081a2a);border-radius:12px;padding:6px;border:1px solid rgba(255,255,255,0.03);display:flex;align-items:center;gap:6px}
+    .gear-seg{flex:1;height:34px;background:rgba(255,255,255,0.03);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--muted);position:relative}
+    .gear-active{background:linear-gradient(90deg,var(--accent2),#7ef0a4);color:#042417}
+    .shift-indicator{position:absolute;top:-8px;width:64px;height:64px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#0ea5ff,#1e7ad9);box-shadow:0 10px 30px rgba(14,165,255,0.18);color:#fff;font-weight:900;transform:translateX(0);transition:transform 400ms cubic-bezier(.2,.9,.2,1)}
+    .gear-label{font-size:14px}
+
+    /* -------------------------------------------------- */
+    /* 3) Tire Wear Ring - circular progress with spinning wheel */
+    .tire-wrap{display:flex;flex-direction:column;align-items:center;gap:8px}
+    .tire-canvas{width:140px;height:140px;position:relative}
+    .tire-svg{width:100%;height:100%}
+    .tire-percent{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px}
+
+    @media (max-width:980px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <main class="grid" id="app">
+    <!-- RPM Dial -->
+    <section class="card" aria-labelledby="rpmTitle">
+      <h3 id="rpmTitle">RPM Dial (Smooth)</h3>
+      <p class="sub">Semicircular RPM arc + needle. JS-driven animation using requestAnimationFrame and precise stroke math.</p>
+      <div class="rpm-wrap">
+        <svg class="rpm-svg" viewBox="0 0 220 140" role="img" aria-label="RPM dial">
+          <g transform="translate(110,120)">
+            <defs>
+              <linearGradient id="gRPM" x1="0" x2="1">
+                <stop offset="0%" stop-color="#39d353" />
+                <stop offset="65%" stop-color="#f6d23a" />
+                <stop offset="100%" stop-color="#ff6b6b" />
+              </linearGradient>
+            </defs>
+            <!-- background arc -->
+            <path d="M-100 0 A100 100 0 0 1 100 0" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="14" stroke-linecap="round"/>
+            <!-- animated arc -->
+            <path id="rpmArc" d="M-100 0 A100 100 0 0 1 100 0" fill="none" stroke="url(#gRPM)" stroke-width="14" stroke-linecap="round" stroke-dasharray="628" stroke-dashoffset="628"/>
+            <!-- ticks -->
+            <g id="rpmTicks"></g>
+            <!-- needle group -->
+            <g id="rpmNeedleGroup" style="transform-origin:110px 120px">
+              <line id="rpmNeedle" x1="0" y1="0" x2="0" y2="-78" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="0" cy="0" r="6" fill="#fff"/>
+            </g>
+          </g>
+        </svg>
+        <div style="display:flex;gap:12px;align-items:center">
+          <div class="rpm-value" id="rpmValue">0 RPM</div>
+          <div class="sub" id="rpmRange">0 — 7000</div>
+        </div>
+      </div>
+      <div class="controls">
+        <button id="rpmBtn">Spin RPM</button>
+        <button class="reset" id="rpmReset">Reset</button>
+      </div>
+    </section>
+
+    <!-- Gear Shift -->
+    <section class="card" aria-labelledby="gearTitle">
+      <h3 id="gearTitle">Gear Shift Visual</h3>
+      <p class="sub">Segmented gear bar. Shift indicator slides between segments (JS animation, no jumpy CSS conflicts).</p>
+      <div style="position:relative">
+        <div class="gear-track" id="gearTrack">
+          <div class="gear-seg" data-gear="1"><span class="gear-label">1</span></div>
+          <div class="gear-seg" data-gear="2"><span class="gear-label">2</span></div>
+          <div class="gear-seg" data-gear="3"><span class="gear-label">3</span></div>
+          <div class="gear-seg" data-gear="4"><span class="gear-label">4</span></div>
+          <div class="gear-seg" data-gear="5"><span class="gear-label">5</span></div>
+          <div class="gear-seg" data-gear="R"><span class="gear-label">R</span></div>
+        </div>
+        <div class="shift-indicator" id="shiftIndicator" aria-hidden="true">N</div>
+      </div>
+      <div class="controls">
+        <button id="gearBtn">Auto Shift</button>
+        <button class="reset" id="gearReset">Reset</button>
+      </div>
+    </section>
+
+    <!-- Tire Wear -->
+    <section class="card" aria-labelledby="tireTitle">
+      <h3 id="tireTitle">Tire Wear + Spin</h3>
+      <p class="sub">Circular wear indicator. Wheel graphic spins; rotation speed linked to progress to make animation feel alive.</p>
+      <div class="tire-wrap">
+        <div class="tire-canvas" id="tireCanvas">
+          <svg class="tire-svg" viewBox="0 0 140 140" role="img" aria-label="Tire wheel">
+            <defs>
+              <linearGradient id="wearG" x1="0" x2="1">
+                <stop offset="0%" stop-color="#39d353"/>
+                <stop offset="100%" stop-color="#ff6b6b"/>
+              </linearGradient>
+            </defs>
+            <g transform="translate(70,70)">
+              <circle r="56" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="12"/>
+              <circle id="wearArc" r="56" fill="none" stroke="url(#wearG)" stroke-width="12" stroke-linecap="round" stroke-dasharray="351" stroke-dashoffset="351" transform="rotate(-90)"/>
+              <!-- wheel group that we'll rotate separately -->
+              <g id="wheelGroup">
+                <circle r="36" fill="#0b1220" stroke="#0e1a24" stroke-width="2"></circle>
+                <!-- simple spokes -->
+                <g stroke="#556" stroke-width="3">
+                  <line x1="0" y1="-34" x2="0" y2="34" />
+                  <line x1="-34" y1="0" x2="34" y2="0" />
+                </g>
+              </g>
+            </g>
+          </svg>
+          <div class="tire-percent" id="tirePct">0%</div>
+        </div>
+      </div>
+      <div class="controls">
+        <button id="tireBtn">Wear Tires</button>
+        <button class="reset" id="tireReset">Reset</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // ---- Utility animator with easing, returns promise
+    function animateValue(from,to,duration,onUpdate){
+      const start = performance.now();
+      return new Promise(resolve=>{
+        function frame(now){
+          const t = Math.min(1,(now-start)/duration);
+          const eased = t<.5? 2*t*t : -1 + (4-2*t)*t; // smooth ease in/out
+          const val = from + (to-from)*eased;
+          onUpdate(val);
+          if(t<1) requestAnimationFrame(frame); else resolve();
+        }
+        requestAnimationFrame(frame);
+      });
+    }
+
+    // ================= RPM Dial =================
+    (function(){
+      const MAX_RPM = 7000;
+      const arc = document.getElementById('rpmArc');
+      const needleG = document.getElementById('rpmNeedleGroup');
+      const rpmValue = document.getElementById('rpmValue');
+      const rpmBtn = document.getElementById('rpmBtn');
+      const rpmReset = document.getElementById('rpmReset');
+
+      // compute arc circumference precisely based on path length
+      // We'll approximate: semicircle of radius 100 -> circumference = pi*D/2? more precise: pi*R
+      const radius = 100;
+      const semicircum = Math.PI * radius; // length of semicircle
+      arc.style.strokeDasharray = semicircum.toString();
+      arc.style.strokeDashoffset = semicircum.toString();
+
+      // ticks
+      const ticksG = document.getElementById('rpmTicks');
+      for(let r=0;r<=7;r++){
+        const rpmTick = r*1000;
+        const frac = rpmTick / MAX_RPM; // 0..1
+        const angle = (-Math.PI/1.0) + Math.PI*frac; // -180deg? adjust to semi
+        // convert to coordinates on semicircle center (0,0) curved upwards
+        const R = radius;
+        const x = Math.cos(angle)*R; const y = -Math.sin(angle)*R;
+        // inner point slightly shorter
+        const x2 = Math.cos(angle)*(R-12); const y2 = -Math.sin(angle)*(R-12);
+        const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+        line.setAttribute('x1', x2); line.setAttribute('y1', y2);
+        line.setAttribute('x2', x); line.setAttribute('y2', y);
+        line.setAttribute('stroke','rgba(255,255,255,0.06)'); line.setAttribute('stroke-width','2');
+        ticksG.appendChild(line);
+        // label
+        const text = document.createElementNS('http://www.w3.org/2000/svg','text');
+        const lx = Math.cos(angle)*(R-26); const ly = -Math.sin(angle)*(R-26)+6;
+        text.setAttribute('x', lx); text.setAttribute('y', ly);
+        text.setAttribute('font-size','10'); text.setAttribute('fill','rgba(255,255,255,0.6)');
+        text.setAttribute('text-anchor','middle');
+        text.textContent = rpmTick;
+        ticksG.appendChild(text);
+      }
+
+      let currentRPM = 0;
+      function setRPM(target){
+        target = Math.max(0, Math.min(MAX_RPM, target));
+        return animateValue(currentRPM, target, 900, (v)=>{
+          currentRPM = v;
+          rpmValue.textContent = Math.round(v) + ' RPM';
+          // arc: dashoffset = semicircum * (1 - frac)
+          const frac = v / MAX_RPM;
+          arc.style.strokeDashoffset = (semicircum * (1 - frac)).toString();
+          // needle rotates from -100deg to +100deg (approx) for visual
+          const ANG_MIN = -100; const ANG_MAX = 100;
+          const angleDeg = ANG_MIN + (ANG_MAX - ANG_MIN) * frac;
+          needleG.style.transform = `rotate(${angleDeg}deg)`;
+        });
+      }
+
+      rpmBtn.addEventListener('click', ()=>{
+        const val = Math.floor(Math.random()*6000)+500; // 500..6500
+        setRPM(val);
+      });
+      rpmReset.addEventListener('click', ()=>setRPM(0));
+    })();
+
+    // ================= Gear Shift =================
+    (function(){
+      const gearBtn = document.getElementById('gearBtn');
+      const gearReset = document.getElementById('gearReset');
+      const track = document.getElementById('gearTrack');
+      const indicator = document.getElementById('shiftIndicator');
+      const segments = Array.from(track.querySelectorAll('.gear-seg'));
+
+      // compute positions of segments for precise indicator movement
+      function computeSegmentCenters(){
+        const rect = track.getBoundingClientRect();
+        const centers = segments.map(seg=>{
+          const r = seg.getBoundingClientRect();
+          return (r.left - rect.left) + r.width/2;
+        });
+        return {rect,centers};
+      }
+
+      // We animate the indicator's transform translateX to center on target index
+      let currentIndex = 0; // points to segments index
+      function moveToIndex(idx){
+        const {rect,centers} = computeSegmentCenters();
+        idx = Math.max(0, Math.min(segments.length-1, idx));
+        const center = centers[idx];
+        const trackWidth = rect.width;
+        // calculate left so that indicator is centered at 'center'
+        const indicatorWidth = indicator.getBoundingClientRect().width;
+        const left = center - indicatorWidth/2;
+        // set transform (we'll use translateX since indicator is absolutely positioned relative to the container)
+        const parentLeft = rect.left;
+        const rel = left; // px relative to track container
+        indicator.style.transform = `translateX(${rel}px)`;
+        // update active classes
+        segments.forEach((s,i)=> s.classList.toggle('gear-active', i===idx));
+        // set label
+        indicator.textContent = segments[idx].dataset.gear;
+        currentIndex = idx;
+      }
+
+      // initial placement after layout
+      window.addEventListener('load', ()=>{ // ensure layout
+        // position indicator initially above first segment
+        // place the indicator absolutely at left:0 via transform
+        indicator.style.left = '0px';
+        indicator.style.transform = 'translateX(0px)';
+        moveToIndex(0);
+      });
+
+      gearBtn.addEventListener('click', async ()=>{
+        // simulate auto shifts: move through 1->5 then R
+        for(let i=0;i<segments.length;i++){
+          moveToIndex(i);
+          // short pause between shifts
+          await new Promise(r=>setTimeout(r, 450));
+        }
+      });
+      gearReset.addEventListener('click', ()=>moveToIndex(0));
+
+    })();
+
+    // ================= Tire Wear =================
+    (function(){
+      const tireBtn = document.getElementById('tireBtn');
+      const tireReset = document.getElementById('tireReset');
+      const wearArc = document.getElementById('wearArc');
+      const wheelGroup = document.getElementById('wheelGroup');
+      const tirePct = document.getElementById('tirePct');
+
+      const R = 56;
+      const circ = 2 * Math.PI * R;
+      wearArc.style.strokeDasharray = circ.toString();
+      wearArc.style.strokeDashoffset = circ.toString();
+
+      let currentWear = 0; // percent 0..100 (0 = new, 100 = fully worn)
+      let wheelAngle = 0; // degrees
+      let spinRaf = null;
+
+      function updateWearVisual(pct){
+        // pct 0..100 corresponds to arc filling from 0..100
+        const frac = Math.max(0, Math.min(100, pct))/100;
+        wearArc.style.strokeDashoffset = (circ * (1 - frac)).toString();
+        tirePct.textContent = Math.round(pct) + '%';
+      }
+
+      function startSpin(speedFactor){
+        // speedFactor: 0..1, we'll map to degrees per second
+        if(spinRaf) cancelAnimationFrame(spinRaf);
+        let last = performance.now();
+        function spin(now){
+          const dt = (now - last)/1000; last = now;
+          const degPerSec = 40 + speedFactor * 600; // base + extra
+          wheelAngle = (wheelAngle + degPerSec * dt) % 360;
+          wheelGroup.style.transform = `rotate(${wheelAngle}deg)`;
+          spinRaf = requestAnimationFrame(spin);
+        }
+        spinRaf = requestAnimationFrame(spin);
+      }
+
+      function stopSpin(){ if(spinRaf) cancelAnimationFrame(spinRaf); spinRaf = null; }
+
+      async function setWear(target){
+        target = Math.max(0, Math.min(100, target));
+        const from = currentWear;
+        await animateValue(from, target, 1000, (v)=>{
+          currentWear = v;
+          updateWearVisual(v);
+          // spin faster as wear increases to feel more aggressive
+          const sf = v/100;
+          startSpin(sf);
+        });
+        // after animation keep spinning slowly
+        startSpin(currentWear/100);
+      }
+
+      tireBtn.addEventListener('click', ()=>{
+        const v = Math.floor(Math.random()*80)+10;
+        setWear(v);
+      });
+      tireReset.addEventListener('click', ()=>{
+        setWear(0); // stops or slow spin
+      });
+
+      // init
+      setWear(12);
+    })();
+
+    // Accessibility: allow Enter/Space to trigger
+    document.querySelectorAll('button').forEach(btn=>btn.addEventListener('keydown', e=>{ if(e.key==='Enter' || e.key===' ') btn.click(); }));
+
+  </script>
+</body>
+</html>

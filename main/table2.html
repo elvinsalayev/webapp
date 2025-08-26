@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="az">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Məhsullar — Cədvəl (Uyğunlaşdırılmış)</title>
+    <style>
+      :root {
+        --bg-start: #000409; /* daha dərin qara-mavi */
+        --bg-end: #0b0f14;
+        --text-color: #eef2f7;
+        --muted: rgba(255, 255, 255, 0.65);
+        --card-bg: rgba(20, 28, 36, 0.6);
+        --table-bg: rgb(11, 20, 31);
+        --input-bg: rgba(255, 255, 255, 0.03);
+        --input-border: rgba(255, 255, 255, 0.06);
+        --accent-strong: linear-gradient(90deg, #ff3c3c, #ff8a3c);
+        --accent: #ff6b4a;
+      }
+
+      /* reset & layout */
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+        background: linear-gradient(120deg, var(--bg-start), var(--bg-end));
+        color: var(--text-color);
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      /* NAVBAR — search moved here (center) */
+      .navbar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 20px;
+        background: var(--card-bg);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+        position: relative;
+      }
+      .brand {
+        font-weight: 800;
+        background: linear-gradient(
+          -45deg,
+          #ed0505 25%,
+          #ff7b00 25%,
+          #e71e03 50%
+        );
+        color: transparent;
+        font-size: 18px;
+      }
+      .nav-center {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+      }
+      .nav-search {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 60%;
+        max-width: 700px;
+      }
+      .nav-search input[type="search"] {
+        flex: 1;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid var(--input-border);
+        background: var(--input-bg);
+        color: var(--text-color);
+        font-size: 15px;
+      }
+      .nav-search button {
+        padding: 10px 14px;
+        border-radius: 10px;
+        border: none;
+        background: var(--accent-strong);
+        color: #fff;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .icon-button {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        color: var(--text-color);
+        position: relative;
+      }
+      .icon-button:focus {
+        outline: 2px solid rgba(255, 140, 60, 0.16);
+        outline-offset: 2px;
+      }
+      .badge {
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        background: var(--accent);
+        color: #fff;
+        font-size: 11px;
+        padding: 2px 6px;
+        border-radius: 999px;
+      }
+
+      /* panels */
+      .panel {
+        position: absolute;
+        top: 64px;
+        right: 18px;
+        min-width: 300px;
+        background: var(--card-bg);
+        border-radius: 12px;
+        padding: 12px;
+        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.5);
+        display: none;
+        flex-direction: column;
+        gap: 8px;
+        z-index: 80;
+      }
+      .panel.show {
+        display: flex;
+      }
+      .fav-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        max-height: 320px;
+        overflow: auto;
+      }
+      .fav-item {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        padding: 8px;
+        border-radius: 8px;
+      }
+      .fav-item:hover {
+        background: rgba(255, 255, 255, 0.02);
+      }
+      .panel h4 {
+        margin: 0 0 6px 0;
+        color: var(--text-color);
+      }
+      .panel .empty {
+        color: var(--muted);
+        padding: 10px;
+        text-align: center;
+      }
+
+      /* menu dropdown */
+      .menu-panel {
+        position: absolute;
+        top: 62px;
+        right: 18px;
+        min-width: 180px;
+        background: var(--card-bg);
+        border-radius: 10px;
+        padding: 8px;
+        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.5);
+        display: none;
+        flex-direction: column;
+        gap: 6px;
+        z-index: 80;
+      }
+      .menu-panel.show {
+        display: flex;
+      }
+      .menu-panel a {
+        padding: 10px;
+        border-radius: 8px;
+        text-decoration: none;
+        color: var(--text-color);
+        font-size: 14px;
+      }
+      .menu-panel a:hover {
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      /* main content */
+      .container {
+        flex: 1;
+        display: flex;
+        justify-content: center; /* üfüqi mərkəzləşdirir */
+        align-items: flex-start; /* şaquli yuxarıya yığır */
+        min-height: 100vh; /* container tam ekran olsun */
+        margin: 20px 0;
+      }
+      .card {
+        background: var(--table-bg);
+        padding: 14px;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+        width: 100%; /* parent eninə uyğun olsun */
+        max-width: 1400px;
+      }
+      .page-btn {
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: none;
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--text-color);
+        cursor: pointer;
+      }
+
+      .table-wrap {
+        overflow: none;
+      }
+      table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        min-width: 900px;
+      }
+      thead th {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.01)
+        );
+        padding: 12px 14px;
+        text-align: left;
+        font-size: 13px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      }
+      thead th:last-child {
+        text-align: center;
+      }
+      tbody td {
+        padding: 12px 14px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+        font-size: 14px;
+        color: var(--text-color);
+        vertical-align: middle;
+      }
+      tbody tr:hover td {
+        background: rgba(255, 255, 255, 0.02);
+      }
+      .addr-title {
+        text-align: end;
+      }
+
+      /* old simple heart button (left for backward compatibility if needed) */
+      .row-fav {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        display: grid;
+        place-items: center;
+        color: white;
+      }
+
+      /* New: fancy favorite checkbox + label design (adapted from your sample) */
+      .fav-checkbox {
+        display: none;
+      }
+
+      .fav-container {
+        background-color: rgba(36, 36, 36, 0.14);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 8px 10px;
+        cursor: pointer;
+        user-select: none;
+        border-radius: 10px;
+        box-shadow: rgba(46, 46, 46, 0.12) 0px 6px 18px;
+        color: var(--text-color);
+        font-size: 14px;
+      }
+
+      .fav-container svg {
+        width: 20px;
+        height: 20px;
+        display: block;
+        stroke: currentColor;
+        fill: none;
+        transition: transform 250ms ease, fill 250ms ease, stroke 250ms ease;
+      }
+
+      .fav-checkbox:checked + .fav-container svg {
+        fill: hsl(6deg 100% 58%); /* warm red */
+        stroke: hsl(6deg 100% 58%);
+        animation: heartButton 0.9s;
+      }
+
+      @keyframes heartButton {
+        0% {
+          transform: scale(1);
+        }
+        25% {
+          transform: scale(1.25);
+        }
+        50% {
+          transform: scale(1);
+        }
+        75% {
+          transform: scale(1.12);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .fav-container .action {
+        position: relative;
+        overflow: hidden;
+        display: grid;
+        line-height: 1;
+      }
+      .fav-container .action span {
+        grid-column-start: 1;
+        grid-column-end: 1;
+        grid-row-start: 1;
+        grid-row-end: 1;
+        transition: transform 0.4s, opacity 0.4s;
+        display: inline-block;
+        white-space: nowrap;
+      }
+
+      .fav-container .action span.option-1 {
+        transform: translateY(0%);
+        opacity: 1;
+      }
+      .fav-checkbox:checked + .fav-container .action span.option-1 {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+
+      .fav-container .action span.option-2 {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+      .fav-checkbox:checked + .fav-container .action span.option-2 {
+        transform: translateY(0%);
+        opacity: 1;
+      }
+
+      /* small adjustments when the label has .fav class (for stronger emphasis) */
+      .fav-container.fav {
+        box-shadow: 0 8px 28px rgba(255, 80, 80, 0.06);
+        transform: translateY(-1px);
+      }
+
+      /* address popover (improved) */
+      .addr-cell {
+        position: relative;
+      }
+      .addr-title {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .info-btn {
+        width: 30px;
+        height: 30px;
+        border-radius: 6px;
+        border: none;
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--text-color);
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+      }
+      .popover {
+        position: absolute;
+        top: 0;
+        left: 110px;
+        min-width: 260px;
+        max-width: 90vw;
+        max-height: 60vh;
+        overflow: auto;
+        background: rgba(20, 20, 20, 0.95);
+        border-radius: 10px;
+        padding: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        color: var(--text-color);
+        z-index: 100;
+        display: none;
+      }
+
+      .popover.fixed {
+        position: fixed;
+        left: auto;
+        right: auto;
+        top: auto;
+        bottom: auto;
+        transform: none;
+      }
+      .popover.show {
+        display: block;
+      }
+      .popover.above {
+        top: auto;
+        bottom: calc(100% + 8px);
+        left: 0;
+      }
+      .popover.right-align {
+        left: auto;
+        right: 0;
+      }
+
+      .branch {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        padding: 8px 6px;
+        border-radius: 8px;
+      }
+      .logo {
+        width: 26px;
+        height: 26px;
+        border-radius: 4px;
+        overflow: hidden;
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.03);
+        display: grid;
+        place-items: center;
+      }
+      .branch .meta {
+        font-size: 13px;
+      }
+      .branch .meta .name {
+        font-weight: 700;
+      }
+      .branch .meta .phone {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 3px;
+      }
+
+      /* pagination */
+      .pagination {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        margin-top: 12px;
+      }
+
+      /* footer always bottom */
+      footer.site-footer {
+        background: var(--card-bg);
+        border-top: 1px solid rgba(255, 255, 255, 0.02);
+        padding: 14px 18px;
+        color: var(--muted);
+        text-align: center;
+      }
+
+      /* responsive */
+      @media (max-width: 900px) {
+        table {
+          min-width: 700px;
+        }
+      }
+      @media (max-width: 700px) {
+        .nav-search {
+          width: 100%;
+        }
+        table {
+          min-width: 600px;
+        }
+        thead th:nth-child(4),
+        tbody td:nth-child(4) {
+          display: none;
+        }
+      }
+
+      /* small utilities */
+      .muted {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .highlight {
+        box-shadow: 0 6px 30px rgba(255, 120, 60, 0.06);
+        transform: translateY(-2px);
+        transition: all 300ms ease;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar__brand">
+        <a href="/search.html" class="brand">Slide</a>
+      </div>
+
+      <div class="nav-center">
+        <form
+          id="navbarSearchForm"
+          class="nav-search"
+          onsubmit="onNavbarSearch(event)"
+        >
+          <input
+            id="navbarSearch"
+            type="search"
+            placeholder="OEM №, brend, mal adı və ya ünvan axtar"
+            aria-label="Axtar"
+          />
+          <button type="submit">Axtar</button>
+        </form>
+      </div>
+
+      <div class="nav-actions">
+        <button
+          id="navFavBtn"
+          class="icon-button"
+          aria-expanded="false"
+          title="Favoritlər"
+        >
+          ❤<span id="favCount" class="badge" style="display: none">0</span>
+        </button>
+        <button
+          id="navMenuBtn"
+          class="icon-button"
+          aria-expanded="false"
+          title="Menyu"
+        >
+          ⋮
+        </button>
+      </div>
+
+      <!-- favorites panel -->
+      <div id="favPanel" class="panel" style="right: 86px">
+        <h4>Favoritlər</h4>
+        <div id="favList" class="fav-list">
+          <div class="empty">Sənin favoritlərin hələ boşdur.</div>
+        </div>
+        <div
+          style="
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-top: 6px;
+          "
+        >
+          <button id="clearFavs" class="page-btn">Hamısını sil</button>
+        </div>
+      </div>
+
+      <!-- menu panel -->
+      <div
+        id="menuPanel"
+        class="menu-panel"
+        role="menu"
+        aria-label="İstifadəçi menyusu"
+      >
+        <a href="/profile.html" role="menuitem" tabindex="0">Profilim</a>
+        <a href="/settings.html" role="menuitem" tabindex="0">Tənzimləmələr</a>
+        <a href="/logout" role="menuitem" tabindex="0">Çıxış</a>
+      </div>
+    </nav>
+
+    <main class="container">
+      <div class="card">
+        <div class="table-wrap">
+          <table aria-describedby="tableDesc">
+            <thead>
+              <tr>
+                <th>OEM №</th>
+                <th>BREND KODU</th>
+                <th>BREND ADI</th>
+                <th>MAL ADI</th>
+                <th>ÜNVAN</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tbody">
+              <tr
+                data-id="1244100681"
+                data-detail='{"branches":[{"name":"Babek","phone":"050 555 55 55","brands":"MBZ","logo":"M"},{"name":"Nerimanov","phone":"055 444 44 44","brands":"BMW","logo":"B"}] }'
+              >
+                <td>1244100681</td>
+                <td>3897</td>
+                <td>FEBI</td>
+                <td>Podvesnoy 124…</td>
+                <td class="addr-cell">
+                  <div class="addr-title">
+                    Babek
+                    <button
+                      class="info-btn"
+                      aria-expanded="false"
+                      aria-label="Ünvan məlumatı"
+                      title="Ünvan məlumatı"
+                      data-action="toggle"
+                    >
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden
+                      >
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 16v-4"></path>
+                        <path d="M12 8h.01"></path>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="popover" role="dialog" aria-hidden="true"></div>
+                </td>
+                <td>
+                  <!-- favorite checkbox + label (unique id per row) -->
+                  <input
+                    class="fav-checkbox"
+                    type="checkbox"
+                    id="fav-1244100681"
+                    aria-label="Favoritə əlavə et"
+                  />
+                  <label
+                    class="fav-container"
+                    for="fav-1244100681"
+                    data-id="1244100681"
+                    role="button"
+                    tabindex="0"
+                    title="Favoritə əlavə et"
+                  >
+                    <svg
+                      class="feather feather-heart"
+                      stroke-linejoin="round"
+                      stroke-linecap="round"
+                      stroke-width="2"
+                      stroke="currentColor"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      height="24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                      ></path>
+                    </svg>
+                    <div class="action">
+                      <!-- <span class="option-1">Favoritə əlavə et</span>
+                      <span class="option-2">Favoritə əlavə edildi</span> -->
+                    </div>
+                  </label>
+                </td>
+              </tr>
+
+              <tr
+                data-id="1244100682"
+                data-detail='{"branches":[{"name":"Babek","phone":"050 555 55 55","brands":"MBZ","logo":"M"},{"name":"Nerimanov","phone":"055 444 44 44","brands":"BMW","logo":"B"},{"name":"Yasamal","phone":"070 333 33 33","brands":"Toyota","logo":"T"}] }'
+              >
+                <td>1244100682</td>
+                <td>3901</td>
+                <td>TRW</td>
+                <td>Amortisör 220…</td>
+                <td class="addr-cell">
+                  <div class="addr-title">
+                    Nerimanov
+                    <button
+                      class="info-btn"
+                      aria-expanded="false"
+                      aria-label="Ünvan məlumatı"
+                      title="Ünvan məlumatı"
+                      data-action="toggle"
+                    >
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden
+                      >
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 16v-4"></path>
+                        <path d="M12 8h.01"></path>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="popover" role="dialog" aria-hidden="true"></div>
+                </td>
+                <td>
+                  <input
+                    class="fav-checkbox"
+                    type="checkbox"
+                    id="fav-1244100682"
+                    aria-label="Favoritə əlavə et"
+                  />
+                  <label
+                    class="fav-container"
+                    for="fav-1244100682"
+                    data-id="1244100682"
+                    role="button"
+                    tabindex="0"
+                    title="Favoritə əlavə et"
+                  >
+                    <svg
+                      class="feather feather-heart"
+                      stroke-linejoin="round"
+                      stroke-linecap="round"
+                      stroke-width="2"
+                      stroke="currentColor"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      height="24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                      ></path>
+                    </svg>
+                    <div class="action">
+                      <!-- <span class="option-1">Favoritə əlavə et</span>
+                      <span class="option-2">Favoritə əlavə edildi</span> -->
+                    </div>
+                  </label>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div
+          class="pagination"
+          role="navigation"
+          aria-label="Cədvəl səhifələnməsi"
+        >
+          <button class="page-btn" id="prevBtn" disabled>«</button>
+          <button class="page-btn" id="nextBtn">»</button>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      &copy; 2025 Slide |
+      <a
+        href="/main/registration.html"
+        style="color: var(--muted); text-decoration: underline"
+        >Bizə Qatıl</a
+      >
+    </footer>
+
+    <script>
+      /* ---------- helpers ---------- */
+      function escapeHtml(s) {
+        return String(s).replace(/[&<>"']/g, function (c) {
+          return {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;",
+          }[c];
+        });
+      }
+
+      // render popover content from data-detail
+      function renderPopover(pop, data) {
+        pop.innerHTML = "";
+        try {
+          const obj = typeof data === "string" ? JSON.parse(data) : data;
+          if (!obj.branches || !obj.branches.length) {
+            pop.innerHTML =
+              '<div class="muted">Heç bir filial məlumatı yoxdur.</div>';
+            return;
+          }
+          obj.branches.forEach((b) => {
+            const row = document.createElement("div");
+            row.className = "branch";
+            row.innerHTML = `<div class="logo">${escapeHtml(
+              b.logo || "✪"
+            )}</div><div class="meta"><div class="name">${escapeHtml(
+              b.name
+            )}</div><div class="phone">${escapeHtml(
+              b.brands || ""
+            )} · ${escapeHtml(b.phone || "—")}</div></div>`;
+            pop.appendChild(row);
+          });
+        } catch (err) {
+          pop.innerHTML = '<div class="muted">Məlumat oxunmadı.</div>';
+        }
+      }
+
+      // init popovers
+      document.querySelectorAll("tbody tr").forEach((tr) => {
+        const detail = tr.dataset.detail;
+        const pop = tr.querySelector(".popover");
+        if (pop && detail) renderPopover(pop, detail);
+      });
+
+      /* ---------- improved popover open/placement logic ---------- */
+      function openClosePopover(toggle) {
+        const cell = toggle.closest(".addr-cell");
+        const pop = cell.querySelector(".popover");
+        const isOpen = pop.classList.contains("show");
+
+        // close others
+        document.querySelectorAll(".popover.show").forEach((p) => {
+          if (p !== pop) {
+            p.classList.remove("show", "above", "right-align", "fixed");
+            p.style.left = "";
+            p.style.top = "";
+            p.style.right = "";
+            p.style.bottom = "";
+            p.setAttribute("aria-hidden", "true");
+            const b = p.parentElement.querySelector(".info-btn");
+            if (b) b.setAttribute("aria-expanded", "false");
+          }
+        });
+
+        if (isOpen) {
+          pop.classList.remove("show", "above", "right-align", "fixed");
+          pop.style.left = "";
+          pop.style.top = "";
+          pop.style.right = "";
+          pop.style.bottom = "";
+          pop.setAttribute("aria-hidden", "true");
+          toggle.setAttribute("aria-expanded", "false");
+          return;
+        }
+
+        pop.classList.add("show");
+        pop.style.display = "block";
+        pop.style.visibility = "hidden";
+        pop.classList.remove("above", "right-align");
+
+        const popW = pop.offsetWidth;
+        const popH = pop.offsetHeight;
+        const btnRect = toggle.getBoundingClientRect();
+        const viewportW = window.innerWidth;
+        const viewportH = window.innerHeight;
+        const margin = 8;
+
+        pop.classList.add("fixed");
+
+        let top = Math.round(btnRect.bottom + margin);
+        let left = Math.round(btnRect.left);
+
+        if (left + popW + margin > viewportW) {
+          left = Math.max(margin, viewportW - popW - margin);
+          pop.classList.add("right-align");
+        }
+
+        if (top + popH + margin > viewportH) {
+          const altTop = Math.round(btnRect.top - margin - popH);
+          if (altTop >= margin) {
+            top = altTop;
+            pop.classList.add("above");
+          } else {
+            const spaceBelow = Math.max(
+              0,
+              viewportH - (btnRect.bottom + margin)
+            );
+            const spaceAbove = Math.max(0, btnRect.top - margin);
+            const wantH = Math.max(spaceBelow, spaceAbove, 80);
+            pop.style.maxHeight = wantH + "px";
+            if (spaceBelow >= spaceAbove) {
+              top = Math.round(btnRect.bottom + margin);
+            } else {
+              top = Math.round(Math.max(margin, btnRect.top - margin - wantH));
+              pop.classList.add("above");
+            }
+          }
+        }
+
+        pop.style.left = left + "px";
+        pop.style.top = top + "px";
+        pop.style.right = "";
+        pop.style.bottom = "";
+        pop.style.visibility = "";
+        pop.setAttribute("aria-hidden", "false");
+        toggle.setAttribute("aria-expanded", "true");
+      }
+
+      // Delegate click: handle popover toggles and outside clicks
+      document.addEventListener("click", (e) => {
+        const toggle = e.target.closest('[data-action="toggle"]');
+        if (!toggle) {
+          if (e.target.closest(".popover") || e.target.closest(".info-btn"))
+            return;
+          document.querySelectorAll(".popover.show").forEach((p) => {
+            p.classList.remove("show", "above", "right-align", "fixed");
+            p.style.left = "";
+            p.style.top = "";
+            p.style.right = "";
+            p.style.bottom = "";
+            p.setAttribute("aria-hidden", "true");
+            const btn = p.parentElement.querySelector(".info-btn");
+            if (btn) btn.setAttribute("aria-expanded", "false");
+          });
+          return;
+        }
+        openClosePopover(toggle);
+      });
+
+      /* ---------- FAVORITES feature (localStorage-backed) ---------- */
+      const FAV_KEY = "slide_favorites_v1";
+      const navFavBtn = document.getElementById("navFavBtn");
+      const favPanel = document.getElementById("favPanel");
+      const favListEl = document.getElementById("favList");
+      const favCountEl = document.getElementById("favCount");
+      const tbody = document.getElementById("tbody");
+
+      function loadFavs() {
+        try {
+          const raw = localStorage.getItem(FAV_KEY);
+          return raw ? JSON.parse(raw) : [];
+        } catch (e) {
+          return [];
+        }
+      }
+      function saveFavs(list) {
+        localStorage.setItem(FAV_KEY, JSON.stringify(list));
+        renderFavs();
+        updateFavButtons();
+      }
+
+      function renderFavs() {
+        const list = loadFavs();
+        favListEl.innerHTML = "";
+        if (!list.length) {
+          favListEl.innerHTML =
+            '<div class="empty">Sənin favoritlərin hələ boşdur.</div>';
+          favCountEl.style.display = "none";
+          return;
+        }
+        favCountEl.style.display = "inline-block";
+        favCountEl.textContent = String(list.length);
+        list.forEach((item) => {
+          const el = document.createElement("div");
+          el.className = "fav-item";
+          el.innerHTML = `<div style="flex:1;"><div class="meta"><strong>${escapeHtml(
+            item.brand || item.name || "—"
+          )}</strong></div><div class="muted" style="font-size:13px">${escapeHtml(
+            item.oem || ""
+          )} · ${escapeHtml(
+            item.place || ""
+          )}</div></div><div style="display:flex;gap:8px;align-items:center"><button class="page-btn" data-action="goto" data-id="${escapeHtml(
+            item.id
+          )}">Open</button><button class="page-btn" data-action="remove" data-id="${escapeHtml(
+            item.id
+          )}">Remove</button></div>`;
+          favListEl.appendChild(el);
+        });
+      }
+
+      function updateFavButtons() {
+        const favs = loadFavs();
+        document.querySelectorAll(".fav-checkbox").forEach((input) => {
+          const tr = input.closest("tr");
+          const id = tr.dataset.id;
+          const found = favs.find((f) => f.id === id);
+          input.checked = !!found;
+          const label = tr.querySelector(".fav-container");
+          if (found) {
+            label.classList.add("fav");
+            label.setAttribute("title", "Favoritdən sil");
+            input.setAttribute("aria-pressed", "true");
+          } else {
+            label.classList.remove("fav");
+            label.setAttribute("title", "Favoritə əlavə et");
+            input.setAttribute("aria-pressed", "false");
+          }
+        });
+      }
+
+      // handle checkbox change to toggle favorite
+      tbody.addEventListener("change", (e) => {
+        const input = e.target.closest(".fav-checkbox");
+        if (!input) return;
+        const tr = input.closest("tr");
+        const id = tr.dataset.id;
+        const brand = tr.children[3] ? tr.children[3].textContent.trim() : "";
+        const oem = tr.children[1] ? tr.children[1].textContent.trim() : "";
+        const place = tr.querySelector(".addr-title")
+          ? tr.querySelector(".addr-title").textContent.trim()
+          : "";
+        let favs = loadFavs();
+        const idx = favs.findIndex((f) => f.id === id);
+        if (input.checked) {
+          if (idx === -1) favs.unshift({ id, brand, oem, place });
+          saveFavs(favs);
+        } else {
+          if (idx >= 0) {
+            favs.splice(idx, 1);
+            saveFavs(favs);
+          } else {
+            // nothing to remove but ensure UI updates
+            updateFavButtons();
+          }
+        }
+      });
+
+      // nav favorites open/close
+      navFavBtn.addEventListener("click", () => {
+        const open = favPanel.classList.toggle("show");
+        navFavBtn.setAttribute("aria-expanded", String(open));
+        if (open) {
+          menuPanel.classList.remove("show");
+          document
+            .getElementById("navMenuBtn")
+            .setAttribute("aria-expanded", "false");
+        }
+        renderFavs();
+      });
+
+      // handle panel actions (goto / remove)
+      favListEl.addEventListener("click", (e) => {
+        const a = e.target.closest("[data-action]");
+        if (!a) return;
+        const act = a.dataset.action;
+        const id = a.dataset.id;
+        if (act === "goto") {
+          const row = document.querySelector(`tbody tr[data-id="${id}"]`);
+          if (row) {
+            row.scrollIntoView({ behavior: "smooth", block: "center" });
+            row.classList.add("highlight");
+            setTimeout(() => row.classList.remove("highlight"), 1200);
+          }
+        }
+        if (act === "remove") {
+          let favs = loadFavs();
+          favs = favs.filter((f) => f.id !== id);
+          saveFavs(favs);
+        }
+      });
+
+      // clear all
+      document.getElementById("clearFavs").addEventListener("click", () => {
+        if (confirm("Bütün favoritləri silmək istədiyinizə əminsiniz?")) {
+          localStorage.removeItem(FAV_KEY);
+          renderFavs();
+          updateFavButtons();
+        }
+      });
+
+      // init favs on load
+      renderFavs();
+      updateFavButtons();
+
+      /* ---------- navbar search handler ---------- */
+      function onNavbarSearch(e) {
+        e.preventDefault();
+        const q = document.getElementById("navbarSearch").value.trim();
+        if (!q) return document.getElementById("navbarSearch").focus();
+        const params = new URLSearchParams({ q });
+        window.location.href = "/search.html?" + params.toString();
+      }
+
+      // menu toggle
+      const navMenuBtn = document.getElementById("navMenuBtn");
+      const menuPanel = document.getElementById("menuPanel");
+      navMenuBtn.addEventListener("click", () => {
+        const open = menuPanel.classList.toggle("show");
+        navMenuBtn.setAttribute("aria-expanded", String(open));
+        if (open) {
+          favPanel.classList.remove("show");
+          document
+            .getElementById("navFavBtn")
+            .setAttribute("aria-expanded", "false");
+        }
+      });
+
+      // close panels on outside click and ESC
+      document.addEventListener("click", (e) => {
+        const path = e.composedPath ? e.composedPath() : e.path || [];
+        if (!path.includes(favPanel) && !path.includes(navFavBtn))
+          favPanel.classList.remove("show");
+        if (!path.includes(menuPanel) && !path.includes(navMenuBtn))
+          menuPanel.classList.remove("show");
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          favPanel.classList.remove("show");
+          menuPanel.classList.remove("show");
+          document.querySelectorAll(".popover.show").forEach((p) => {
+            p.classList.remove("show", "above", "right-align");
+            p.setAttribute("aria-hidden", "true");
+            const b = p.parentElement.querySelector(".info-btn");
+            if (b) b.setAttribute("aria-expanded", "false");
+          });
+        }
+      });
+
+      // init popovers event listeners (keyboard support already set above)
+    </script>
+  </body>
+</html>

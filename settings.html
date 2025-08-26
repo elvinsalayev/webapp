@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="az">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Tənzimləmələr — Inventory App</title>
+    <link rel="stylesheet" href="./css/style.css" />
+    <style>
+      :root {
+        --bg: #fbfdfe;
+        --card: #ffffff;
+        --glass-bg: rgba(255, 255, 255, 0.7);
+        --glass-border: rgba(12, 18, 28, 0.06);
+        --accent: #ff3b30;
+        --muted: #ffffff;
+        --text: #ffffff;
+        --radius: 12px;
+        --shadow: 0 8px 24px rgba(12, 18, 28, 0.06);
+      }
+      * {
+        box-sizing: border-box;
+      }
+
+      /* Header */
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+      .brand {
+        font-weight: 700;
+        text-decoration: none;
+        color: var(--text);
+      }
+
+      /* Layout */
+      .settings-wrap {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 1rem;
+      }
+      @media (max-width: 880px) {
+        .settings-wrap {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Sidebar tabs */
+      .side {
+        padding: 1rem;
+        border-radius: var(--radius);
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--shadow);
+      }
+      .side h3 {
+        margin: 0 0 0.5rem 0;
+      }
+      .nav-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .nav-list li {
+        margin: 0.35rem 0;
+      }
+      .nav-list button {
+        width: 100%;
+        text-align: left;
+        padding: 0.6rem 0.7rem;
+        border-radius: 10px;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        color: var(--text);
+        font-weight: 600;
+      }
+      .nav-list button.active {
+        background: rgba(185, 47, 40, 0.394);
+
+      }
+
+      
+      .nav-list button:hover {
+        background: rgba(181, 40, 33, 0.215);
+      }
+
+      /* Main card */
+      .card {
+        background: rgba(255, 255, 255, 0.103);
+        padding: 1rem;
+        border-radius: var(--radius);
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--shadow);
+      }
+      .card h2 {
+        margin: 0.25rem 0 1rem 0;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.6rem;
+        margin-bottom: 0.75rem;
+      }
+      @media (max-width: 520px) {
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+      }
+      label {
+        display: block;
+        font-size: 0.9rem;
+        color: var(--muted);
+        margin-bottom: 6px;
+      }
+      input[type="text"],
+      input[type="url"],
+      select {
+        width: 100%;
+        padding: 8px;
+        border-radius: 8px;
+        border: 1px solid #e7edf3;
+        background: #fff;
+      }
+      .small {
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
+
+      .actions {
+        display: flex;
+        gap: 0.6rem;
+        justify-content: flex-end;
+        margin-top: 0.6rem;
+      }
+      .btn {
+        padding: 0.6rem 0.9rem;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        font-weight: 700;
+      }
+      .btn-ghost {
+        background: transparent;
+        border: 1px solid var(--glass-border);
+      }
+      .btn-primary {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .inline {
+        display: flex;
+        gap: 0.6rem;
+        align-items: center;
+      }
+      .checkbox {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      /* Admin area visual hint */
+      .admin-note {
+        font-size: 0.9rem;
+        color: var(--muted);
+        margin-bottom: 0.75rem;
+      }
+
+      /* Test connection result */
+      .test-res {
+        margin-top: 0.5rem;
+        font-weight: 700;
+      }
+      .test-ok {
+        color: green;
+      }
+      .test-fail {
+        color: #d63333;
+      }
+
+      /* Footer helper */
+      .helper {
+        margin-top: 0.6rem;
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar__brand"><a href="index.html">My App</a></div>
+      <form class="navbar__search">
+        <input type="search" placeholder="Axtar..." aria-label="Search" />
+        <button type="submit">Axtar</button>
+      </form>
+      <div class="navbar__actions">
+        <button class="icon-button" aria-label="Favorites">❤️</button>
+        <div class="dropdown">
+          <button class="icon-button dropdown-toggle" aria-label="User menu">
+            ⋮
+          </button>
+          <ul class="dropdown__menu">
+            <li><a href="profile.html">Profil</a></li>
+            <li><a href="settings.html">Ayarlar</a></li>
+            <li class="dropdown__divider"></li>
+            <li><a href="login.html" class="text-danger">Çıxış</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <header class="header">
+        <!-- <a class="brand" href="index.html">Inventory App</a>
+        <div class="helper">
+          Burada istifadəçi və admin üçün əsas tənzimləmələr var
+        </div> -->
+      </header>
+
+      <div class="settings-wrap">
+        <aside class="side">
+          <h3>Tənzimləmələr</h3>
+          <ul class="nav-list" id="tabs">
+            <li><button data-tab="general" class="active">Ümumi</button></li>
+            <li><button data-tab="columns">Sütunlar & Görünüşlər</button></li>
+            <li><button data-tab="export">Export</button></li>
+            <li><button data-tab="profile">Profil</button></li>
+            <li id="adminTabBtn" style="display: none">
+              <button data-tab="admin">Admin</button>
+            </li>
+          </ul>
+
+          <div style="margin-top: 1rem">
+            <button id="saveGlobal" class="btn btn-primary">Saxla</button>
+            <button id="resetGlobal" class="btn btn-ghost">Sıfırla</button>
+          </div>
+        </aside>
+
+        <main>
+          <!-- General -->
+          <section class="card" id="general">
+            <h2>Ümumi</h2>
+            <div class="form-row">
+              <div>
+                <label for="defaultBranch">Default filial</label>
+                <select id="defaultBranch">
+                  <option value="all">Bütün filiallar</option>
+                  <option value="baku">Bakı</option>
+                  <option value="ganca">Gəncə</option>
+                  <option value="sumqayit">Sumqayıt</option>
+                </select>
+                <div class="small">Hesabat açıldıqda ilk göstərilən filial</div>
+              </div>
+
+              <div>
+                <label for="rowsPerPage">Sətir sayı (pagesize)</label>
+                <select id="rowsPerPage">
+                  <option>20</option>
+                  <option>50</option>
+                  <option>100</option>
+                </select>
+                <div class="small">
+                  Cədvəldə hər səhifədə neçə sətir görünsün
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div>
+                <label for="theme">Tema</label>
+                <select id="theme">
+                  <option value="light">Light</option>
+                  <option value="dark">Dark</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="language">Dil</label>
+                <select id="language">
+                  <option value="az">Azərbaycan</option>
+                  <option value="en">English</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="margin-top: 0.5rem" class="checkbox">
+              <input type="checkbox" id="saveFilters" /><label for="saveFilters"
+                >Son filtr və görünüşü yadda saxla</label
+              >
+            </div>
+            <div class="helper">
+              Bu parametrlər istifadəçi səviyyəsində yadda saxlanacaq (local
+              demo üçün localStorage istifadə olunur).
+            </div>
+          </section>
+
+          <!-- Columns & Views -->
+          <section class="card" id="columns" style="display: none">
+            <h2>Sütunlar & Görünüşlər</h2>
+            <p class="small">
+              Sütunları göstərin / gizlədin və öz görünüşünüzü saxlayın.
+            </p>
+            <div style="margin-top: 0.6rem">
+              <div class="small">
+                Sütun görünüşü (drag & drop mövcud deyil demo üçün)
+              </div>
+              <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem">
+                <label
+                  ><input
+                    type="checkbox"
+                    class="col-toggle"
+                    data-col="oem"
+                    checked
+                  />
+                  OEM №</label
+                >
+                <label
+                  ><input
+                    type="checkbox"
+                    class="col-toggle"
+                    data-col="brand"
+                    checked
+                  />
+                  Brend</label
+                >
+                <label
+                  ><input
+                    type="checkbox"
+                    class="col-toggle"
+                    data-col="product"
+                    checked
+                  />
+                  Mal adı</label
+                >
+                <label
+                  ><input
+                    type="checkbox"
+                    class="col-toggle"
+                    data-col="branch"
+                    checked
+                  />
+                  Filial</label
+                >
+              </div>
+              <div style="margin-top: 0.8rem">
+                <input
+                  type="text"
+                  id="viewName"
+                  placeholder="Yeni görünüş adı"
+                  style="
+                    padding: 8px;
+                    border-radius: 8px;
+                    border: 1px solid #e7edf3;
+                    width: 60%;
+                  "
+                />
+                <button
+                  id="saveView"
+                  class="btn btn-primary"
+                  style="margin-left: 0.5rem"
+                >
+                  Görünüşü saxla
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Export -->
+          <section class="card" id="export" style="display: none">
+            <h2>Export</h2>
+            <p class="small">Məlumatları CSV və ya Excel kimi ixrac edin.</p>
+            <div style="margin-top: 0.6rem">
+              <label>Format</label>
+              <select id="exportFormat" style="width: 120px">
+                <option value="csv">CSV</option>
+                <option value="xlsx">XLSX</option>
+              </select>
+              <div style="margin-top: 0.6rem">
+                <label>Include headers</label>
+                <input type="checkbox" id="includeHeaders" checked />
+              </div>
+              <div style="margin-top: 0.8rem">
+                <button id="exportBtn" class="btn btn-primary">
+                  Export et
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Profile settings quick link -->
+          <section class="card" id="profile" style="display: none">
+            <h2>Profil</h2>
+            <p class="small">
+              Profil məlumatlarını redaktə etmək üçün aşağıdakı linkə keç.
+            </p>
+            <div style="margin-top: 0.6rem">
+              <a href="profile-edit.html" class="btn btn-ghost"
+                >Profil redaktə et</a
+              >
+            </div>
+          </section>
+
+          <!-- Admin -->
+          <section class="card" id="admin" style="display: none">
+            <h2>Admin</h2>
+            <div class="admin-note">
+              Yalnız adminlər üçün: API bağlantısı, filial idarəetməsi və daha
+              çox.
+            </div>
+
+            <label for="apiBase">API Base URL</label>
+            <input
+              type="url"
+              id="apiBase"
+              placeholder="https://api.sizinapp.az/api"
+            />
+
+            <div style="margin-top: 0.6rem">
+              <label for="apiKey">API Key</label>
+              <div style="display: flex; gap: 0.4rem; align-items: center">
+                <input
+                  type="text"
+                  id="apiKey"
+                  placeholder="****************"
+                  style="flex: 1"
+                />
+                <button id="toggleMask" class="btn btn-ghost">Göstər</button>
+              </div>
+            </div>
+
+            <div
+              style="
+                margin-top: 0.75rem;
+                display: flex;
+                gap: 0.5rem;
+                align-items: center;
+              "
+            >
+              <button id="testConn" class="btn btn-primary">
+                Test bağlantı
+              </button>
+              <div id="testResult" class="test-res"></div>
+            </div>
+
+            <div style="margin-top: 1rem">
+              <a href="branches.html" class="btn btn-ghost">Filiallar</a>
+              <a
+                href="users.html"
+                class="btn btn-ghost"
+                style="margin-left: 0.5rem"
+                >İstifadəçilər</a
+              >
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+    <footer class="footer">
+      <p>&copy; 2025 App | <a href="#" class="footer__link">Bizə Qatıl</a></p>
+    </footer>
+    <script>
+      // ===== Simulate role (in real app determine from server/user session) =====
+      const isAdmin = true; // change to false to hide admin tab in demo
+
+      // ===== Tab switching =====
+      const tabsEl = document.getElementById("tabs");
+      const tabButtons = tabsEl.querySelectorAll("button[data-tab]");
+      function showTab(name) {
+        // hide all sections
+        document
+          .querySelectorAll("main section.card")
+          .forEach((s) => (s.style.display = "none"));
+        // show requested
+        const el = document.getElementById(name);
+        if (el) el.style.display = "block";
+        tabButtons.forEach((b) =>
+          b.classList.toggle("active", b.dataset.tab === name)
+        );
+      }
+      tabButtons.forEach((b) =>
+        b.addEventListener("click", () => showTab(b.dataset.tab))
+      );
+
+      // init default
+      showTab("general");
+
+      // show admin tab if role is admin
+      if (isAdmin) {
+        document.getElementById("adminTabBtn").style.display = "block";
+      }
+
+      // ===== Simple persistent save (localStorage demo) =====
+      const defaults = {
+        defaultBranch: "all",
+        rowsPerPage: "20",
+        theme: "light",
+        language: "az",
+        saveFilters: true,
+      };
+      function loadSettings() {
+        const s = JSON.parse(localStorage.getItem("appSettings") || "{}");
+        const settings = Object.assign({}, defaults, s);
+        document.getElementById("defaultBranch").value = settings.defaultBranch;
+        document.getElementById("rowsPerPage").value = settings.rowsPerPage;
+        document.getElementById("theme").value = settings.theme;
+        document.getElementById("language").value = settings.language;
+        document.getElementById("saveFilters").checked = settings.saveFilters;
+        // admin fields
+        document.getElementById("apiBase").value = settings.apiBase || "";
+        document.getElementById("apiKey").value = settings.apiKey || "";
+      }
+      function saveSettings() {
+        const s = {
+          defaultBranch: document.getElementById("defaultBranch").value,
+          rowsPerPage: document.getElementById("rowsPerPage").value,
+          theme: document.getElementById("theme").value,
+          language: document.getElementById("language").value,
+          saveFilters: document.getElementById("saveFilters").checked,
+          apiBase: document.getElementById("apiBase").value,
+          apiKey: document.getElementById("apiKey").value,
+        };
+        localStorage.setItem("appSettings", JSON.stringify(s));
+        alert("Sazlamalar yadda saxlanıldı (local demo).");
+      }
+      document
+        .getElementById("saveGlobal")
+        .addEventListener("click", saveSettings);
+      document.getElementById("resetGlobal").addEventListener("click", () => {
+        if (confirm("Bütün lokal saxlancları sıfırlamaq istəyirsiniz?")) {
+          localStorage.removeItem("appSettings");
+          loadSettings();
+        }
+      });
+
+      // load on start
+      loadSettings();
+
+      // show/hide api key
+      document.getElementById("toggleMask").addEventListener("click", () => {
+        const k = document.getElementById("apiKey");
+        if (k.type === "password") {
+          k.type = "text";
+          this.textContent = "Gizlət";
+        } else {
+          k.type = "password";
+          this.textContent = "Göstər";
+        }
+      });
+
+      // test connection (simulated)
+      document.getElementById("testConn").addEventListener("click", () => {
+        const base = document.getElementById("apiBase").value.trim();
+        const res = document.getElementById("testResult");
+        res.textContent = "Yoxlanılır...";
+        res.className = "test-res";
+        setTimeout(() => {
+          if (base.startsWith("http")) {
+            res.textContent = "Bağlantı uğurludur";
+            res.classList.add("test-ok");
+            res.classList.remove("test-fail");
+          } else {
+            res.textContent = "Bağlantı uğursuz oldu — düzgün URL daxil edin";
+            res.classList.add("test-fail");
+            res.classList.remove("test-ok");
+          }
+        }, 700);
+      });
+
+      // save view demo
+      document.getElementById("saveView").addEventListener("click", () => {
+        const name = document.getElementById("viewName").value.trim();
+        if (!name) return alert("Zəhmət olmasa görünüş üçün ad yazın");
+        const saved = JSON.parse(localStorage.getItem("savedViews") || "[]");
+        saved.push({
+          name,
+          cols: Array.from(document.querySelectorAll(".col-toggle")).map(
+            (c) => ({ col: c.dataset.col, visible: c.checked })
+          ),
+        });
+        localStorage.setItem("savedViews", JSON.stringify(saved));
+        alert("Görünüş saxlanıldı");
+        document.getElementById("viewName").value = "";
+      });
+
+      // export demo
+      document.getElementById("exportBtn").addEventListener("click", () => {
+        const fmt = document.getElementById("exportFormat").value;
+        alert("Export funksiyası demo rejimdədir — seçdiniz: " + fmt);
+      });
+    </script>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="az">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ana Səhifə</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar__brand">
+        <a href="search.html">
+          <p data-heading="Slide" class="brand">Slide</p>
+        </a>
+      </div>
+      <form class="navbar__search">
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Nə axtarırıq..."
+          aria-label="Search"
+        />
+        <button type="submit">Axtar</button>
+      </form>
+      <div class="navbar__actions">
+        <button class="icon-button" aria-label="Favorites">❤️</button>
+        <div class="dropdown">
+          <button class="icon-button dropdown-toggle" aria-label="User menu">
+            ⋮
+          </button>
+          <ul class="dropdown__menu">
+            <li><a href="profile.html">Profil</a></li>
+            <li><a href="settings.html">Ayarlar</a></li>
+            <li class="dropdown__divider"></li>
+            <li><a href="login.html" class="text-danger">Çıxış</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Layout grid: left sidebar | main | right sidebar -->
+    <div class="container">
+      <!-- <aside class="sidebar sidebar-left" aria-label="Left sidebar">
+        <div class="ad-slot" id="left-ad"></div>
+      </aside> -->
+
+      <main class="main-content">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>OEM №</th>
+              <th>BREND KODU</th>
+              <th>BREND ADI</th>
+              <th>MAL ADI</th>
+              <th>ÜNVAN</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1244100681</td>
+              <td>3897</td>
+              <td>FEBI</td>
+              <td>Podvesnoy 124…</td>
+              <td class="tooltip-cell">
+                Babek
+                <div class="tooltip-content">
+                  MBZ
+                  <img
+                    src="./images/logos/mercedes-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  050 555 55 55
+                  <br />
+                  BMW
+                  <img
+                    src="./images/logos/bmw-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 444 44 44
+                  <br />
+                  KOREYA
+                  <img
+                    src="./images/logos/toyota-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  070 333 33 33<br />
+
+                  <strong>050 999 99 99</strong> <br />YAPON
+                  <img
+                    src="./images/logos/toyota-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/lexus-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/infiniti-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/nissan-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <br />
+                  VAG-CHEVROLET
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 222 22 22<br />
+                  HONDA-MAZDA-SUBARU
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 222 22 22
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>1244100681</td>
+              <td>3897</td>
+              <td>FEBI</td>
+              <td>Podvesnoy 124…</td>
+              <td class="tooltip-cell">
+                Babek
+                <div class="tooltip-content">
+                  MBZ
+                  <img
+                    src="./images/logos/mercedes-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  050 555 55 55
+                  <br />
+                  BMW
+                  <img
+                    src="./images/logos/bmw-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 444 44 44
+                  <br />
+                  KOREYA
+                  <img
+                    src="./images/logos/toyota-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  070 333 33 33<br />
+
+                  <strong>050 999 99 99</strong> <br />YAPON
+                  <img
+                    src="./images/logos/toyota-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/lexus-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/infiniti-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/nissan-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <br />
+                  VAG-CHEVROLET
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 222 22 22<br />
+                  HONDA-MAZDA-SUBARU
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 222 22 22
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>1244100681</td>
+              <td>3897</td>
+              <td>FEBI</td>
+              <td>Podvesnoy 124…</td>
+              <td class="tooltip-cell">
+                Babek
+                <div class="tooltip-content">
+                  MBZ
+                  <img
+                    src="./images/logos/mercedes-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  050 555 55 55
+                  <br />
+                  BMW
+                  <img
+                    src="./images/logos/bmw-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 444 44 44
+                  <br />
+                  KOREYA
+                  <img
+                    src="./images/logos/toyota-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  070 333 33 33<br />
+
+                  <strong>050 999 99 99</strong> <br />YAPON
+                  <img
+                    src="./images/logos/toyota-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/lexus-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/infiniti-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/nissan-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <br />
+                  VAG-CHEVROLET
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 222 22 22<br />
+                  HONDA-MAZDA-SUBARU
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 222 22 22
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>1244100681</td>
+              <td>3897</td>
+              <td>FEBI</td>
+              <td>Podvesnoy 124…</td>
+              <td class="tooltip-cell">
+                Babek
+                <div class="tooltip-content">
+                  MBZ
+                  <img
+                    src="./images/logos/mercedes-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  050 555 55 55
+                  <br />
+                  BMW
+                  <img
+                    src="./images/logos/bmw-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 444 44 44
+                  <br />
+                  KOREYA
+                  <img
+                    src="./images/logos/toyota-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  070 333 33 33<br />
+
+                  <strong>050 999 99 99</strong> <br />YAPON
+                  <img
+                    src="./images/logos/toyota-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/lexus-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/infiniti-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/nissan-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <br />
+                  VAG-CHEVROLET
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 222 22 22<br />
+                  HONDA-MAZDA-SUBARU
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 222 22 22
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>1244100681</td>
+              <td>3897</td>
+              <td>FEBI</td>
+              <td>Podvesnoy 124…</td>
+              <td class="tooltip-cell">
+                Babek
+                <div class="tooltip-content">
+                  MBZ
+                  <img
+                    src="./images/logos/mercedes-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  050 555 55 55
+                  <br />
+                  BMW
+                  <img
+                    src="./images/logos/bmw-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 444 44 44
+                  <br />
+                  KOREYA
+                  <img
+                    src="./images/logos/toyota-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  070 333 33 33<br />
+
+                  <strong>050 999 99 99</strong> <br />YAPON
+                  <img
+                    src="./images/logos/toyota-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/lexus-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/infiniti-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/nissan-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <br />
+                  VAG-CHEVROLET
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 222 22 22<br />
+                  HONDA-MAZDA-SUBARU
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 222 22 22
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>1244100681</td>
+              <td>3897</td>
+              <td>FEBI</td>
+              <td>Podvesnoy 124…</td>
+              <td class="tooltip-cell">
+                Babek
+                <div class="tooltip-content">
+                  MBZ
+                  <img
+                    src="./images/logos/mercedes-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  050 555 55 55
+                  <br />
+                  BMW
+                  <img
+                    src="./images/logos/bmw-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 444 44 44
+                  <br />
+                  KOREYA
+                  <img
+                    src="./images/logos/toyota-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  070 333 33 33<br />
+
+                  <strong>050 999 99 99</strong> <br />YAPON
+                  <img
+                    src="./images/logos/toyota-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/lexus-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/infiniti-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/nissan-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <br />
+                  VAG-CHEVROLET
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 222 22 22<br />
+                  HONDA-MAZDA-SUBARU
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 222 22 22
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>1244100681</td>
+              <td>3897</td>
+              <td>FEBI</td>
+              <td>Podvesnoy 124…</td>
+              <td class="tooltip-cell">
+                Babek
+                <div class="tooltip-content">
+                  MBZ
+                  <img
+                    src="./images/logos/mercedes-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  050 555 55 55
+                  <br />
+                  BMW
+                  <img
+                    src="./images/logos/bmw-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 444 44 44
+                  <br />
+                  KOREYA
+                  <img
+                    src="./images/logos/toyota-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  070 333 33 33<br />
+
+                  <strong>050 999 99 99</strong> <br />YAPON
+                  <img
+                    src="./images/logos/toyota-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/lexus-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/infiniti-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/nissan-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <br />
+                  VAG-CHEVROLET
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 222 22 22<br />
+                  HONDA-MAZDA-SUBARU
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 222 22 22
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>1244100681</td>
+              <td>3897</td>
+              <td>FEBI</td>
+              <td>Podvesnoy 124…</td>
+              <td class="tooltip-cell">
+                Babek
+                <div class="tooltip-content">
+                  MBZ
+                  <img
+                    src="./images/logos/mercedes-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  050 555 55 55
+                  <br />
+                  BMW
+                  <img
+                    src="./images/logos/bmw-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 444 44 44
+                  <br />
+                  KOREYA
+                  <img
+                    src="./images/logos/toyota-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  070 333 33 33<br />
+
+                  <strong>050 999 99 99</strong> <br />YAPON
+                  <img
+                    src="./images/logos/toyota-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/lexus-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/infiniti-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/nissan-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <br />
+                  VAG-CHEVROLET
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 222 22 22<br />
+                  HONDA-MAZDA-SUBARU
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 222 22 22
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>1244100681</td>
+              <td>3897</td>
+              <td>FEBI</td>
+              <td>Podvesnoy 124…</td>
+              <td class="tooltip-cell">
+                Babek
+                <div class="tooltip-content">
+                  MBZ
+                  <img
+                    src="./images/logos/mercedes-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  050 555 55 55
+                  <br />
+                  BMW
+                  <img
+                    src="./images/logos/bmw-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 444 44 44
+                  <br />
+                  KOREYA
+                  <img
+                    src="./images/logos/toyota-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  070 333 33 33<br />
+
+                  <strong>050 999 99 99</strong> <br />YAPON
+                  <img
+                    src="./images/logos/toyota-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/lexus-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/infiniti-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/nissan-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <br />
+                  VAG-CHEVROLET
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 222 22 22<br />
+                  HONDA-MAZDA-SUBARU
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 222 22 22
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>1244100681</td>
+              <td>3897</td>
+              <td>FEBI</td>
+              <td>Podvesnoy 124…</td>
+              <td class="tooltip-cell">
+                Babek
+                <div class="tooltip-content">
+                  MBZ
+                  <img
+                    src="./images/logos/mercedes-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  050 555 55 55
+                  <br />
+                  BMW
+                  <img
+                    src="./images/logos/bmw-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 444 44 44
+                  <br />
+                  KOREYA
+                  <img
+                    src="./images/logos/toyota-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  070 333 33 33<br />
+
+                  <strong>050 999 99 99</strong> <br />YAPON
+                  <img
+                    src="./images/logos/toyota-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/lexus-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/infiniti-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/nissan-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <br />
+                  VAG-CHEVROLET
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 222 22 22<br />
+                  HONDA-MAZDA-SUBARU
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 222 22 22
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>1244100681</td>
+              <td>3897</td>
+              <td>FEBI</td>
+              <td>Podvesnoy 124…</td>
+              <td class="tooltip-cell">
+                Babek
+                <div class="tooltip-content">
+                  MBZ
+                  <img
+                    src="./images/logos/mercedes-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  050 555 55 55
+                  <br />
+                  BMW
+                  <img
+                    src="./images/logos/bmw-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 444 44 44
+                  <br />
+                  KOREYA
+                  <img
+                    src="./images/logos/toyota-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  070 333 33 33<br />
+
+                  <strong>050 999 99 99</strong> <br />YAPON
+                  <img
+                    src="./images/logos/toyota-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/lexus-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/infiniti-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <img
+                    src="./images/logos/nissan-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  <br />
+                  VAG-CHEVROLET
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 222 22 22<br />
+                  HONDA-MAZDA-SUBARU
+                  <img
+                    src="./images/logos/mitsubishi-logo.avif"
+                    class="logo"
+                    alt="logo"
+                  />
+                  055 222 22 22
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <nav class="pagination-container">
+          <button class="page-btn" data-action="prev">«</button>
+          <button class="page-btn" data-action="next">»</button>
+        </nav>
+      </main>
+
+      <!-- <aside class="sidebar sidebar-right" aria-label="Right sidebar">
+        <div class="ad-slot" id="right-ad">
+          <img src="./images/banner.png" alt="" />
+        </div>
+      </aside> -->
+    </div>
+
+    <footer class="footer">
+      <p>&copy; 2025 App | <a href="main/registration.html" class="footer__link">Bizə Qatıl</a></p>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

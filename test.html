@@ -1,0 +1,89 @@
+<!-- <!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8">
+  <title>Speech to Text Demo</title>
+</head>
+<body>
+  <button id="start">Başla</button>
+  <p id="output"></p>
+
+  <script>
+    const output = document.getElementById("output");
+    const startBtn = document.getElementById("start");
+
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = "az-AZ"; // Azərbaycan dili dəstəyi məhdud ola bilər
+    recognition.interimResults = true;
+
+    startBtn.onclick = () => {
+      recognition.start();
+    };
+
+    recognition.onresult = (event) => {
+      const transcript = Array.from(event.results)
+        .map(result => result[0].transcript)
+        .join("");
+      output.textContent = transcript;
+    };
+  </script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Continuous Speech to Text</title>
+</head>
+<body>
+  <button id="start">Start Listening</button>
+  <button id="stop">Stop Listening</button>
+  <p id="output"></p>
+
+  <script>
+    const output = document.getElementById("output");
+    const startBtn = document.getElementById("start");
+    const stopBtn = document.getElementById("stop");
+
+    // Browser SpeechRecognition API
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = "en-US";   // İngilis dili
+    recognition.interimResults = true; 
+    recognition.continuous = true; // fasiləsiz dinləmə
+
+    // Start
+    startBtn.onclick = () => {
+      recognition.start();
+    };
+
+    // Stop
+    stopBtn.onclick = () => {
+      recognition.stop();
+    };
+
+    // Result
+    recognition.onresult = (event) => {
+      let transcript = "";
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        transcript += event.results[i][0].transcript;
+      }
+      output.textContent = transcript;
+    };
+
+    // Auto-restart if stopped unexpectedly
+    recognition.onend = () => {
+      if (!manualStop) recognition.start();
+    };
+
+    let manualStop = false;
+    stopBtn.onclick = () => {
+      manualStop = true;
+      recognition.stop();
+    };
+    startBtn.onclick = () => {
+      manualStop = false;
+      recognition.start();
+    };
+  </script>
+</body>
+</html>

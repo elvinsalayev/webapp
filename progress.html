@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="az">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Car-themed CSS Progress Bars — Demo</title>
+    <style>
+      :root {
+        --bg: #0b1020;
+        --card: #0f1724;
+        --accent: #ff6b00;
+        --muted: #9aa4b2;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial;
+      }
+      body {
+        background: linear-gradient(180deg, #071022 0%, #081025 60%);
+        color: #e6eef8;
+        margin: 0;
+        padding: 32px;
+      }
+      h1 {
+        font-size: 20px;
+        margin: 0 0 18px 0;
+      }
+      .wrap {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 18px;
+      }
+      .card {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          transparent
+        );
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        padding: 18px;
+        border-radius: 12px;
+      }
+      .meta {
+        color: var(--muted);
+        font-size: 13px;
+        margin-bottom: 12px;
+      }
+      .controls {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        margin-top: 14px;
+      }
+      button {
+        background: var(--accent);
+        border: none;
+        padding: 8px 12px;
+        border-radius: 8px;
+        color: #081022;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      input[type="range"] {
+        flex: 1;
+      }
+
+      /* ===== Option 1: Speedometer ===== */
+      .speedo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .gauge {
+        width: 220px;
+        height: 120px;
+        position: relative;
+      }
+      .gauge svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      .needle {
+        transform-origin: 50% 100%;
+        transition: transform 1s cubic-bezier(0.2, 0.9, 0.2, 1);
+      }
+      .gauge .ticks line {
+        stroke: rgba(255, 255, 255, 0.15);
+        stroke-width: 2;
+      }
+      .gauge .arc {
+        stroke: linear-gradient(#ff6b00, #ffd66b);
+        stroke-width: 10;
+        fill: none;
+        stroke-linecap: round;
+      }
+      .gauge .arc-bg {
+        stroke: rgba(255, 255, 255, 0.06);
+        stroke-width: 10;
+        fill: none;
+        stroke-linecap: round;
+      }
+      .reading {
+        font-size: 22px;
+        font-weight: 700;
+      }
+      .sub {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      /* ===== Option 2: Fuel Gauge ===== */
+      .fuel-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .fuel {
+        background: linear-gradient(90deg, #0b1220, #071422);
+        padding: 8px;
+        border-radius: 14px;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+      }
+      .fuel .tank {
+        height: 36px;
+        border-radius: 10px;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.03),
+          rgba(255, 255, 255, 0.01)
+        );
+        position: relative;
+      }
+      .fill {
+        height: 100%;
+        width: 0%;
+        border-radius: 10px;
+        background: linear-gradient(90deg, #e74c3c, #f1c40f, #2ecc71);
+        transition: width 1s cubic-bezier(0.2, 0.9, 0.2, 1);
+      }
+      .pump {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 18px;
+        opacity: 0.9;
+      }
+      .fuel-legend {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      /* ===== Option 3: Tire Tread Bar ===== */
+      .tire {
+        position: relative;
+        padding: 8px;
+        border-radius: 14px;
+        background: linear-gradient(90deg, #051021, #081426);
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+      .tread-track {
+        height: 40px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #111827, #0b1220);
+        overflow: hidden;
+        position: relative;
+      }
+      .tread-fill {
+        height: 100%;
+        width: 0%;
+        border-radius: 999px;
+        position: relative;
+        overflow: hidden;
+      }
+      .tread-fill::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: repeating-linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.06) 0 18px,
+          rgba(255, 255, 255, 0.01) 18px 36px
+        );
+        background-size: 36px 36px;
+        animation: move 1.2s linear infinite;
+      }
+      @keyframes move {
+        from {
+          background-position: 0 0;
+        }
+        to {
+          background-position: 36px 0;
+        }
+      }
+      .tread-mask {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0.35),
+          rgba(0, 0, 0, 0) 30%,
+          rgba(0, 0, 0, 0.35)
+        );
+        pointer-events: none;
+      }
+      .tire .label {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-weight: 700;
+      }
+      .tire .percent {
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.06);
+        padding: 6px 10px;
+        border-radius: 8px;
+        font-weight: 700;
+      }
+
+      /* Small responsive */
+      @media (max-width: 420px) {
+        .gauge {
+          width: 180px;
+          height: 100px;
+        }
+        .tread-track {
+          height: 34px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Car-themed CSS progress bars — demo (3 dizayn seçimi)</h1>
+    <p class="meta">
+      Səni üç yaradıcı "masina" mövzulu progress bardan seçmək üçün demo
+      hazırladım. Hər birinin yanında slider ilə dəyəri dəyişdirə bilərsən.
+      Seçim etdikdən sonra mən onu sənə düzəldə bilərəm (rəng, animasiya, ölçü
+      və s.).
+    </p>
+
+    <div class="wrap">
+      <!-- Speedometer -->
+      <div class="card">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <strong>1) Speedometer — Dairəvi "sürətölçən"</strong>
+          <span class="sub">Dinamik iynə və rəqəmsal oxunuş</span>
+        </div>
+        <div class="speedo">
+          <div class="gauge" aria-hidden="true">
+            <svg viewBox="0 0 220 120">
+              <!-- background arc -->
+              <path
+                d="M20 100 A100 100 0 0 1 200 100"
+                stroke="rgba(255,255,255,0.06)"
+                stroke-width="10"
+                fill="none"
+                stroke-linecap="round"
+              />
+              <!-- colored arc (we'll mask by stroke-dashoffset in JS) -->
+              <path
+                id="arc"
+                d="M20 100 A100 100 0 0 1 200 100"
+                stroke="url(#g)"
+                stroke-width="10"
+                fill="none"
+                stroke-linecap="round"
+                stroke-dasharray="314"
+                stroke-dashoffset="314"
+              />
+              <defs>
+                <linearGradient id="g" x1="0%" x2="100%">
+                  <stop offset="0%" stop-color="#ff6b00" />
+                  <stop offset="60%" stop-color="#ffd66b" />
+                  <stop offset="100%" stop-color="#2ecc71" />
+                </linearGradient>
+              </defs>
+              <!-- ticks -->
+              <g class="ticks">
+                <!-- simple ticks -->
+                <line x1="26" y1="96" x2="36" y2="86" stroke-opacity="0.6" />
+                <line x1="46" y1="86" x2="56" y2="76" stroke-opacity="0.6" />
+                <line x1="66" y1="76" x2="76" y2="66" stroke-opacity="0.6" />
+                <!-- more omitted for brevity... -->
+              </g>
+              <!-- needle -->
+              <g class="needle" id="needle" transform="rotate(-90 110 100)">
+                <rect
+                  x="108"
+                  y="26"
+                  width="4"
+                  height="80"
+                  rx="2"
+                  fill="#ff6b00"
+                />
+                <circle
+                  cx="110"
+                  cy="100"
+                  r="8"
+                  fill="#111827"
+                  stroke="#ff6b00"
+                  stroke-width="3"
+                />
+              </g>
+            </svg>
+          </div>
+          <div style="text-align: center">
+            <div class="reading" id="speedVal">0 km/h</div>
+            <div class="sub">Sürət göstəricisi</div>
+          </div>
+
+          <div class="controls" style="width: 100%">
+            <input id="speedRange" type="range" min="0" max="220" value="0" />
+            <button id="speedSet">Set</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fuel gauge -->
+      <div class="card">
+        <strong>2) Fuel Gauge — Benzinölçən</strong>
+        <div class="fuel-wrap">
+          <div class="fuel">
+            <div class="tank" aria-hidden="true">
+              <div id="fuelFill" class="fill" style="width: 40%"></div>
+            </div>
+            <div class="pump">⛽</div>
+          </div>
+          <div class="fuel-legend">
+            <span class="sub">Rezerv</span
+            ><span id="fuelVal" style="font-weight: 700">40%</span>
+          </div>
+
+          <div class="controls">
+            <input id="fuelRange" type="range" min="0" max="100" value="40" />
+            <button id="fuelSet">Set</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tire tread -->
+      <div class="card">
+        <strong>3) Tire Tread — Təkər izi animasiyası</strong>
+        <div class="tire" style="height: 88px">
+          <div class="tread-track" aria-hidden="true">
+            <div
+              id="treadFill"
+              class="tread-fill"
+              style="
+                width: 65%;
+                background: linear-gradient(90deg, #2b2f36, #0ea5a5);
+              "
+            ></div>
+            <div class="tread-mask"></div>
+          </div>
+          <div class="label">Grip</div>
+          <div class="percent" id="treadVal">65%</div>
+
+          <div class="controls" style="margin-top: 12px">
+            <input id="treadRange" type="range" min="0" max="100" value="65" />
+            <button id="treadSet">Set</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Speedometer logic
+      const needle = document.getElementById("needle");
+      const arc = document.getElementById("arc");
+      const speedVal = document.getElementById("speedVal");
+      const speedRange = document.getElementById("speedRange");
+      const speedSet = document.getElementById("speedSet");
+
+      function setSpeed(v) {
+        const max = 220; // max angle sweep 180deg
+        const pct = Math.max(0, Math.min(1, v / max));
+        const angle = -90 + pct * 180; // -90..+90
+        needle.style.transform = `rotate(${angle}deg)`;
+        // arc stroke-dashoffset (arc length ~314)
+        const dash = 314 * (1 - pct);
+        arc.style.strokeDashoffset = dash;
+        speedVal.textContent = Math.round(v) + " km/h";
+      }
+      speedSet.addEventListener("click", () =>
+        setSpeed(Number(speedRange.value))
+      );
+      speedRange.addEventListener("input", () =>
+        setSpeed(Number(speedRange.value))
+      );
+
+      // Fuel logic
+      const fuelFill = document.getElementById("fuelFill");
+      const fuelVal = document.getElementById("fuelVal");
+      const fuelRange = document.getElementById("fuelRange");
+      const fuelSet = document.getElementById("fuelSet");
+      function setFuel(v) {
+        fuelFill.style.width = v + "%";
+        fuelVal.textContent = Math.round(v) + "%";
+        // change gradient based on value
+        if (v < 20)
+          fuelFill.style.background = "linear-gradient(90deg,#e74c3c,#f39c12)";
+        else if (v < 60)
+          fuelFill.style.background = "linear-gradient(90deg,#f39c12,#f1c40f)";
+        else
+          fuelFill.style.background = "linear-gradient(90deg,#9be15d,#2ecc71)";
+      }
+      fuelSet.addEventListener("click", () => setFuel(Number(fuelRange.value)));
+      fuelRange.addEventListener("input", () =>
+        setFuel(Number(fuelRange.value))
+      );
+
+      // Tread logic
+      const treadFill = document.getElementById("treadFill");
+      const treadVal = document.getElementById("treadVal");
+      const treadRange = document.getElementById("treadRange");
+      const treadSet = document.getElementById("treadSet");
+      function setTread(v) {
+        treadFill.style.width = v + "%";
+        treadVal.textContent = Math.round(v) + "%";
+        // darken when low
+        const shade = Math.round(30 + (v / 100) * 70);
+        treadFill.style.background = `linear-gradient(90deg, rgb(${shade},${shade},${shade}), #0ea5a5)`;
+      }
+      treadSet.addEventListener("click", () =>
+        setTread(Number(treadRange.value))
+      );
+      treadRange.addEventListener("input", () =>
+        setTread(Number(treadRange.value))
+      );
+
+      // init
+      setSpeed(Number(speedRange.value));
+      setFuel(Number(fuelRange.value));
+      setTread(Number(treadRange.value));
+    </script>
+  </body>
+</html>

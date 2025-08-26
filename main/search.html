@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="az">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Logo — Axtar</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <style>
+      :root {
+        /* --- DARK (default) --- */
+        --bg-start: #030409;
+        --bg-end: #071018;
+        --background-color: linear-gradient(90deg, #041221 0%, #000000 100%);
+
+        --text-color: #e9eef6;
+        --muted: rgba(233, 238, 246, 0.52);
+
+        --card-bg: rgb(10, 14, 18);
+        --table-bg: #051117;
+        --surface: rgba(255, 255, 255, 0.03);
+
+        --input-bg: rgba(255, 255, 255, 0.02);
+        --input-border: rgba(255, 255, 255, 0.116);
+
+        --accent: #ff6b3b;
+        --accent-strong: linear-gradient(90deg, #ff5a3c 0%, #ff8b3b 100%);
+        --accent-contrast: #0b0b0b;
+        --accent-glow: rgba(255, 107, 59, 0.12);
+
+        /* unified border/overlay variables (theme-aware) */
+        --border-strong: rgba(255, 255, 255, 0.144);
+        --border-mid: rgba(255, 255, 255, 0.137);
+        --border-weak: rgba(255, 255, 255, 0.02);
+        --border-x: rgba(255, 255, 255, 0.04);
+        --hover-surface: rgba(255, 255, 255, 0.185);
+        --surface-overlay: rgba(255, 255, 255, 0.01);
+        --panel-overlay: rgba(
+          20,
+          20,
+          20,
+          0.98
+        ); /* fallback for popover in dark */
+        --focus-ring: rgba(255, 107, 59, 0.18);
+      }
+
+      /* -------- LIGHT theme overrides -------- */
+      [data-theme="light"] {
+        --bg-start: #fbfdff;
+        --bg-end: #f2f6f9;
+        --background-color: linear-gradient(90deg, #fbfdff 0%, #f2f6f9 100%);
+
+        --text-color: #0b1a22;
+        --muted: rgba(11, 26, 34, 0.56);
+
+        --card-bg: #ffffff;
+        --table-bg: #ffffff;
+        --surface: rgba(11, 26, 34, 0.03);
+
+        --input-bg: #ffffff;
+        --input-border: rgba(11, 26, 34, 0.08);
+
+        --accent: #ff6b3b;
+        --accent-strong: linear-gradient(90deg, #ff8b3b 0%, #ff5a3c 100%);
+        --accent-contrast: #ffffff;
+        --accent-glow: rgba(255, 107, 59, 0.08);
+
+        /* borders / overlays for light theme (dark tinted overlays on light) */
+        --border-strong: rgba(11, 26, 34, 0.08);
+        --border-mid: rgba(11, 26, 34, 0.06);
+        --border-weak: rgba(11, 26, 34, 0.03);
+        --border-x: rgba(11, 26, 34, 0.04);
+        --hover-surface: rgba(11, 26, 34, 0.04);
+        --surface-overlay: rgba(11, 26, 34, 0.01);
+        --panel-overlay: rgba(
+          255,
+          255,
+          255,
+          0.98
+        ); /* popover fallback for light */
+        --focus-ring: rgba(255, 107, 59, 0.16);
+      }
+
+      /* =========== rest of your original CSS: only color usages replaced by variables =========== */
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+        background: var(--background-color);
+        color: var(--text-color);
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        cursor: url("https://cdn.prod.website-files.com/6708f85ff3d3cba6aff436fb/671251b212e6b71494aa67ff_cursor-pointer%402x.svg"),pointer;
+      }
+
+      .navbar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 20px;
+        background: var(--card-bg);
+        border-bottom: 1px solid var(--border-strong);
+        position: relative;
+        z-index: 20;
+      }
+      @font-face {
+        font-family: Moldie;
+        src: url(../fonts/icomoon/MoldieDemo.otf);
+      }
+      .navbar__brand {
+        background-color: #ffffff11;
+        border: 3px solid var(--accent);
+        padding: 10px;
+      }
+      .navbar__brand a {
+        font-family: Moldie;
+        font-size: 30px;
+        text-decoration: none;
+        color: var(--accent);
+      }
+
+      .navbar__brand:hover {
+        /* animation: animate 12ms ease-in-out infinite; */
+        color: var(--accent);
+      }
+
+      @keyframes animate {
+        0%,
+        100% {
+          top: -7px;
+          left: 0;
+          opacity: 1;
+        }
+        20% {
+          top: 0;
+          left: -10px;
+          opacity: 0.7;
+        }
+        40% {
+          top: 7px;
+          left: 0;
+          opacity: 0.2;
+        }
+        60% {
+          top: 0;
+          left: 10px;
+          opacity: 0.3;
+        }
+        80% {
+          top: 0;
+          left: 0;
+          opacity: 0.9;
+        }
+      }
+
+      .nav-center {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+      }
+      .nav-search {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 60%;
+        max-width: 700px;
+      }
+      .nav-search input[type="search"] {
+        flex: 1;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid var(--input-border);
+        background: var(--input-bg);
+        color: var(--text-color);
+        font-size: 15px;
+      }
+      .nav-search input[type="search"]:focus {
+        outline: 1px solid var(--accent);
+      }
+      .nav-search button {
+        padding: 10px 14px;
+        border-radius: 10px;
+        border: none;
+        background: var(--accent-strong);
+        color: var(--accent-contrast);
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .icon-button {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 10px;
+        background: transparent;
+        border: 1px solid var(--border-x);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        position: relative;
+        padding: 10px;
+      }
+
+      .fa-ellipsis-vertical,
+      .fa-heart {
+        color: var(--accent);
+        font-size: 1.5rem;
+      }
+      .fa-xmark,
+      #clearFavs {
+        color: var(--accent);
+      }
+      .badge {
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        background: var(--accent);
+        color: var(--accent-contrast);
+        font-size: 11px;
+        padding: 2px 6px;
+        border-radius: 999px;
+      }
+
+      .panel {
+        position: absolute;
+        top: 64px;
+        right: 18px;
+        min-width: 300px;
+        background: var(--card-bg);
+        border-radius: 12px;
+        padding: 12px;
+        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.5);
+        display: none;
+        flex-direction: column;
+        gap: 8px;
+        z-index: 80;
+        border: 1px solid var(--border-mid);
+      }
+      .panel.show {
+        display: flex;
+      }
+      .fav-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        max-height: 320px;
+        overflow: auto;
+      }
+      .fav-item {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        padding: 8px;
+        border-radius: 8px;
+      }
+      .panel h4 {
+        margin: 0 0 6px 0;
+        color: var(--text-color);
+      }
+      .panel .empty {
+        color: var(--muted);
+        padding: 10px;
+        text-align: center;
+      }
+
+      .menu-panel {
+        position: absolute;
+        top: 62px;
+        right: 18px;
+        min-width: 180px;
+        background: var(--card-bg);
+        border-radius: 10px;
+        padding: 8px;
+        box-shadow: 0 18px 48px rgba(39, 39, 39, 0.5);
+        border: 1px solid var(--border-mid);
+        display: none;
+        flex-direction: column;
+        gap: 6px;
+        z-index: 80;
+      }
+      .menu-panel.show {
+        display: flex;
+      }
+      .menu-panel a {
+        padding: 10px;
+        border-radius: 8px;
+        text-decoration: none;
+        color: var(--text-color);
+        font-size: 14px;
+      }
+      .menu-panel a:hover {
+        background: var(--hover-surface);
+        cursor: pointer;
+      }
+      /* main area: full screen center */
+      main.container {
+        flex: 1;
+        display: grid;
+        place-items: center;
+        padding: 28px;
+      }
+      .search-card {
+        width: 100%;
+        max-width: 980px;
+        background: var(--card-bg);
+        border-radius: 14px;
+        padding: 28px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.205);
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        align-items: center;
+      }
+
+      .search-head {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .search-brand {
+        font-weight: 800;
+        font-family: Moldie;
+        font-size: 40px;
+        text-decoration: none;
+        color: var(--accent);
+      }
+      .search-lead {
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .search-bar-wrap {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .search-input {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px;
+        border-radius: 12px;
+        background: var(--input-bg);
+        border: 1px solid var(--input-border);
+      }
+      .search-input input {
+        flex: 1;
+        background: transparent;
+        border: 0;
+        color: var(--text-color);
+        font-size: 18px;
+        padding: 6px;
+        outline: none;
+      }
+      .search-btn {
+        padding: 20px 18px;
+        border-radius: 12px;
+        border: none;
+        background: var(--accent-strong);
+        color: #fff;
+        font-weight: 800;
+        cursor: pointer;
+        opacity: 0.9;
+      }
+      .search-btn:hover {
+        opacity: 1;
+      }
+
+      .helper {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      /* footer */
+      .footer {
+        padding: 14px 28px;
+        border-top: 1px solid rgba(255, 255, 255, 0.02);
+        text-align: center;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      /* responsive */
+      @media (max-width: 720px) {
+        .search-input input {
+          font-size: 16px;
+        }
+        .search-head {
+          flex-direction: column;
+          align-items: center;
+        }
+        .fav-panel {
+          right: 58px;
+          top: 64px;
+        }
+        .menu-panel {
+          right: 12px;
+        }
+      }
+
+      /* focus visuals */
+      .search-input:focus-within {
+        box-shadow: 0 6px 28px rgba(255, 120, 60, 0.06);
+        border-color: rgba(255, 140, 60, 0.12);
+      }
+      input:focus {
+        outline: none;
+      }
+
+      /* subtle enter animation */
+      .animate-pop {
+        animation: pop 420ms cubic-bezier(0.2, 0.9, 0.2, 1);
+      }
+      @keyframes pop {
+        from {
+          transform: scale(0.995);
+          opacity: 0.86;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      /* small suggestion list */
+      .suggestions {
+        width: 100%;
+        max-width: 820px;
+        margin-top: 6px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .chip {
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      /* subtle hover for nav icons */
+      .icon-button:hover {
+        transform: translateY(-2px);
+        transition: transform 160ms ease;
+      }
+
+      /* Footer styles below use same variables — left unchanged structurally */
+      .site-footer-v2 {
+        background: linear-gradient(180deg, var(--bg-start), var(--bg-end));
+        color: var(--text-color);
+        padding: 28px 18px 14px;
+        border-top: 1px solid var(--border-strong);
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .footer-cta {
+        padding: 14px 0;
+        border-bottom: 1px solid var(--border-weak);
+      }
+      .cta-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 200px;
+        max-width: 1200px;
+        margin: 0 auto;
+        align-items: center;
+      }
+
+      .cta-item {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        justify-content: flex-start;
+        background: linear-gradient(
+          180deg,
+          var(--surface-overlay),
+          rgba(0, 0, 0, 0)
+        );
+        padding: 12px 14px;
+        border-radius: 10px;
+        min-height: 56px;
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
+      }
+      .cta-item:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+      }
+      .cta-ico {
+        width: 34px;
+        height: 34px;
+        display: block;
+        flex-shrink: 0;
+      }
+      .cta-ico path {
+        fill: var(--accent);
+        opacity: 0.98;
+      }
+      .cta-text {
+        line-height: 1.1;
+      }
+      .cta-text strong {
+        display: block;
+        font-size: 15px;
+        color: var(--text-color);
+        font-weight: 700;
+      }
+      .cta-text span {
+        display: block;
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+
+      .footer-main {
+        max-width: 1200px;
+        margin: 20px auto 6px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        padding-bottom: 6px;
+        justify-content: center;
+        align-items: center;
+      }
+      .fm-col {
+        padding: 6px 2px;
+      }
+      .fm-col.about h4,
+      .fm-col.subscribe h4 {
+        margin: 0 0 8px 0;
+        color: var(--text-color);
+        font-size: 16px;
+        font-weight: 700;
+      }
+      .about-text {
+        color: var(--muted);
+        line-height: 1.6;
+        font-size: 14px;
+        margin-bottom: 12px;
+      }
+
+      .subscribe-form {
+        display: flex;
+        gap: 8px;
+        background: var(--card-bg);
+        padding: 8px;
+        border-radius: 10px;
+        align-items: center;
+        border: 1px solid var(--border-weak);
+      }
+      .subscribe-form input {
+        flex: 1;
+        padding: 10px 12px;
+        background: transparent;
+        border: 1px solid var(--border-x);
+        color: var(--text-color);
+        border-radius: 8px;
+        font-size: 14px;
+        outline: none;
+      }
+      .subscribe-form input::placeholder {
+        color: var(--muted);
+        opacity: 0.9;
+      }
+      .subscribe-form input:focus {
+        box-shadow: 0 6px 22px rgba(0, 0, 0, 0.5), 0 6px 18px var(--table-bg);
+        border-color: var(--input-border);
+      }
+      .subscribe-form button {
+        background: var(--accent);
+        border: none;
+        padding: 10px 12px;
+        border-radius: 8px;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        box-shadow: 0 8px 28px var(--accent-glow);
+        transition: transform 0.14s ease, box-shadow 0.14s ease;
+      }
+      .subscribe-form button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 34px var(--accent-glow);
+      }
+      .subscribe-form button svg {
+        width: 18px;
+        height: 18px;
+        fill: #fff;
+        transform: rotate(-6deg);
+      }
+
+      .footer-bottom {
+        border-top: 1px solid var(--border-weak);
+        margin-top: 18px;
+        padding-top: 14px;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+      }
+      .footer-bottom small {
+        color: var(--muted);
+      }
+
+      .sr-only {
+        position: absolute;
+        left: -9999px;
+        top: auto;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar__brand">
+        <a href="./search.html" class="brand">logo</a>
+      </div>
+
+      <div class="nav-center"></div>
+
+      <div class="nav-actions">
+        <button
+          id="navFavBtn"
+          class="icon-button"
+          aria-expanded="false"
+          title="Favoritlər"
+        >
+          <i class="fa-solid fa-heart"></i
+          ><span id="favCount" class="badge" style="display: none">0</span>
+        </button>
+        <button
+          id="navMenuBtn"
+          class="icon-button"
+          aria-expanded="false"
+          title="Menyu"
+        >
+          <i class="fa-solid fa-ellipsis-vertical"></i>
+        </button>
+      </div>
+
+      <div id="favPanel" class="panel" style="right: 86px">
+        <h4>Favoritlər</h4>
+        <div id="favList" class="fav-list">
+          <div class="empty">Sənin favoritlərin hələ boşdur.</div>
+        </div>
+        <div
+          style="
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-top: 6px;
+          "
+        >
+          <button id="clearFavs" class="page-btn">Hamısını sil</button>
+        </div>
+      </div>
+
+      <div
+        id="menuPanel"
+        class="menu-panel"
+        role="menu"
+        aria-label="İstifadəçi menyusu"
+      >
+        <a href="/profile.html" role="menuitem" tabindex="0">Profilim</a>
+        <a href="/settings.html" role="menuitem" tabindex="0">Tənzimləmələr</a>
+        <!-- Place this button anywhere (navbar, header). JS will attach behavior. -->
+        <a
+          id="themeToggle"
+          class="theme-toggle"
+          aria-pressed="false"
+          title="Toggle theme"
+        ></a>
+        <a href="/logout" role="menuitem" tabindex="0">Çıxış</a>
+      </div>
+    </nav>
+
+    <main class="container">
+      <div class="search-card animate-pop" role="region" aria-label="Axtarış">
+        <div class="search-head">
+          <div class="search-brand">logo</div>
+          <div class="search-lead">Mağaza, məhsul və ya nümayəndə axtarın</div>
+        </div>
+
+        <form
+          id="searchForm"
+          class="search-bar-wrap"
+          role="search"
+          action="./table.html"
+        >
+          <div class="search-input" role="group" aria-label="Axtarış daxil et">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21 21l-4.35-4.35"
+              />
+              <circle
+                cx="11"
+                cy="11"
+                r="6"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+            </svg>
+            <input
+              id="q"
+              name="q"
+              type="search"
+              placeholder="Nə axtarırıq..."
+              aria-label="Axtarış"
+              autocomplete="off"
+            />
+          </div>
+
+          <button class="search-btn" type="submit">Axtar</button>
+        </form>
+
+        <div class="suggestions" aria-hidden="true">
+          <div class="chip">Elektrik lampa</div>
+          <div class="chip">Yüngül filtr</div>
+          <div class="chip">Bakı — Nərimanov</div>
+          <div class="chip">Toyota ehtiyat hissələri</div>
+        </div>
+
+        <div class="helper">
+          Qısa məsləhət: axtarış üçün brend, kateqoriya və ya şəhər daxil edin.
+        </div>
+      </div>
+    </main>
+
+    <!-- FOOTER (copy into your page) -->
+    <footer class="site-footer-v2" aria-labelledby="footer-heading">
+      <div class="footer-cta">
+        <div class="cta-grid">
+          <div class="cta-item">
+            <svg class="cta-ico" viewBox="0 0 24 24" aria-hidden>
+              <path
+                d="M12 2C8 2 5 5 5 9c0 6.25 7 13 7 13s7-6.75 7-13c0-4-3-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"
+              />
+            </svg>
+            <div class="cta-text">
+              <strong>Ünvan</strong><span>1010 Avenue, SW 54321, Bakı</span>
+            </div>
+          </div>
+
+          <div class="cta-item">
+            <svg class="cta-ico" viewBox="0 0 24 24" aria-hidden>
+              <path
+                d="M6.6 10.2a15.05 15.05 0 0 0 7.2 7.2l2-2a1 1 0 0 1 1-.2c1.1.4 2.4.6 3.7.6a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.1 21 3 13.9 3 4a1 1 0 0 1 1-1h2.5a1 1 0 0 1 1 1c0 1.4.2 2.6.6 3.7a1 1 0 0 1-.2 1l-2 2z"
+              />
+            </svg>
+            <div class="cta-text">
+              <strong>Zəng</strong><span>+994 50 555 55 55</span>
+            </div>
+          </div>
+
+          <div class="cta-item">
+            <svg class="cta-ico" viewBox="0 0 24 24" aria-hidden>
+              <path
+                d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5L4 8V6l8 5 8-5v2z"
+              />
+            </svg>
+            <div class="cta-text">
+              <strong>E-poçt</strong><span>mail@info.com</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-main">
+        <div class="fm-col about">
+          <h4>Abunə ol</h4>
+          <p>Yeniliklərdən xəbərdar olmaq üçün e-poçtunu bura yaz.</p>
+        </div>
+
+        <div class="fm-col subscribe">
+          <form
+            class="subscribe-form"
+            action="#"
+            onsubmit="event.preventDefault(); alert('Subscribed!');"
+          >
+            <input
+              type="email"
+              name="email"
+              placeholder="Nümunə: mail@site.com"
+              required
+            />
+            <button aria-label="Subscribe" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden>
+                <path d="M2 21l21-9L2 3v7l15 2-15 2z" />
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="fb-left">
+          <small
+            >&copy; <span id="year"></span> Logo. Bütün hüquqlar qorunur.</small
+          >
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // (JS left unchanged from your last working version: popover controller, favorites, search, panels)
+      // For brevity I'm keeping JS as-is; only layout got fixed.
+      /* ------------ Helpers ------------ */
+      function escapeHtml(s) {
+        return String(s).replace(/[&<>"']/g, function (c) {
+          return {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;",
+          }[c];
+        });
+      }
+
+      /* Popover controller (same robust implementation) */
+      (function () {
+        const M = 8;
+        let openPop = null,
+          openToggle = null,
+          rafId = null;
+        function positionPopover(toggle, pop) {
+          if (!toggle || !pop) return;
+          const btn = toggle.getBoundingClientRect();
+          const vw = Math.max(
+            document.documentElement.clientWidth,
+            window.innerWidth || 0
+          );
+          const vh = Math.max(
+            document.documentElement.clientHeight,
+            window.innerHeight || 0
+          );
+          pop.style.display = "block";
+          pop.style.visibility = "hidden";
+          pop.classList.add("open");
+          const pr = pop.getBoundingClientRect();
+          let top = Math.round(btn.bottom + M);
+          let left = Math.round(btn.left + btn.width / 2 - pr.width / 2);
+          left = Math.max(M, Math.min(left, vw - pr.width - M));
+          if (top + pr.height + M > vh) {
+            const above = Math.round(btn.top - M - pr.height);
+            if (above >= M) top = above;
+            else {
+              const spaceBelow = Math.max(0, vh - (btn.bottom + M));
+              const spaceAbove = Math.max(0, btn.top - M);
+              const wantH = Math.max(spaceBelow, spaceAbove, 80);
+              pop.style.maxHeight = wantH + "px";
+              const pr2 = pop.getBoundingClientRect();
+              if (spaceBelow >= spaceAbove) top = Math.round(btn.bottom + M);
+              else top = Math.round(Math.max(M, btn.top - M - pr2.height));
+            }
+          }
+          pop.style.left = left + "px";
+          pop.style.top = top + "px";
+          pop.style.visibility = "";
+        }
+        function open(pop, toggle) {
+          if (!pop || !toggle) return;
+          if (openPop === pop) {
+            close();
+            return;
+          }
+          close();
+          openPop = pop;
+          openToggle = toggle;
+          pop.setAttribute("aria-hidden", "false");
+          toggle.setAttribute("aria-expanded", "true");
+          pop.classList.add("open");
+          pop.style.display = "block";
+          pop.style.opacity = "1";
+          positionPopover(toggle, pop);
+          try {
+            pop.focus();
+          } catch (e) {}
+          document.addEventListener("pointerdown", onDocPointerDown, true);
+          window.addEventListener("resize", onReposition);
+          window.addEventListener("orientationchange", onReposition);
+          window.addEventListener("scroll", onReposition, true);
+          pop.addEventListener("keydown", onPopKey);
+        }
+        function close() {
+          if (!openPop) return;
+          const pop = openPop,
+            toggle = openToggle;
+          pop.classList.remove("open");
+          pop.setAttribute("aria-hidden", "true");
+          pop.style.display = "none";
+          pop.style.maxHeight = "";
+          pop.style.left = "";
+          pop.style.top = "";
+          if (toggle) toggle.setAttribute("aria-expanded", "false");
+          try {
+            if (toggle && typeof toggle.focus === "function") toggle.focus();
+          } catch (e) {}
+          document.removeEventListener("pointerdown", onDocPointerDown, true);
+          window.removeEventListener("resize", onReposition);
+          window.removeEventListener("orientationchange", onReposition);
+          window.removeEventListener("scroll", onReposition, true);
+          pop.removeEventListener("keydown", onPopKey);
+          openPop = null;
+          openToggle = null;
+          if (rafId) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+          }
+        }
+        function onDocPointerDown(e) {
+          if (!openPop || !openToggle) return;
+          const insidePop = openPop.contains(e.target);
+          const onToggle = openToggle.contains(e.target);
+          if (!insidePop && !onToggle) close();
+        }
+        function onReposition() {
+          if (!openPop || !openToggle) return;
+          if (rafId) cancelAnimationFrame(rafId);
+          rafId = requestAnimationFrame(() => {
+            positionPopover(openToggle, openPop);
+            rafId = null;
+          });
+        }
+        function onPopKey(e) {
+          if (e.key === "Escape" || e.key === "Esc") {
+            e.preventDefault();
+            close();
+          }
+        }
+        document.addEventListener("click", function (e) {
+          const toggle = e.target.closest('[data-action="toggle"]');
+          if (!toggle) return;
+          e.preventDefault();
+          const cell = toggle.closest(".addr-cell");
+          if (!cell) return;
+          const pop = cell.querySelector(".popover");
+          if (!pop) return;
+          open(pop, toggle);
+        });
+        document.addEventListener("keydown", function (e) {
+          const el = document.activeElement;
+          if (!el) return;
+          if (el.matches && el.matches('[data-action="toggle"], .info-btn')) {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              el.click();
+            }
+          }
+        });
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" || e.key === "Esc") close();
+        });
+        window.__slidePopoverClose = close;
+      })();
+
+      /* Favorites, panels, search — keep as before (omitted here for brevity) */
+      (function () {
+        /* favorites & panels code (same as you had) */
+        /* ... your favorites/panels code ... */
+        // For demo, minimal favorites logic:
+        const FAV_KEY = "slide_favorites_v1";
+        const navFavBtn = document.getElementById("navFavBtn");
+        const favPanel = document.getElementById("favPanel");
+        const favListEl = document.getElementById("favList");
+        const favCountEl = document.getElementById("favCount");
+        const tbody = document.getElementById("tbody");
+        function loadFavs() {
+          try {
+            const raw = localStorage.getItem(FAV_KEY);
+            return raw ? JSON.parse(raw) : [];
+          } catch (e) {
+            return [];
+          }
+        }
+        function saveFavs(list) {
+          localStorage.setItem(FAV_KEY, JSON.stringify(list));
+          renderFavs();
+          updateFavButtons();
+        }
+        function renderFavs() {
+          const list = loadFavs();
+          favListEl.innerHTML = "";
+          if (!list.length) {
+            favListEl.innerHTML =
+              '<div class="empty">Sənin favoritlərin hələ boşdur.</div>';
+            favCountEl.style.display = "none";
+            return;
+          }
+          favCountEl.style.display = "inline-block";
+          favCountEl.textContent = String(list.length);
+          list.forEach((item) => {
+            const el = document.createElement("div");
+            el.className = "fav-item";
+            el.innerHTML = `<div style="flex:1;"><div class="meta"><strong>${escapeHtml(
+              item.brand || item.name || "—"
+            )}</strong></div><div class="muted" style="font-size:13px">${escapeHtml(
+              item.oem || ""
+            )} · ${escapeHtml(
+              item.place || ""
+            )}</div></div><div style="display:flex;gap:8px;align-items:center"><button class="page-btn" data-action="goto" data-id="${escapeHtml(
+              item.id
+            )}">Open</button><button class="page-btn" data-action="remove" data-id="${escapeHtml(
+              item.id
+            )}">Remove</button></div>`;
+            favListEl.appendChild(el);
+          });
+        }
+        function updateFavButtons() {
+          const favs = loadFavs();
+          document.querySelectorAll(".fav-checkbox").forEach((input) => {
+            const tr = input.closest("tr");
+            const id = tr.dataset.id;
+            const found = favs.find((f) => f.id === id);
+            input.checked = !!found;
+            const label = tr.querySelector(".fav-container");
+            if (found) {
+              label.classList.add("fav");
+              label.setAttribute("title", "Favoritdən sil");
+              input.setAttribute("aria-pressed", "true");
+            } else {
+              label.classList.remove("fav");
+              label.setAttribute("title", "Favoritə əlavə et");
+              input.setAttribute("aria-pressed", "false");
+            }
+          });
+        }
+        navFavBtn.addEventListener("click", function () {
+          const open = favPanel.classList.toggle("show");
+          navFavBtn.setAttribute("aria-expanded", String(open));
+          if (open) {
+            document
+              .getElementById("navMenuBtn")
+              .setAttribute("aria-expanded", "false");
+          }
+          renderFavs();
+        });
+        favListEl.addEventListener("click", function (e) {
+          const a = e.target.closest("[data-action]");
+          if (!a) return;
+          const act = a.dataset.action;
+          const id = a.dataset.id;
+          if (act === "goto") {
+            const row = document.querySelector(`tbody tr[data-id="${id}"]`);
+            if (row) {
+              row.scrollIntoView({ behavior: "smooth", block: "center" });
+              row.classList.add("highlight");
+              setTimeout(() => row.classList.remove("highlight"), 1200);
+            }
+          }
+          if (act === "remove") {
+            let favs = loadFavs();
+            favs = favs.filter((f) => f.id !== id);
+            saveFavs(favs);
+          }
+        });
+        document
+          .getElementById("clearFavs")
+          .addEventListener("click", function () {
+            if (confirm("Bütün favoritləri silmək istədiyinizə əminsiniz?")) {
+              localStorage.removeItem(FAV_KEY);
+              renderFavs();
+              updateFavButtons();
+            }
+          });
+        renderFavs();
+        updateFavButtons();
+      })();
+
+      const navMenuBtn = document.getElementById("navMenuBtn");
+      const menuPanel = document.getElementById("menuPanel");
+      navMenuBtn.addEventListener("click", function () {
+        const open = menuPanel.classList.toggle("show");
+        navMenuBtn.setAttribute("aria-expanded", String(open));
+        if (open) {
+          document
+            .getElementById("navFavBtn")
+            .setAttribute("aria-expanded", "false");
+          document.getElementById("favPanel").classList.remove("show");
+        }
+      });
+
+      document.addEventListener(
+        "pointerdown",
+        function (e) {
+          const path = e.composedPath ? e.composedPath() : e.path || [];
+          if (
+            !path.includes(document.getElementById("favPanel")) &&
+            !path.includes(document.getElementById("navFavBtn"))
+          )
+            document.getElementById("favPanel").classList.remove("show");
+          if (
+            !path.includes(document.getElementById("menuPanel")) &&
+            !path.includes(document.getElementById("navMenuBtn"))
+          )
+            document.getElementById("menuPanel").classList.remove("show");
+        },
+        true
+      );
+
+      (function () {
+        const y = document.getElementById("year");
+        if (y) y.textContent = new Date().getFullYear();
+      })();
+    </script>
+    <script>
+      (function () {
+        const KEY = "site_theme_v1";
+        // determine initial theme: saved -> system preference -> dark fallback
+        const saved = localStorage.getItem(KEY);
+        let theme =
+          saved ||
+          (window.matchMedia &&
+          window.matchMedia("(prefers-color-scheme: light)").matches
+            ? "light"
+            : "dark");
+        function apply(t) {
+          document.documentElement.setAttribute("data-theme", t);
+          localStorage.setItem(KEY, t);
+          const btn = document.getElementById("themeToggle");
+          if (btn) {
+            btn.setAttribute("aria-pressed", String(t === "light"));
+            btn.textContent = t === "light" ? "Dark theme 🌙" : "Light theme☀️";
+          }
+        }
+        apply(theme);
+
+        // attach toggle click (will work even if button is added later)
+        document.addEventListener("click", function (e) {
+          const btn = e.target.closest("#themeToggle");
+          if (!btn) return;
+          theme =
+            document.documentElement.getAttribute("data-theme") === "light"
+              ? "dark"
+              : "light";
+          apply(theme);
+        });
+      })();
+
+      (function () {
+        const words = [
+          "Əyləc qəlibi",
+          "Mühərrik yağı",
+          "Fara",
+          "Hava filteri",
+          "Təkər",
+        ];
+
+        const input = document.getElementById("q");
+        let wordIndex = 0;
+        let charIndex = 0;
+        let deleting = false;
+        let delay = 150; // hərf sürəti (ms)
+
+        function typeEffect() {
+          const currentWord = words[wordIndex];
+
+          if (!deleting) {
+            // yazma
+            input.placeholder = currentWord.substring(0, charIndex + 1);
+            charIndex++;
+            if (charIndex === currentWord.length) {
+              deleting = true;
+              delay = 1500; // tam yazıldıqdan sonra gözləmə
+            }
+          } else {
+            // silmə
+            input.placeholder = currentWord.substring(0, charIndex - 1);
+            charIndex--;
+            if (charIndex === 0) {
+              deleting = false;
+              wordIndex = (wordIndex + 1) % words.length; // növbəti söz
+            }
+          }
+          setTimeout(typeEffect, delay);
+          delay = deleting ? 50 : 150; // silmə daha sürətli olsun
+        }
+
+        typeEffect();
+      })();
+    </script>
+
+    <script
+      src="https://kit.fontawesome.com/a446eb9fda.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

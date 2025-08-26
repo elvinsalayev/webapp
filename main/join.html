@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="az">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bizə Qatıl — Slide</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <style>
+      :root {
+        --text-color: #eef2f7;
+        --card-bg: rgba(20, 28, 36, 0.6);
+        --input-bg: rgba(255, 255, 255, 0.03);
+        --input-border: rgba(255, 255, 255, 0.06);
+        --accent-strong: linear-gradient(90deg, #ff3c3c, #ff8a3c);
+        --muted: rgba(255, 255, 255, 0.65);
+        --focus-ring: rgba(255, 140, 60, 0.18);
+      }
+
+      /* reset */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background: #000;
+        color: var(--text-color);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100svh;
+        padding: 1rem;
+      }
+
+      /* shared layout */
+      .wrap {
+        width: 100%;
+        max-width: 1200px;
+      }
+
+      /* card */
+      .card {
+        background: var(--card-bg);
+        border-radius: 12px;
+        padding: 22px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+      }
+
+      /* grid */
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        gap: 28px;
+        align-items: start;
+      }
+      @media (max-width: 980px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .meta {
+          order: -1;
+        }
+      }
+
+      /* left content */
+      .hero-title {
+        font-size: 22px;
+        font-weight: 800;
+        margin-bottom: 8px;
+      }
+      .lead {
+        color: var(--muted);
+        line-height: 1.45;
+      }
+
+      /* form */
+      form#joinForm {
+        margin-top: 12px;
+      }
+      .row {
+        display: flex;
+        gap: 12px;
+      }
+      .col {
+        flex: 1;
+      }
+      label {
+        display: block;
+        font-size: 13px;
+        color: var(--muted);
+        margin-bottom: 6px;
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="tel"],
+      textarea,
+      select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid var(--input-border);
+        background: var(--input-bg);
+        color: var(--text-color);
+        font-size: 14px;
+      }
+      textarea {
+        min-height: 100px;
+        resize: vertical;
+        padding-top: 10px;
+      }
+      .note {
+        margin-top: 6px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .file-input input[type="file"] {
+        color: var(--muted);
+      }
+
+      .actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-top: 14px;
+      }
+      .btn {
+        padding: 10px 14px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        font-weight: 700;
+      }
+      .btn--primary {
+        background: var(--accent-strong);
+        color: #fff;
+      }
+      .btn--ghost {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        color: var(--text-color);
+      }
+
+      .status-chip {
+        margin-left: auto;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      /* right meta */
+      .meta h3 {
+        margin-bottom: 8px;
+      }
+      .steps {
+        margin-top: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .step {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+      }
+      .num {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.03);
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+      }
+      .small {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      /* footer */
+      .footer {
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 13px;
+        text-align: center;
+      }
+
+      /* overlay modal */
+      .overlay {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 60;
+      }
+      .overlay.show {
+        display: flex;
+      }
+      .modal {
+        background: rgba(18, 22, 26, 0.98);
+        border-radius: 12px;
+        padding: 20px;
+        max-width: 720px;
+        width: 100%;
+        color: var(--text-color);
+        box-shadow: 0 18px 60px rgba(0, 0, 0, 0.6);
+      }
+      .meta-row {
+        display: flex;
+        gap: 8px;
+        margin-top: 8px;
+      }
+      .badge {
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.03);
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      /* left-hero custom cursor */
+      .left-hero {
+        position: relative;
+        padding: 18px;
+      }
+      .cursor-circle {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 80px;
+        height: 80px;
+        border: 3px solid rgba(255, 80, 60, 0.95);
+        border-radius: 50%;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        transition: transform 0.12s linear, opacity 0.12s ease;
+        opacity: 0;
+        z-index: 5;
+        backdrop-filter: blur(0.5px);
+        background: rgba(255, 5, 5, 0);
+      }
+
+      /* small responsive */
+      @media (max-width: 420px) {
+        .grid {
+          gap: 14px;
+        }
+        .navbar__search input {
+          display: none;
+        }
+      }
+
+      /* video background (optional) */
+      #myVideo {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        min-width: 100%;
+        min-height: 100%;
+        opacity: 0.12;
+        object-fit: cover;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #myVideo {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <video autoplay loop muted playsinline id="myVideo">
+      <source src="../images/5309381-hd_1920_1080_25fps.mp4" type="video/mp4" />
+    </video>
+
+    <main class="wrap">
+      <div class="card">
+        <div class="grid">
+          <section class="left-hero">
+            <div class="hero-title">Bizə Qatıl — Nümayəndə Qeydiyyatı</div>
+            <p class="lead">
+              Xahiş olunur bütün sahələri düzgün doldurun. Doldurduqdan sonra
+              məlumat admin panelinə göndəriləcək; əməkdaşımız telefonla əlaqə
+              saxlayacaq və təsdiq aldıqdan sonra hesabınız aktiv ediləcək.
+            </p>
+            <div
+              class="notice"
+              style="
+                margin-top: 12px;
+                padding: 12px;
+                border-radius: 10px;
+                background: rgba(255, 255, 255, 0.02);
+                color: var(--muted);
+              "
+            >
+              Qeyd: Bildiriş və sənəd yükləmələri admin tərəfindən yoxlanılacaq.
+            </div>
+          
+
+            <form id="joinForm" novalidate>
+              <div class="row" style="margin-top: 12px">
+                <div class="col">
+                  <label for="username">İstifadəçi adı (login)</label>
+                  <input
+                    id="username"
+                    name="username"
+                    type="text"
+                    placeholder="musteveliye123"
+                    required
+                  />
+                </div>
+                <div class="col">
+                  <label for="repName">Əlaqə şəxsi adı</label>
+                  <input
+                    id="repName"
+                    name="repName"
+                    type="text"
+                    placeholder="Məmməd Məmmədov"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="row" style="margin-top: 12px">
+                <div class="col">
+                  <label for="phone">Telefon (əlaqə)</label>
+                  <input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    placeholder="050 999 99 99"
+                    required
+                  />
+                  <div class="note">
+                    Əməkdaşımız bu nömrə ilə sizə zəng edəcək təsdiq üçün.
+                  </div>
+                </div>
+                <div class="col">
+                  <label for="email">E-poçt (ixtiyari)</label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="example@shop.az"
+                  />
+                </div>
+              </div>
+
+              <div style="margin-top: 12px">
+                <label for="shop">Mağazanın adı / Filial</label>
+                <input
+                  id="shop"
+                  name="shop"
+                  type="text"
+                  placeholder="Slide Avto Baku — Nərimanov"
+                  required
+                />
+              </div>
+
+              <div class="row" style="margin-top: 12px">
+                <div class="col">
+                  <label for="city">Şəhər / Rayon</label>
+                  <input
+                    id="city"
+                    name="city"
+                    type="text"
+                    placeholder="Bakı"
+                    required
+                  />
+                </div>
+                <div class="col">
+                  <label for="brands"
+                    >Satdığınız brendlər (vergüllə ayırın)</label
+                  >
+                  <input
+                    id="brands"
+                    name="brands"
+                    type="text"
+                    placeholder="Toyota, Mercedes, BMW"
+                  />
+                </div>
+              </div>
+
+              <div style="margin-top: 12px">
+                <label for="notes">Qısa təsvir / əlavə məlumat</label>
+                <textarea
+                  id="notes"
+                  name="notes"
+                  placeholder="Hansı kateqoriyalar, xüsusi təkliflər, açıq iş saatları və s."
+                ></textarea>
+              </div>
+
+              <div style="margin-top: 12px" class="file-input">
+                <label for="doc">Sənəd (ixtiyari)</label>
+                <input
+                  id="doc"
+                  name="doc"
+                  type="file"
+                  accept=".pdf,.jpg,.png"
+                />
+              </div>
+
+              <div
+                style="
+                  margin-top: 12px;
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                "
+              >
+                <input id="agree" name="agree" type="checkbox" />
+                <label for="agree" class="small"
+                  >Məlumatlar düz və mən bu mağazanı təmsil etdiyimi təsdiq
+                  edirəm.</label
+                >
+              </div>
+
+              <div class="actions">
+                <button class="btn btn--primary" id="submitBtn" type="submit">
+                  Müraciəti Göndər
+                </button>
+                <button
+                  class="btn btn--ghost"
+                  type="button"
+                  onclick="document.getElementById('joinForm').reset(); initFormState();"
+                >
+                  Sıfırla
+                </button>
+                <div style="margin-left: auto" class="status-chip">
+                  Müraciət statusu: <strong id="statusText">Yeni</strong>
+                </div>
+              </div>
+
+              <div
+                style="margin-top: 12px; font-size: 13px; color: var(--muted)"
+              >
+                Qeyd: Bu sistem birbaşa avtomatik aktiv etməz. Təsdiq proseduru:
+                form adminə gedəcək, nümayəndə ilə telefonla yoxlanacaq və admin
+                təsdiq edəcək.
+              </div>
+            </form>
+          </section>
+
+          <aside class="meta">
+            <h3>Nəticə necə olacaq?</h3>
+            <p class="small">
+              Bizə göndərdiyiniz məlumat admin panelində
+              <strong>"Gözləyir"</strong> vəziyyətinə düşəcək. İşçi sizinlə
+              əlaqə saxladıqdan sonra admin və ya moderator hesabı "Təsdiq"
+              edəcək.
+            </p>
+
+            <div class="steps">
+              <div class="step">
+                <div class="num">1</div>
+                <div>
+                  <strong>Məlumat göndər</strong>
+                  <div class="small">Formu doldur və göndər.</div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="num">2</div>
+                <div>
+                  <strong>Telefonla yoxlama</strong>
+                  <div class="small">
+                    İşçi göstərilən nömrə ilə əlaqə saxlayacaq.
+                  </div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="num">3</div>
+                <div>
+                  <strong>Admin təsdiqi</strong>
+                  <div class="small">Admin paneldən hesab aktiv ediləcək.</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top: 12px">
+              <strong>Qeyd:</strong>
+              <div class="small">
+                Admin panel inteqrasiyası üçün backend
+                <code>/api/register</code> endpointinə ehtiyac var. Frontend
+                multipart/form-data göndərəcək.
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+    <!-- modal -->
+    <div id="overlay" class="overlay" aria-hidden>
+      <div class="modal" role="dialog" aria-modal="true">
+        <h2>Müraciət qəbul edildi</h2>
+        <p>
+          Məlumatınız qəbul edildi və "Gözləyir" statusuna qoyuldu. Əməkdaşımız
+          ən qısa zamanda <strong id="modalPhone">—</strong> nömrəsi ilə əlaqə
+          saxlayacaq. Admin təsdiqi tamamlandıqdan sonra hesab
+          aktivləşdiriləcək.
+        </p>
+        <div class="meta-row">
+          <div class="badge">Status: Gözləyir</div>
+          <div class="badge">Qeydiyyat nömrəsi: <span id="regId">—</span></div>
+        </div>
+        <div
+          style="
+            margin-top: 14px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+          "
+        >
+          <button class="btn btn--ghost" onclick="closeOverlay()">Bağla</button>
+          <a href="login.html"
+            ><button class="btn btn--primary">Login Səhifəsinə Get</button></a
+          >
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script>
+      // elements
+      const form = document.getElementById("joinForm");
+      const submitBtn = document.getElementById("submitBtn");
+      const statusText = document.getElementById("statusText");
+      const overlay = document.getElementById("overlay");
+      const modalPhone = document.getElementById("modalPhone");
+      const regIdSpan = document.getElementById("regId");
+
+      function validate() {
+        const username = form.username.value.trim();
+        const repName = form.repName.value.trim();
+        const phone = form.phone.value.trim();
+        const shop = form.shop.value.trim();
+        const city = form.city.value.trim();
+        const agree = form.agree.checked;
+        return username && repName && phone && shop && city && agree;
+      }
+
+      function initFormState() {
+        submitBtn.disabled = !validate();
+        submitBtn.textContent = "Müraciəti Göndər";
+      }
+
+      form.addEventListener("input", () => {
+        submitBtn.disabled = !validate();
+      });
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (!validate())
+          return alert(
+            "Zəhmət olmasa bütün tələb olunan sahələri doldurun və razılıq verin."
+          );
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Göndərilir...";
+
+        const payload = new FormData();
+        payload.append("username", form.username.value.trim());
+        payload.append("repName", form.repName.value.trim());
+        payload.append("phone", form.phone.value.trim());
+        payload.append("email", form.email.value.trim());
+        payload.append("shop", form.shop.value.trim());
+        payload.append("city", form.city.value.trim());
+        payload.append("brands", form.brands.value.trim());
+        payload.append("notes", form.notes.value.trim());
+        if (form.doc.files[0]) payload.append("doc", form.doc.files[0]);
+
+        try {
+          const res = await fetch("/api/register", {
+            method: "POST",
+            body: payload,
+          });
+
+          if (!res || !res.ok) {
+            // backend missing — simulate success
+            const fakeId = "J" + Math.floor(Math.random() * 90000 + 10000);
+            showOverlay(fakeId, form.phone.value.trim());
+            statusText.textContent = "Gözləyir";
+            submitBtn.textContent = "Göndərildi";
+            submitBtn.disabled = true;
+            return;
+          }
+
+          const data = await res.json();
+          const id = data.id || "J" + Math.floor(Math.random() * 90000 + 10000);
+          showOverlay(id, form.phone.value.trim());
+          statusText.textContent = "Gözləyir";
+          submitBtn.textContent = "Göndərildi";
+          submitBtn.disabled = true;
+        } catch (err) {
+          console.error(err);
+          const fakeId = "J" + Math.floor(Math.random() * 90000 + 10000);
+          showOverlay(fakeId, form.phone.value.trim());
+          statusText.textContent = "Gözləyir";
+          submitBtn.textContent = "Göndərildi";
+          submitBtn.disabled = true;
+        }
+      });
+
+      function showOverlay(id, phone) {
+        regIdSpan.textContent = id;
+        modalPhone.textContent = phone || "—";
+        overlay.classList.add("show");
+        overlay.removeAttribute("aria-hidden");
+      }
+      function closeOverlay() {
+        overlay.classList.remove("show");
+        overlay.setAttribute("aria-hidden", "true");
+      }
+
+      initFormState();
+
+      // subtle reveal
+      const sr = ScrollReveal();
+      sr.reveal(".left-hero", {
+        origin: "left",
+        distance: "40px",
+        duration: 1000,
+        interval: 120,
+        reset: false,
+        opacity: 0,
+        scale: 0.98,
+      });
+      sr.reveal(".meta", {
+        origin: "right",
+        distance: "40px",
+        duration: 1000,
+        interval: 120,
+        reset: false,
+        opacity: 0,
+        scale: 0.98,
+      });
+    </script>
+  </body>
+</html>

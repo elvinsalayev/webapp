@@ -1,0 +1,1741 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script>
+      (function (w, i, g) {
+        w[g] = w[g] || [];
+        if (typeof w[g].push == "function") w[g].push(i);
+      })(window, "G-SEKJ4E9T4H", "google_tags_first_party");
+    </script>
+    <script async src="https://preview.colorlib.com/s9cc/"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("set", "developer_id.dYzg1YT", true);
+      gtag("config", "G-SEKJ4E9T4H");
+    </script>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400&amp;display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="fonts/icomoon/style.css" />
+
+    <link rel="stylesheet" href="css/owl.carousel.min.css" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+
+    <!-- Style -->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <title>App</title>
+  </head>
+  <body>
+    <!-- <div id="theme-settings" style="position: fixed; top: 20px; right: 20px; background: #222; padding: 15px; border-radius: 10px; z-index: 999; color: #fff; font-size: 14px;">
+      <h5 style="margin-bottom: 10px;">Tema Ayarları</h5>
+      <label>Fon rəngi: <input type="color" id="bgColor" value="#151414" /></label><br /><br />
+      <label>Heading rəngi: <input type="color" id="headingColor" value="#ffffff" /></label><br /><br />
+      <label>Yazı rəngi: <input type="color" id="textColor" value="#ffffff" /></label><br /><br />
+      <label>Düymə fonu: <input type="color" id="btnBg" value="#151414" /></label><br /><br />
+      <label>Düymə hover: <input type="color" id="btnHover" value="#000428" /></label>
+    </div> -->
+    <!-- Toggle Settings Button -->
+    <button
+      id="toggleSettings"
+      style="
+        position: fixed;
+        top: 20px;
+        right: 240px; /* paneldən solda görünsün */
+        z-index: 1000;
+        background: #222;
+        color: #fff;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+      "
+    >
+      ⚙ Ayarları göstər
+    </button>
+
+    <!-- Mövcud Tema Ayarları paneli -->
+
+    <div
+      id="theme-settings"
+      style="
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #222;
+        padding: 15px;
+        border-radius: 10px;
+        z-index: 999;
+        color: #fff;
+        font-size: 14px;
+        max-width: 200px;
+      "
+      class="hidden"
+    >
+      <h5 style="margin-bottom: 10px">Tema Ayarları</h5>
+      <label>Fon: <input type="color" id="bgColor" value="#151414" /></label
+      ><br /><br />
+      <label>Yazı: <input type="color" id="textColor" value="#dfdfdf" /></label
+      ><br /><br />
+      <label
+        >Başlıq: <input type="color" id="headingColor" value="#ffffff" /></label
+      ><br /><br />
+      <label
+        >Table Hover BG:
+        <input type="color" id="tableHoverBg" value="#292929" /></label
+      ><br /><br />
+      <label
+        >Table Hover Text:
+        <input type="color" id="tableHoverText" value="#ffffff" /></label
+      ><br /><br />
+      <label>Link: <input type="color" id="linkColor" value="#dfdfdf" /></label
+      ><br /><br />
+      <label
+        >Link Hover:
+        <input type="color" id="linkHoverColor" value="#fdd114" /></label
+      ><br /><br />
+      <label
+        >Düymə BG: <input type="color" id="buttonBg" value="#151414" /></label
+      ><br /><br />
+      <label
+        >Düymə Hover:
+        <input type="color" id="buttonHoverBg" value="#000428" /></label
+      ><br /><br />
+      <label
+        >Border: <input type="color" id="borderColor" value="#ffffff" /></label
+      ><br /><br />
+      <label
+        >Details text color: <input type="color" id="detailsTextColor" value="#707070" /></label
+      ><br /><br />
+      <label
+        >Tooltip BG:
+        <input type="color" id="tooltipBg" value="#ffffff" /></label
+      ><br /><br />
+      <label
+        >Tooltip Text:
+        <input type="color" id="tooltipText" value="#504b53" /></label
+      ><br /><br />
+      <label
+        >Pagination BG:
+        <input type="color" id="paginationBg" value="#151414" /></label
+      ><br /><br />
+      <label
+        >Pagination Hover:
+        <input type="color" id="paginationHoverBg" value="#504b53" /></label
+      ><br /><br />
+      <label
+        >Pagination Active BG:
+        <input type="color" id="paginationActiveBg" value="#b60002" /></label
+      ><br /><br />
+      <label
+        >Pagination Active Text:
+        <input type="color" id="paginationActiveText" value="#ffffff"
+      /></label>
+    </div>
+
+    <div class="search-bar">
+      <form class="search-container d-flex w-75" action="index.html">
+        <input type="text" placeholder="Axtar..." name="search" />
+        <button type="submit">Axtar</button>
+      </form>
+    </div>
+    <div class="content">
+      <div class="container">
+        <!-- <h2 class="mb-5">Table #6</h2> -->
+
+        <div class="table-responsive">
+          <table class="table table-striped custom-table">
+            <thead>
+              <tr>
+                <th scope="col">OEM №</th>
+                <th scope="col">BREND KODU</th>
+                <th scope="col">BREND ADI</th>
+                <th scope="col">MAL ADI</th>
+                <th scope="col">ÜNVAN</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr scope="row">
+                <td class="cut-me">1244100681</td>
+                <td class="cut-me">3897</td>
+                <td class="cut-me">FEBI</td>
+                <td class="cut-me">
+                  Podvesnoy 124 410 06 81 S1 FEBI 03897 S1 A-42*
+                </td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Neapol
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1244600161</td>
+                <td class="cut-me">6470</td>
+                <td class="cut-me">FEBI</td>
+                <td class="cut-me">
+                  Remkomplekt rulav 124 460 01 61 FEBİ 06470 MBZ-8/10
+                </td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Babek
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> <br />
+                      MBZ
+                      <img
+                        src="./images/logos/mercedes-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br /><br />
+                      <strong>055 444 44 44</strong> <br />BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br /><br />
+                      <strong>070 333 33 33</strong><br />
+                      KOREYA<br /><br />
+                      <strong>050 999 99 99</strong> <br />YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br /><br />
+                      <strong>055 222 22 22</strong>
+                      <br />VAG-CHEVROLET<br /><br />
+                      <strong>055 222 22 22</strong>
+                      <br />HONDA-MAZDA-SUBARU<br />
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1243511942</td>
+                <td class="cut-me">06674 07601</td>
+                <td class="cut-me">FEBI</td>
+                <td class="cut-me">
+                  Poduşka balka 124 351 19 42 FEBI 06674 Z-209
+                </td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Bineqedi
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1244200720</td>
+                <td class="cut-me">B120041</td>
+                <td class="cut-me">DENCKERMANN</td>
+                <td class="cut-me">
+                  Nakladka ruç 124 420 07 20 DENCKERMANN B120041 Z-20
+                </td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Yasamal
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1244100681</td>
+                <td class="cut-me">10860055</td>
+                <td class="cut-me">SWAG</td>
+                <td class="cut-me">
+                  Podvesnoy 124 410 06 81 S1 SWAG 10860055 A-42
+                </td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Neapol
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1243523465</td>
+                <td class="cut-me">D300036</td>
+                <td class="cut-me">DENCKERMANN</td>
+                <td class="cut-me">
+                  Vtulka ştanqa 124 352 34 65 DENCKERMANN D300036 Y/12* 7 EDED
+                  ARTIQ *F+7*
+                </td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Babek
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1243523565</td>
+                <td class="cut-me">D300037</td>
+                <td class="cut-me">DENCKERMANN</td>
+                <td class="cut-me">
+                  Vtulka ştanqa 124 352 35 65 DENCKERMANN D300037 Y/11* 1 EDED
+                  ARTIQ *F+1*
+                </td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Bineqedi
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1243523565</td>
+                <td class="cut-me">10790036</td>
+                <td class="cut-me">SWAG</td>
+                <td class="cut-me">
+                  Vtulka ştanqa 124 352 35 65 SWAG 10790036 Y/11* 3 EDED ESGIK
+                  *F-3*
+                </td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Yasamal
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1243330327</td>
+                <td class="cut-me">M-402</td>
+                <td class="cut-me">TEKNOROT</td>
+                <td class="cut-me">
+                  Şaravoy 124 333 03 27 TEKNOROT M-402 Z-131
+                </td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Neapol
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1244600805</td>
+                <td class="cut-me">1244600805</td>
+                <td class="cut-me">ORG</td>
+                <td class="cut-me">Tyaqa orta 124 460 08 05 ORG C1/47*</td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Babek
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1244100015</td>
+                <td class="cut-me">60710017</td>
+                <td class="cut-me">BSG</td>
+                <td class="cut-me">
+                  Mufta elastiçniy 124 410 00 15 BSG 60-710-017 (İqrayüşiy)
+                  Z-214
+                </td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Bineqedi
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1245001349</td>
+                <td class="cut-me">60-550-011</td>
+                <td class="cut-me">BSG</td>
+                <td class="cut-me">
+                  Antifriz baçoku 124 500 13 49 BSG 60-550-011 X-63
+                </td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Yasamal
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1244100781</td>
+                <td class="cut-me">10860056</td>
+                <td class="cut-me">SWAG</td>
+                <td class="cut-me">
+                  Podvisnoy 124 410 07 81 SWAG 1S 10860056 A-42
+                </td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Neapol
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1244630432</td>
+                <td class="cut-me">DSS001O</td>
+                <td class="cut-me">DENCKERMANN</td>
+                <td class="cut-me">
+                  Amortizator rul 124 463 04 32 / 000 463 51 32 DENCKERMANN
+                  DSS001O M-24
+                </td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Babek
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1245000406</td>
+                <td class="cut-me">10990010</td>
+                <td class="cut-me">SWAG</td>
+                <td class="cut-me">
+                  Krışka radiator 124 500 04 06 SWAG 10990010 M-57
+                </td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Bineqedi
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1245000406</td>
+                <td class="cut-me">6568</td>
+                <td class="cut-me">FEBI</td>
+                <td class="cut-me">
+                  Krışka radiator 124 500 04 06 FEBİ 06568 M-57
+                </td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Yasamal
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1244200720</td>
+                <td class="cut-me">B120041</td>
+                <td class="cut-me">DENCKERMANN</td>
+                <td class="cut-me">
+                  Nakladka Rucnoy 124 420 07 20 / 210 420 08 20 / 203 420 01 20
+                  DENCKERMANN B120041 MP-09
+                </td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Neapol
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1243511942</td>
+                <td class="cut-me">(201 351 27 42)</td>
+                <td class="cut-me">LEMFORDER</td>
+                <td class="cut-me">
+                  Poduşka balka 124 351 19 42 / 201 351 27 42 / 124 350 03 41
+                  LMİ 10984 01 MP-04
+                </td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Babek
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1243511942</td>
+                <td class="cut-me">1243500341</td>
+                <td class="cut-me">FEBI</td>
+                <td class="cut-me">
+                  Poduşka balka 124 351 19 42 / 201 351 27 42 FEBI 06674 / 07601
+                  MP-05
+                </td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Bineqedi
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1243523565</td>
+                <td class="cut-me">10790036</td>
+                <td class="cut-me">SWAG</td>
+                <td class="cut-me">
+                  Vtulka ştanqa 124 352 35 65 SWAG 10790036 / FEBİ 11136 M-54
+                </td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Yasamal
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1244630432</td>
+                <td class="cut-me">HU6028</td>
+                <td class="cut-me">MANN</td>
+                <td class="cut-me">YAG FILTR 256 184 00 00 MANN HU6028</td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Neapol
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1245000406</td>
+                <td class="cut-me">10990010</td>
+                <td class="cut-me">SWAG</td>
+                <td class="cut-me">
+                  Krışka radiator 124 500 04 06 SWAG 10990010 M-12
+                </td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Babek
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1245000406</td>
+                <td class="cut-me">6568</td>
+                <td class="cut-me">FEBI</td>
+                <td class="cut-me">
+                  Krışka radiator 124 500 04 06 FEBI 06568 M-12
+                </td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Bineqedi
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1244200720</td>
+                <td class="cut-me">B120041</td>
+                <td class="cut-me">DENCKERMANN</td>
+                <td class="cut-me">
+                  Nakladka ruç 124 420 07 20 DENCKERMANN B120041 R-4
+                </td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Yasamal
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1243330327</td>
+                <td class="cut-me">60-310-124</td>
+                <td class="cut-me">BSG</td>
+                <td class="cut-me">Şaravoy 124 333 03 27 BSG 60-310-124 T-5</td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Neapol
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1243523465</td>
+                <td class="cut-me">D300036</td>
+                <td class="cut-me">DENCKERMANN</td>
+                <td class="cut-me">
+                  Vtulka ştanqa 124 352 34 65 DENCKERMANN D300036 Y/38
+                </td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Babek
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1243523565</td>
+                <td class="cut-me">D300037</td>
+                <td class="cut-me">DENCKERMANN</td>
+                <td class="cut-me">
+                  Vtulka ştanqa 124 352 35 65 DENCKERMANN D300037 L-5/1
+                </td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Bineqedi
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1244630432</td>
+                <td class="cut-me">1244630432</td>
+                <td class="cut-me">DENCKERMANN</td>
+                <td class="cut-me">
+                  Amortizator rul 124 463 04 32 ( 000 463 51 32 ) DENCKERMANN
+                  DSS001O 2S-21
+                </td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Yasamal
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr scope="row">
+                <td class="cut-me">1244100815</td>
+                <td class="cut-me">1244100815</td>
+                <td class="cut-me">WENDER PARTS</td>
+                <td class="cut-me">
+                  Mufta elastiçniy 124 410 08 15 (210 410 11 15) WENDER PARTS
+                  1Z-08-02
+                </td>
+                <td class="tooltip-hover">
+                  <span class="tooltip-hover more"
+                    >Babek
+                    <div class="tooltip-box">
+                      <strong>050 555 55 55</strong> MBZ<br />
+                      <strong>055 444 44 44</strong> BMW
+                      <img
+                        src="./images/logos/bmw-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      /><br />
+                      <strong>070 333 33 33</strong> KOREYA<br />
+                      <strong>050 999 99 99</strong> YAPON
+                      <img
+                        src="./images/logos/toyota-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/lexus-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/infiniti-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <img
+                        src="./images/logos/nissan-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+
+                      <img
+                        src="./images/logos/mitsubishi-logo.avif"
+                        class="logo"
+                        alt="logo"
+                      />
+                      <br />
+                      <strong>055 222 22 22</strong> VAG-CHEVROLET<br />
+                      <strong>055 222 22 22</strong> HONDA-MAZDA-SUBARU
+                    </div>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <nav aria-label="Table pagination">
+            <ul
+              class="pagination justify-content-center mt-4"
+              id="table-pagination"
+            >
+              <!-- JS will inject <li class="page-item"><a class="page-link">…</a></li> -->
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

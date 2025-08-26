@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="az">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Slide — Admin Console (Modern)</title>
+    <style>
+      :root {
+        --bg-1: #0b1220;
+        --bg-2: #0f1724;
+        --panel: #0f1a26;
+        --glass: rgba(255, 255, 255, 0.03);
+        --muted: rgba(255, 255, 255, 0.6);
+        --accent: #ff4b3e;
+        --accent-2: #ff9a3c;
+        --success: #2ecc71;
+        --danger: #ff6b6b;
+        --radius: 12px;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+          Roboto, "Helvetica Neue";
+        background: linear-gradient(180deg, var(--bg-1), var(--bg-2));
+        color: #e8eef6;
+      }
+
+      /* App shell */
+      .app {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        grid-template-rows: 64px 1fr;
+        gap: 18px;
+        min-height: 100vh;
+      }
+      @media (max-width: 1000px) {
+        .app {
+          grid-template-columns: 1fr;
+          grid-template-rows: 64px auto 1fr;
+        }
+      }
+
+      /* topbar */
+      .topbar {
+        grid-column: 1/-1;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.02),
+          transparent
+        );
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      }
+      .brand {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        font-weight: 700;
+      }
+      .brand .logo {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+      }
+      .brand .title {
+        font-size: 16px;
+      }
+
+      .top-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .search {
+        background: var(--glass);
+        padding: 8px;
+        border-radius: 999px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.02);
+      }
+      .search input {
+        background: transparent;
+        border: none;
+        outline: none;
+        color: inherit;
+        font-size: 13px;
+        width: 220px;
+      }
+      .icon-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+      }
+
+      /* sidebar */
+      .sidebar {
+        grid-row: 2/3;
+        padding: 18px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          transparent
+        );
+        border-right: 1px solid rgba(255, 255, 255, 0.02);
+        min-height: calc(100vh - 64px);
+      }
+      .nav {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .nav a {
+        padding: 10px;
+        border-radius: 10px;
+        color: var(--muted);
+        text-decoration: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .nav a.active {
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.02),
+          transparent
+        );
+        color: #fff;
+        font-weight: 700;
+      }
+      .quick {
+        margin-top: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      /* main content */
+      .main {
+        padding: 20px;
+        overflow: auto;
+      }
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+      @media (max-width: 1100px) {
+        .grid-3 {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 760px) {
+        .grid-3 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .stat {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          transparent
+        );
+        padding: 16px;
+        border-radius: var(--radius);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .stat .num {
+        font-size: 20px;
+        font-weight: 800;
+      }
+      .stat .label {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .panel {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          transparent
+        );
+        padding: 16px;
+        border-radius: var(--radius);
+      }
+      .panel h3 {
+        margin-bottom: 8px;
+      }
+
+      .flex {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      /* table */
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .table th,
+      .table td {
+        padding: 10px 12px;
+        text-align: left;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        font-size: 13px;
+      }
+      .table thead th {
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .row-actions button {
+        margin-left: 6px;
+      }
+
+      /* activity */
+      .activity {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .event {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+      }
+      .event .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+
+      /* right column */
+      .right-col {
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      /* invite modal */
+      .modal-wrap {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 200;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 160ms;
+      }
+      .modal-wrap.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .modal {
+        background: var(--panel);
+        padding: 18px;
+        border-radius: 12px;
+        width: 520px;
+      }
+
+      .btn {
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        font-weight: 700;
+      }
+      .btn.primary {
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        color: #fff;
+      }
+      .btn.ghost {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        color: var(--muted);
+      }
+
+      footer.app-footer {
+        grid-column: 1/-1;
+        padding: 12px 20px;
+        color: var(--muted);
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app" role="application">
+      <header class="topbar">
+        <div class="brand">
+          <div class="logo">SL</div>
+          <div class="title">Slide — Admin Console</div>
+        </div>
+        <div class="top-actions">
+          <div class="search" role="search">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              style="opacity: 0.7"
+            >
+              <circle cx="11" cy="11" r="7"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg
+            ><input id="globalQ" placeholder="Axtar: istifadəçi, mağaza, OEM" />
+          </div>
+          <button class="icon-btn" id="notifBtn" title="Bildirişlər">🔔</button>
+          <button class="icon-btn" id="inviteBtn" title="İstifadəçi dəvət et">
+            ➕
+          </button>
+          <div
+            style="display: flex; flex-direction: column; align-items: flex-end"
+          >
+            <div style="font-size: 13px; font-weight: 700">Admin</div>
+            <div style="font-size: 12px; color: var(--muted)">
+              admin@slide.az
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <nav class="sidebar">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+          "
+        >
+          <strong>Menu</strong><span class="small muted">v1.0</span>
+        </div>
+        <div class="nav" role="navigation">
+          <a href="#" class="active" data-view="overview">Overview</a>
+          <a href="#" data-view="users">Users</a>
+          <a href="#" data-view="registrations">Registrations</a>
+          <a href="#" data-view="products">Products</a>
+          <a href="#" data-view="logs">Logs</a>
+          <a href="#" data-view="integrations">Integrations</a>
+          <a href="#" data-view="settings">System Settings</a>
+        </div>
+
+        <div class="quick">
+          <button class="btn primary" id="quickApprove">Təsdiq et (top)</button>
+          <button class="btn ghost" id="quickExport">Export</button>
+        </div>
+      </nav>
+
+      <main class="main" id="main">
+        <!-- Overview -->
+        <section id="view-overview">
+          <div class="grid-3">
+            <div class="stat">
+              <div class="label">Ümumi istifadəçilər</div>
+              <div class="num" id="m_users">1,842</div>
+              <div class="muted">Sistemə qoşulmuş ümumi say</div>
+            </div>
+            <div class="stat">
+              <div class="label">Gözləyən qeydiyyatlar</div>
+              <div class="num" id="m_pending">7</div>
+              <div class="muted">Yeni müraciətlər</div>
+            </div>
+            <div class="stat">
+              <div class="label">Aktiv sessiyalar</div>
+              <div class="num" id="m_sessions">24</div>
+              <div class="muted">Hazırda onlayn</div>
+            </div>
+          </div>
+
+          <div
+            class="panel"
+            style="display: flex; gap: 12px; align-items: flex-start"
+          >
+            <div style="flex: 2">
+              <h3>Son fəaliyyət</h3>
+              <div
+                style="
+                  height: 220px;
+                  display: grid;
+                  place-items: center;
+                  color: var(--muted);
+                "
+              >
+                Grafik (burada Chart lib inteqrasiya olunacaq)
+              </div>
+            </div>
+            <div
+              style="flex: 1; display: flex; flex-direction: column; gap: 12px"
+            >
+              <div class="panel">
+                <h4>System Health</h4>
+                <div class="muted">CPU 32% · RAM 61% · Disk 68%</div>
+              </div>
+              <div class="panel">
+                <h4>Quick stats</h4>
+                <div class="muted">New messages: 4 · Errors: 2</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="height: 12px"></div>
+
+          <div class="panel">
+            <h3>Gözləyən qeydiyyatlar</h3>
+            <table class="table" id="pendingTable">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>İstifadəçi</th>
+                  <th>Mağaza</th>
+                  <th>Tarix</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-id="J10250">
+                  <td>J10250</td>
+                  <td>autoservice_1</td>
+                  <td>Auto Service</td>
+                  <td>2025-08-14</td>
+                  <td>Gözləyir</td>
+                  <td class="row-actions">
+                    <button class="btn ghost" data-action="view">Gör</button
+                    ><button class="btn primary" data-action="approve">
+                      Təsdiq et
+                    </button>
+                  </td>
+                </tr>
+                <tr data-id="J10251">
+                  <td>J10251</td>
+                  <td>parts_shop</td>
+                  <td>Parts Shop</td>
+                  <td>2025-08-13</td>
+                  <td>Gözləyir</td>
+                  <td class="row-actions">
+                    <button class="btn ghost" data-action="view">Gör</button
+                    ><button class="btn primary" data-action="approve">
+                      Təsdiq et
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Users -->
+        <section id="view-users" style="display: none">
+          <div class="panel">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 8px;
+              "
+            >
+              <h3>İstifadəçilər</h3>
+              <div class="flex">
+                <input
+                  id="usersQ"
+                  placeholder="Axtar istifadəçi"
+                  style="
+                    padding: 8px;
+                    border-radius: 10px;
+                    background: var(--glass);
+                    border: 1px solid rgba(255, 255, 255, 0.02);
+                  "
+                /><button class="btn primary" id="inviteUser">Dəvət et</button>
+              </div>
+            </div>
+            <table class="table" id="usersTable">
+              <thead>
+                <tr>
+                  <th>İstifadəçi</th>
+                  <th>Email</th>
+                  <th>Rol</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>musteveliye123</td>
+                  <td>mammad@shop.az</td>
+                  <td>
+                    <select data-field="role">
+                      <option>user</option>
+                      <option selected>store_rep</option>
+                      <option>moderator</option>
+                      <option>admin</option>
+                    </select>
+                  </td>
+                  <td>Active</td>
+                  <td>
+                    <button class="btn ghost" data-action="impersonate">
+                      Giriş et
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>seller_baku</td>
+                  <td>info@seller.az</td>
+                  <td>
+                    <select data-field="role">
+                      <option selected>user</option>
+                      <option>store_rep</option>
+                      <option>moderator</option>
+                      <option>admin</option>
+                    </select>
+                  </td>
+                  <td>Active</td>
+                  <td>
+                    <button class="btn ghost" data-action="impersonate">
+                      Giriş et
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Registrations -->
+        <section id="view-registrations" style="display: none">
+          <div class="panel">
+            <h3>Yeni qeydiyyatlar</h3>
+            <div class="muted">
+              Buradan admin bütün müraciətləri görə, redaktə edə və son təsdiqi
+              verə bilər.
+            </div>
+            <table class="table" style="margin-top: 8px">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>İstifadəçi</th>
+                  <th>Telefon</th>
+                  <th>Mağaza</th>
+                  <th>Vəziyyət</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="regTbody">
+                <tr data-id="J10300">
+                  <td>J10300</td>
+                  <td>new_shop</td>
+                  <td>050 111 11 11</td>
+                  <td>New Shop</td>
+                  <td>Gözləyir</td>
+                  <td>
+                    <button class="btn primary" data-action="finalApprove">
+                      Final təsdiq
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Products -->
+        <section id="view-products" style="display: none">
+          <div class="panel">
+            <h3>Məhsullar</h3>
+            <div class="muted">
+              Çoxlu sətir olduqda server-side pagination tövsiyə olunur.
+            </div>
+            <div style="margin-top: 8px; overflow: auto">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>OEM №</th>
+                    <th>Brend</th>
+                    <th>Mal adı</th>
+                    <th>Ünvan</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1244100681</td>
+                    <td>FEBI</td>
+                    <td>Podvesnoy</td>
+                    <td>Babek</td>
+                    <td><button class="btn ghost">Detallar</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Logs -->
+        <section id="view-logs" style="display: none">
+          <div class="panel">
+            <h3>Activity Logs</h3>
+            <div class="muted">Son 500 log</div>
+            <div
+              style="
+                margin-top: 8px;
+                max-height: 260px;
+                overflow: auto;
+                background: rgba(255, 255, 255, 0.01);
+                padding: 8px;
+                border-radius: 8px;
+              "
+            >
+              <div class="event">
+                <div
+                  style="
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    background: var(--accent);
+                    margin-right: 8px;
+                  "
+                ></div>
+                <div><strong>admin</strong> daxil oldu — 2025-08-14 09:12</div>
+              </div>
+              <div class="event">
+                <div
+                  style="
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    background: var(--danger);
+                    margin-right: 8px;
+                  "
+                ></div>
+                <div>
+                  <strong>system</strong> backup tamamlandi — 2025-08-13 02:10
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Integrations -->
+        <section id="view-integrations" style="display: none">
+          <div class="panel">
+            <h3>Integrations & Webhooks</h3>
+            <div class="muted">
+              API açarları, webhook URL-ləri və inteqrasiya qeydləri.
+            </div>
+          </div>
+        </section>
+
+        <!-- Settings -->
+        <section id="view-settings" style="display: none">
+          <div class="panel">
+            <h3>Sistem Ayarları</h3>
+            <div class="muted">
+              Backup, maintenance, SMTP və s. burada olar.
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <aside class="right-col">
+        <div class="panel">
+          <h4>Real-time Feed</h4>
+          <div class="activity" id="activityFeed">
+            <div class="event">
+              <div class="dot" style="background: var(--accent)"></div>
+              <div>
+                <strong>Yeni qeydiyyat</strong>
+                <div class="muted">parts_shop — 2 dəqiqə əvvəl</div>
+              </div>
+            </div>
+            <div class="event">
+              <div class="dot" style="background: var(--success)"></div>
+              <div>
+                <strong>Backup</strong>
+                <div class="muted">1 saat əvvəl</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h4>Quick Actions</h4>
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              gap: 8px;
+              margin-top: 8px;
+            "
+          >
+            <button class="btn primary" id="approveAll">
+              Hamısını təsdiq et
+            </button>
+            <button class="btn ghost" id="reindex">Reindex Search</button>
+            <button class="btn ghost" id="runBackup">Run Backup</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h4>System</h4>
+          <div class="muted">Uptime: 7d 4h · Version: 1.0.0</div>
+          <div style="margin-top: 8px">
+            <button class="btn ghost" id="downloadLogs">Download logs</button>
+          </div>
+        </div>
+      </aside>
+
+      <div class="modal-wrap" id="modalInvite" aria-hidden>
+        <div class="modal">
+          <h3>İstifadəçi dəvət et</h3>
+          <p class="muted">E-mail ilə dəvət göndər və rolları təyin et.</p>
+          <div style="display: flex; gap: 8px; margin-top: 12px">
+            <input
+              id="inviteEmail"
+              placeholder="email@shop.az"
+              style="
+                flex: 1;
+                padding: 10px;
+                border-radius: 8px;
+                background: rgba(255, 255, 255, 0.02);
+                border: 1px solid rgba(255, 255, 255, 0.02);
+              "
+            /><select
+              id="inviteRole"
+              style="
+                padding: 10px;
+                border-radius: 8px;
+                background: rgba(255, 255, 255, 0.02);
+                border: 1px solid rgba(255, 255, 255, 0.02);
+              "
+            >
+              <option>store_rep</option>
+              <option>moderator</option>
+              <option>admin</option>
+            </select>
+          </div>
+          <div
+            style="
+              display: flex;
+              justify-content: flex-end;
+              gap: 8px;
+              margin-top: 12px;
+            "
+          >
+            <button class="btn ghost" id="closeInvite">Ləğv et</button
+            ><button class="btn primary" id="sendInvite">Göndər</button>
+          </div>
+        </div>
+      </div>
+
+      <footer class="app-footer">© 2025 Slide · Admin Console</footer>
+    </div>
+
+    <script>
+      // Simple view router
+      document.querySelectorAll(".nav a").forEach((a) =>
+        a.addEventListener("click", (e) => {
+          e.preventDefault();
+          document
+            .querySelectorAll(".nav a")
+            .forEach((x) => x.classList.remove("active"));
+          a.classList.add("active");
+          const view = a.dataset.view;
+          document
+            .querySelectorAll("main section")
+            .forEach(
+              (s) => (s.style.display = s.id === "view-" + view ? "" : "none")
+            );
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        })
+      );
+
+      // pending table actions
+      document.getElementById("pendingTable").addEventListener("click", (e) => {
+        const btn = e.target.closest("button");
+        if (!btn) return;
+        const tr = btn.closest("tr");
+        const id = tr?.dataset.id;
+        const action = btn.dataset.action;
+        if (action === "view") {
+          alert("Show detail modal for " + id);
+        }
+        if (action === "approve") {
+          if (confirm("Final təsdiq verilsin?")) {
+            alert(id + " təsdiq edildi (demo)");
+            tr.remove();
+            document.getElementById("m_pending").textContent =
+              document.querySelectorAll("#pendingTable tbody tr").length;
+          }
+        }
+      });
+
+      // invite modal
+      const modal = document.getElementById("modalInvite");
+      document.getElementById("inviteBtn").addEventListener("click", () => {
+        modal.classList.add("show");
+        modal.removeAttribute("aria-hidden");
+      });
+      document.getElementById("closeInvite").addEventListener("click", () => {
+        modal.classList.remove("show");
+        modal.setAttribute("aria-hidden", "true");
+      });
+      document.getElementById("sendInvite").addEventListener("click", () => {
+        const email = document.getElementById("inviteEmail").value.trim();
+        const role = document.getElementById("inviteRole").value;
+        if (!email) return alert("Email daxil edin");
+        alert("Dəvət göndərildi: " + email + " rol: " + role + " (demo)");
+        modal.classList.remove("show");
+        modal.setAttribute("aria-hidden", "true");
+      });
+
+      // quick actions
+      document.getElementById("quickApprove").addEventListener("click", () => {
+        if (confirm("Seçilənləri təsdiq etmək istədiyinizə əminsiniz?"))
+          alert("Təsdiq edildi (demo)");
+      });
+      document
+        .getElementById("quickExport")
+        .addEventListener("click", () => alert("Export (demo)"));
+      document.getElementById("approveAll").addEventListener("click", () => {
+        if (confirm("Hamısını təsdiq et?"))
+          alert("Hamısı təsdiq edildi (demo)");
+      });
+      document.getElementById("runBackup").addEventListener("click", () => {
+        if (confirm("Backup başlasın?")) alert("Backup başlatıldı (demo)");
+      });
+      document
+        .getElementById("downloadLogs")
+        .addEventListener("click", () => alert("Loglar yüklənir (demo)"));
+
+      // search
+      document.getElementById("globalQ").addEventListener("input", (e) => {
+        const q = e.target.value.toLowerCase();
+        document.querySelectorAll("table tbody tr").forEach((tr) => {
+          tr.style.display = tr.textContent.toLowerCase().includes(q)
+            ? ""
+            : "none";
+        });
+      });
+    </script>
+  </body>
+</html>

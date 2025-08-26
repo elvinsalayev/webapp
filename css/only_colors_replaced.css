@@ -1,0 +1,101 @@
+
+html,
+body {
+  height: 100%;
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(135deg, var(--background-gradient-start), var(--background-gradient-end));
+  color: var(--text-color);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+.navbar {
+  background: var(--navbar-bg);
+}
+
+.navbar__search input {
+  background: var(--input-bg);
+  color: var(--text-color);
+}
+
+.navbar__search input::placeholder {
+  color: var(--input-placeholder);
+}
+
+.navbar__search button {
+  background: var(--button-bg);
+}
+
+.navbar__search button:hover {
+  background: var(--button-hover-bg);
+}
+
+.icon-button {
+  background: var(--input-bg);
+  color: var(--text-color);
+}
+
+.icon-button:hover {
+  background: var(--icon-btn-hover-bg);
+}
+
+.dropdown__menu {
+  background: var(--navbar-bg);
+}
+
+.dropdown__menu li a {
+  color: var(--text-color);
+}
+
+.dropdown__menu li a:hover {
+  background: var(--dropdown-hover);
+}
+
+.dropdown__divider {
+  background: var(--icon-btn-hover-bg);
+}
+
+.custom-table {
+  background: rgba(26, 38, 52, 0.8);
+}
+
+.custom-table td,
+.custom-table th {
+  color: var(--text-color);
+}
+
+.custom-table tbody tr:hover {
+  background: var(--table-hover-bg);
+}
+
+.tooltip-content {
+  background: var(--tooltip-bg);
+}
+
+.tooltip-content::before {
+  border-bottom-color: var(--tooltip-bg);
+}
+
+.tooltip-content,
+.tooltip-content strong {
+  color: var(--text-color);
+}
+
+.pagination-container .page-btn {
+  background: var(--input-bg);
+  color: var(--text-color);
+}
+
+.page-btn:hover:not(:disabled) {
+  background: var(--icon-btn-hover-bg);
+}
+
+.page-btn.active {
+  background: var(--button-hover-bg);
+}
+
+.footer {
+  background: var(--footer-bg);
+  color: var(--footer-text);
+  border-top: 0.5px solid var(--footer-border);
+}

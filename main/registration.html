@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="az">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Bizə Qatıl — Slide</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <style>
+      :root {
+        --background-gradient-start: #343a48;
+        --background-gradient-end: #6b7074;
+        --text-color: #eef2f7;
+        --navbar-bg: rgba(26, 38, 52, 0.95);
+        --input-bg: rgba(255, 255, 255, 0.04);
+        --input-border: rgba(255, 255, 255, 0.06);
+        --accent: rgba(231, 30, 3, 0.95);
+        --accent-weak: rgba(231, 30, 3, 0.5);
+        --card-bg: rgba(20, 28, 36, 0.55);
+        --muted: rgba(255, 255, 255, 0.6);
+        --success: #2ecc71;
+      }
+      /* container */
+      .container {
+        max-width: 1100px;
+        margin: 3.5rem auto;
+        padding: 1rem;
+      }
+
+      /* card */
+      .card {
+        background: var(--card-bg);
+        border-radius: 12px;
+        padding: 26px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 420px;
+        gap: 22px;
+        align-items: start;
+      }
+      @media (max-width: 920px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .navbar__search {
+          display: none;
+        }
+      }
+
+      h1 {
+        font-size: 20px;
+        margin-bottom: 8px;
+      }
+      p.lead {
+        color: var(--muted);
+        font-size: 14px;
+        margin-bottom: 18px;
+      }
+
+      form .row {
+        display: flex;
+        gap: 12px;
+      }
+      form .col {
+        flex: 1;
+      }
+      label {
+        display: block;
+        font-size: 13px;
+        margin-bottom: 6px;
+        color: var(--muted);
+      }
+      input[type="text"],
+      input[type="tel"],
+      input[type="email"],
+      select,
+      textarea {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid var(--input-border);
+        background: var(--input-bg);
+        color: var(--text-color);
+        font-size: 14px;
+      }
+      textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+      .note {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+
+      .file-input {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .file-input input[type="file"] {
+        flex: 1;
+      }
+
+      .actions {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        margin-top: 14px;
+      }
+      .btn {
+        padding: 10px 16px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        font-weight: 700;
+      }
+      .btn--primary {
+        background: var(--accent);
+        color: #fff;
+      }
+      .btn--ghost {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        color: var(--text-color);
+      }
+
+      .status-chip {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      /* sidebar (info) */
+      .meta {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          transparent
+        );
+        padding: 18px;
+        border-radius: 10px;
+      }
+      .meta h3 {
+        font-size: 15px;
+        margin-bottom: 8px;
+      }
+      .meta p {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.4;
+      }
+      .steps {
+        margin-top: 12px;
+      }
+      .step {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        margin: 10px 0;
+      }
+      .step .num {
+        width: 36px;
+        height: 36px;
+        border-radius: 9px;
+        background: rgba(255, 255, 255, 0.03);
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+      }
+      .step strong {
+        display: block;
+      }
+      .small {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      /* success overlay */
+      .overlay {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.4),
+          rgba(0, 0, 0, 0.6)
+        );
+        z-index: 120;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 200ms;
+      }
+      .overlay.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .modal {
+        background: #0e1620;
+        padding: 22px;
+        border-radius: 12px;
+        max-width: 720px;
+        width: 96%;
+        color: var(--text-color);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+      }
+      .modal h2 {
+        margin-bottom: 8px;
+      }
+      .modal p {
+        color: var(--muted);
+        margin-bottom: 14px;
+      }
+      .modal .meta-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .badge {
+        padding: 8px 12px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      /* tiny helper */
+      .muted {
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar__brand">
+        <a href="../search.html" class="brand">Slide</a>
+      </div>
+      <form class="navbar__search" onsubmit="event.preventDefault();">
+        <input
+          type="search"
+          placeholder="Nə axtarırıq..."
+          aria-label="Search"
+        />
+        <button type="submit">Axtar</button>
+      </form>
+      <div style="display: flex; gap: 8px; align-items: center">
+        <button
+          class="icon-button"
+          aria-label="Favorites"
+          style="
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            color: var(--text-color);
+          "
+        >
+          ❤️
+        </button>
+        <div
+          style="
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            display: grid;
+            place-items: center;
+          "
+        >
+          ⋮
+        </div>
+      </div>
+    </nav>
+
+    <main class="container">
+      <div class="card">
+        <div style="width: 100%">
+          <div class="grid">
+            <section>
+              <h1>Bizə Qatıl — Nümayəndə Qeydiyyatı</h1>
+              <p class="lead">
+                Xahiş olunur bütün sahələri düzgün doldurun. Doldurduqdan sonra
+                məlumat admin panelinə göndəriləcək; əməkdaşımız telefonla əlaqə
+                saxlayacaq və təsdiq aldıqdan sonra hesabınız aktiv ediləcək.
+              </p>
+
+              <form id="joinForm" novalidate>
+                <div class="row">
+                  <div class="col">
+                    <label for="username">İstifadəçi adı (login)</label>
+                    <input
+                      id="username"
+                      name="username"
+                      type="text"
+                      placeholder="musteveliye123"
+                      required
+                    />
+                  </div>
+                  <div class="col">
+                    <label for="repName">Əlaqə şəxsi adı</label>
+                    <input
+                      id="repName"
+                      name="repName"
+                      type="text"
+                      placeholder="Məmməd Məmmədov"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="row" style="margin-top: 12px">
+                  <div class="col">
+                    <label for="phone">Telefon (əlaqə)</label>
+                    <input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      placeholder="050 999 99 99"
+                      required
+                    />
+                    <div class="note">
+                      Əməkdaşımız bu nömrə ilə sizə zəng edəcək təsdiq üçün.
+                    </div>
+                  </div>
+                  <div class="col">
+                    <label for="email">E-poçt (ixtiyari)</label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      placeholder="example@shop.az"
+                    />
+                  </div>
+                </div>
+
+                <div style="margin-top: 12px">
+                  <label for="shop">Mağazanın adı / Filial</label>
+                  <input
+                    id="shop"
+                    name="shop"
+                    type="text"
+                    placeholder="Slide Avto Baku — Nərimanov"
+                    required
+                  />
+                </div>
+
+                <div class="row" style="margin-top: 12px">
+                  <div class="col">
+                    <label for="city">Şəhər / Rayon</label>
+                    <input
+                      id="city"
+                      name="city"
+                      type="text"
+                      placeholder="Bakı"
+                      required
+                    />
+                  </div>
+                  <div class="col">
+                    <label for="brands"
+                      >Satdığınız brendlər (virgüllə ayırın)</label
+                    >
+                    <input
+                      id="brands"
+                      name="brands"
+                      type="text"
+                      placeholder="Toyota, Mercedes, BMW"
+                    />
+                  </div>
+                </div>
+
+                <div style="margin-top: 12px">
+                  <label for="notes">Qısa təsvir / əlavə məlumat</label>
+                  <textarea
+                    id="notes"
+                    name="notes"
+                    placeholder="Hansı kateqoriyalar, xüsusi təkliflər, açıq iş saatları və s."
+                  ></textarea>
+                </div>
+
+                <div style="margin-top: 12px" class="file-input">
+                  <label for="doc">Sənəd (ixtiyari)</label>
+                  <input
+                    id="doc"
+                    name="doc"
+                    type="file"
+                    accept=".pdf,.jpg,.png"
+                  />
+                </div>
+
+                <div
+                  style="
+                    margin-top: 12px;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                  "
+                >
+                  <input id="agree" name="agree" type="checkbox" />
+                  <label for="agree" class="small"
+                    >Məlumatlar düz və mən bu mağazanı təmsil etdiyimi təsdiq
+                    edirəm.</label
+                  >
+                </div>
+
+                <div class="actions">
+                  <button class="btn btn--primary" id="submitBtn" type="submit">
+                    Müraciəti Göndər
+                  </button>
+                  <button
+                    class="btn btn--ghost"
+                    type="button"
+                    onclick="document.getElementById('joinForm').reset()"
+                  >
+                    Sıfırla
+                  </button>
+                  <div style="margin-left: auto" class="status-chip">
+                    Müraciət statusu: <strong id="statusText">Yeni</strong>
+                  </div>
+                </div>
+              </form>
+
+              <div
+                style="margin-top: 14px; font-size: 13px; color: var(--muted)"
+              >
+                Qeyd: Bu sistem birbaşa avtomatik aktiv etməz. Təsdiq proseduru:
+                (1) Sənəd və məlumatlar admin panelinə gedir, (2) nümayəndə ilə
+                telefonla əlaqə, (3) admin/moderator təsdiq edir — sonra hesab
+                aktiv olur.
+              </div>
+            </section>
+
+            <aside class="meta">
+              <h3>Nəticə necə olacaq?</h3>
+              <p>
+                Bizə göndərdiyiniz məlumat admin panelində
+                <strong>"Gözləyir"</strong> vəziyyətinə düşəcək. İşçi sizinlə
+                əlaqə saxladıqdan sonra admin və ya moderator hesabı "Təsdiq"
+                edəcək. Təsdiqdən sonra siz login istifadəçisi kimi giriş edə
+                biləcəksiniz.
+              </p>
+
+              <div class="steps">
+                <div class="step">
+                  <div class="num">1</div>
+                  <div>
+                    <strong>Məlumat göndər</strong>
+                    <div class="small">Formu doldur və göndər.</div>
+                  </div>
+                </div>
+                <div class="step">
+                  <div class="num">2</div>
+                  <div>
+                    <strong>Telefonla yoxlama</strong>
+                    <div class="small">
+                      İşçi göstərilən nömrə ilə əlaqə saxlayacaq.
+                    </div>
+                  </div>
+                </div>
+                <div class="step">
+                  <div class="num">3</div>
+                  <div>
+                    <strong>Admin təsdiqi</strong>
+                    <div class="small">
+                      Admin paneldən hesab aktiv ediləcək.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="margin-top: 12px">
+                <strong>Qeyd:</strong>
+                <div class="small">
+                  Admin panel inteqrasiyası üçün backend `/api/register`
+                  endpointinə ehtiyac var. Bu frontend form məlumatları JSON və
+                  ya multipart olaraq göndərəcək.
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div class="footer">
+      &copy; 2025 App |
+      <a href="#" style="color: var(--text-color); text-decoration: underline"
+        >Bizə Qatıl</a
+      >
+    </div>
+    <!-- success / pending modal -->
+    <div id="overlay" class="overlay" aria-hidden>
+      <div class="modal" role="dialog" aria-modal="true">
+        <h2>Müraciət qəbul edildi</h2>
+        <p>
+          Məlumatınız qəbul edildi və "Gözləyir" statusuna qoyuldu. Əməkdaşımız
+          ən qısa zamanda <strong id="modalPhone"></strong> nömrəsi ilə əlaqə
+          saxlayacaq. Admin təsdiqi tamamlandıqdan sonra hesab
+          aktivləşdiriləcək.
+        </p>
+
+        <div class="meta-row">
+          <div class="badge">Status: Gözləyir</div>
+          <div class="badge">Qeydiyyat nömrəsi: <span id="regId">—</span></div>
+        </div>
+
+        <div
+          style="
+            margin-top: 14px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+          "
+        >
+          <button class="btn btn--ghost" onclick="closeOverlay()">Bağla</button>
+          <a href="login.html"
+            ><button class="btn btn--primary">Login Səhifəsinə Get</button></a
+          >
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const form = document.getElementById("joinForm");
+      const submitBtn = document.getElementById("submitBtn");
+      const statusText = document.getElementById("statusText");
+      const overlay = document.getElementById("overlay");
+      const modalPhone = document.getElementById("modalPhone");
+      const regIdSpan = document.getElementById("regId");
+
+      function validate() {
+        const username = form.username.value.trim();
+        const repName = form.repName.value.trim();
+        const phone = form.phone.value.trim();
+        const shop = form.shop.value.trim();
+        const city = form.city.value.trim();
+        const agree = form.agree.checked;
+        return username && repName && phone && shop && city && agree;
+      }
+
+      form.addEventListener("input", () => {
+        submitBtn.disabled = !validate();
+      });
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (!validate())
+          return alert(
+            "Zəhmət olmasa bütün tələb olunan sahələri doldurun və razılıq verin."
+          );
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Göndərilir...";
+
+        // prepare payload
+        const payload = new FormData();
+        payload.append("username", form.username.value.trim());
+        payload.append("repName", form.repName.value.trim());
+        payload.append("phone", form.phone.value.trim());
+        payload.append("email", form.email.value.trim());
+        payload.append("shop", form.shop.value.trim());
+        payload.append("city", form.city.value.trim());
+        payload.append("brands", form.brands.value.trim());
+        payload.append("notes", form.notes.value.trim());
+        if (form.doc.files[0]) payload.append("doc", form.doc.files[0]);
+
+        // send to backend (placeholder)
+        try {
+          // Replace /api/register with your real endpoint. Backend should create a record with status="pending"
+          const res = await fetch("/api/register", {
+            method: "POST",
+            body: payload,
+          });
+
+          // For demo: if backend not available, simulate success
+          if (!res || !res.ok) {
+            // simulate id
+            const fakeId = "J" + Math.floor(Math.random() * 90000 + 10000);
+            showOverlay(fakeId, form.phone.value.trim());
+            statusText.textContent = "Gözləyir";
+            submitBtn.textContent = "Göndərildi";
+            submitBtn.disabled = true;
+          } else {
+            const data = await res.json();
+            const id =
+              data.id || "J" + Math.floor(Math.random() * 90000 + 10000);
+            showOverlay(id, form.phone.value.trim());
+            statusText.textContent = "Gözləyir";
+            submitBtn.textContent = "Göndərildi";
+            submitBtn.disabled = true;
+          }
+        } catch (err) {
+          console.error(err);
+          const fakeId = "J" + Math.floor(Math.random() * 90000 + 10000);
+          showOverlay(fakeId, form.phone.value.trim());
+          statusText.textContent = "Gözləyir";
+          submitBtn.textContent = "Göndərildi";
+          submitBtn.disabled = true;
+        }
+      });
+
+      function showOverlay(id, phone) {
+        regIdSpan.textContent = id;
+        modalPhone.textContent = phone || "—";
+        overlay.classList.add("show");
+        overlay.removeAttribute("aria-hidden");
+      }
+      function closeOverlay() {
+        overlay.classList.remove("show");
+        overlay.setAttribute("aria-hidden", "true");
+      }
+
+      // init
+      submitBtn.disabled = true;
+    </script>
+  </body>
+</html>

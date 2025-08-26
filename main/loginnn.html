@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="az">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Giriş — Slide</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <style>
+      :root {
+        --bg-start: #343a48;
+        --bg-end: #6b7074;
+        --card: #162029;
+        --accent: #e71e03;
+        --muted: rgba(255, 255, 255, 0.7);
+        --glass: rgba(255, 255, 255, 0.03);
+      }
+      /* layout */
+      .wrap {
+        max-width: 1100px;
+        margin: 4.5rem auto;
+        padding: 1rem;
+      }
+      .stage {
+        display: grid;
+        grid-template-columns: 1fr 440px;
+        gap: 28px;
+        align-items: center;
+      }
+      @media (max-width: 980px) {
+        .stage {
+          grid-template-columns: 1fr;
+        }
+        .decor {
+          display: none;
+        }
+      }
+
+      /* left decorative / tagline */
+      .decor {
+        padding: 40px 28px;
+      }
+      .eye {
+        font-size: 48px;
+        font-weight: 800;
+        letter-spacing: 2px;
+        margin-bottom: 6px;
+      }
+      .tag {
+        font-size: 22px;
+        margin-bottom: 12px;
+      }
+      .desc {
+        color: var(--muted);
+        max-width: 520px;
+        line-height: 1.5;
+      }
+
+      /* creative card */
+      .card {
+        background: linear-gradient(180deg, var(--card), rgba(20, 28, 36, 0.6));
+        border-radius: 16px;
+        padding: 22px;
+        backdrop-filter: blur(6px);
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.6);
+        position: relative;
+        overflow: hidden;
+      }
+      .card::after {
+        content: "";
+        position: absolute;
+        right: -120px;
+        top: -120px;
+        width: 260px;
+        height: 260px;
+        background: radial-gradient(
+            circle at 30% 30%,
+            rgba(231, 30, 3, 0.12),
+            transparent 30%
+          ),
+          radial-gradient(
+            circle at 70% 70%,
+            rgba(255, 123, 0, 0.08),
+            transparent 30%
+          );
+        transform: rotate(25deg);
+        pointer-events: none;
+      }
+
+      .welcome {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+      .logo-bubble {
+        width: 56px;
+        height: 56px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #ff3c3c, #ff8a3c);
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+      }
+      .welcome h2 {
+        font-size: 18px;
+      }
+      .welcome p {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 2px;
+      }
+
+      form {
+        margin-top: 10px;
+      }
+      label {
+        font-size: 13px;
+        color: var(--muted);
+        display: block;
+        margin-bottom: 6px;
+      }
+      input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        background: rgba(255, 255, 255, 0.02);
+        color: inherit;
+        font-size: 14px;
+      }
+      .row {
+        display: flex;
+        gap: 10px;
+      }
+      .remember {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 8px;
+      }
+      .btn {
+        margin-top: 14px;
+        padding: 12px;
+        border-radius: 10px;
+        border: none;
+        background: linear-gradient(90deg, var(--accent), #ff7b00);
+        color: #fff;
+        font-weight: 700;
+        cursor: pointer;
+        width: 100%;
+      }
+      .alt {
+        margin-top: 12px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .help-links {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+      a.link {
+        color: inherit;
+        text-decoration: underline;
+      }
+
+      /* magic hint */
+      .magic {
+        margin-top: 14px;
+        padding: 10px;
+        border-radius: 10px;
+        background: var(--glass);
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      /* footer */
+      .footer {
+        background: var(--footer-bg);
+        text-align: center;
+        font-size: 0.9rem;
+        color: var(--footer-text);
+        border-top: 0.5px solid var(--footer-border);
+        padding: 2rem;
+        width: 100%;
+      }
+      .footer__link:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar__brand">
+        <a href="search.html" class="brand">Slide</a>
+      </div>
+      <div style="display: flex; gap: 8px; align-items: center">
+        <button
+          class="icon-button"
+          aria-label="Favorites"
+          style="
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            color: #eef2f7;
+          "
+        >
+          ❤️
+        </button>
+        <div
+          style="
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            display: grid;
+            place-items: center;
+          "
+        >
+          ⋮
+        </div>
+      </div>
+    </nav>
+
+    <div class="wrap">
+      <div class="stage">
+        <div class="decor">
+          <div class="eye">👀 Slide-ə xoş gəlmisiniz</div>
+          <div class="tag">Sürətli giriş — mağaza nümayəndələri üçün</div>
+          <div class="desc">
+            İstifadəçi adınla daxil ol. Hesabın hələ aktiv deyilsə —
+            <strong>Bizə Qatıl</strong> səhifəsindən qeydiyyat et və admin
+            təsdiqini gözlə. Burada həmçinin magic-link və ya telefon ilə daxil
+            olma variantını nümayiş etdirdik.
+          </div>
+
+          <div style="margin-top: 18px; display: flex; gap: 10px">
+            <div
+              style="
+                padding: 12px;
+                border-radius: 10px;
+                background: rgba(255, 255, 255, 0.03);
+                min-width: 120px;
+                text-align: center;
+              "
+            >
+              Nümayəndə<br /><strong>Mağaza</strong>
+            </div>
+            <div
+              style="
+                padding: 12px;
+                border-radius: 10px;
+                background: rgba(255, 255, 255, 0.03);
+                min-width: 120px;
+                text-align: center;
+              "
+            >
+              Admin<br /><strong>Giriş</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" role="region" aria-label="Login card">
+          <div class="welcome">
+            <div class="logo-bubble">SL</div>
+            <div>
+              <h2>Giriş</h2>
+              <p>İstifadəçi adınla daxil ol — nümayəndələr üçün.</p>
+            </div>
+          </div>
+
+          <form id="loginForm" autocomplete="on">
+            <label for="username">İstifadəçi adı</label>
+            <input
+              id="username"
+              name="username"
+              type="text"
+              placeholder="musteveliye123"
+              required
+              autofocus
+            />
+
+            <label for="password" style="margin-top: 10px">Şifrə</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Şifrənizi daxil edin"
+              required
+            />
+
+            <div class="remember">
+              <input id="remember" type="checkbox" /><label
+                for="remember"
+                style="font-size: 13px; color: var(--muted)"
+                >Məni xatırla</label
+              >
+            </div>
+
+            <button type="submit" class="btn">Daxil ol</button>
+
+            <div class="help-links">
+              <a href="join.html" class="link">Hesab yarat</a>
+              <a href="change-password.html" class="link">Şifrəni unutdum</a>
+            </div>
+
+            <div class="magic">
+              Telefon nömrəsi ilə sürətli giriş:
+              <button
+                type="button"
+                id="magicBtn"
+                style="
+                  background: transparent;
+                  border: none;
+                  color: inherit;
+                  text-decoration: underline;
+                  cursor: pointer;
+                "
+              >
+                Magic link göndər
+              </button>
+            </div>
+          </form>
+
+          <div class="alt">və ya</div>
+
+          <div style="display: flex; gap: 10px; margin-top: 10px">
+            <button
+              class="btn"
+              id="demoBtn"
+              style="
+                flex: 1;
+                background: transparent;
+                border: 1px solid rgba(255, 255, 255, 0.06);
+              "
+            >
+              Demonstrasiya giriş
+            </button>
+            <button
+              class="btn"
+              id="helpBtn"
+              style="
+                flex: 1;
+                background: linear-gradient(90deg, #2ec3a7, #57d2a7);
+              "
+            >
+              Kömək
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      &copy; 2025 Slide | <a href="join.html" class="link">Bizə Qatıl</a>
+    </footer>
+
+    <script>
+      const form = document.getElementById("loginForm");
+      const magicBtn = document.getElementById("magicBtn");
+      const demoBtn = document.getElementById("demoBtn");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const u = form.username.value.trim();
+        const p = form.password.value;
+        if (!u || !p)
+          return alert("Zəhmət olmasa istifadəçi adı və şifrənizi daxil edin.");
+
+        const payload = { username: u, password: p };
+        try {
+          const res = await fetch("/api/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          if (!res || !res.ok) {
+            // demo behaviour: accept demo/demo as creds
+            if (u === "demo" && p === "demo") {
+              window.location.href = "search.html";
+              return;
+            }
+            alert(
+              "Giriş uğursuz oldu. İstifadəçi adı və ya şifrə səhvdir, və ya hesab aktiv deyil."
+            );
+            return;
+          }
+          const data = await res.json();
+          // on success redirect
+          window.location.href = data.redirect || "search.html";
+        } catch (err) {
+          console.error(err);
+          if (u === "demo" && p === "demo") {
+            window.location.href = "search.html";
+            return;
+          }
+          alert("Xəta baş verdi — serverə qoşula bilmədi.");
+        }
+      });
+
+      magicBtn.addEventListener("click", () => {
+        const user = document.getElementById("username").value.trim();
+        if (!user)
+          return alert(
+            "Magic link üçün əvvəlcə istifadəçi adınızı və ya telefon nömrənizi daxil edin."
+          );
+        alert(
+          "Demo: magic link göndərildi (server inteqrasiyası tələb olunur)."
+        );
+      });
+
+      demoBtn.addEventListener("click", () => {
+        document.getElementById("username").value = "demo";
+        document.getElementById("password").value = "demo";
+        form.dispatchEvent(new Event("submit"));
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="az">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Moderator — Dashboard</title>
+    <style>
+      :root {
+        --bg-start: #343a48;
+        --bg-end: #6b7074;
+        --card: #162029;
+        --accent: #e71e03;
+        --muted: rgba(255, 255, 255, 0.7);
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+        background: linear-gradient(120deg, var(--bg-start), var(--bg-end));
+        color: #eef2f7;
+      }
+
+      .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 22px;
+        background: rgba(26, 38, 52, 0.95);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      }
+      .brand {
+        font-weight: 700;
+        background: linear-gradient(
+          -45deg,
+          #ed0505 25%,
+          #ff7b00 25%,
+          #e71e03 50%
+        );
+        -webkit-background-clip: text;
+        color: transparent;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 18px;
+        max-width: 1400px;
+        margin: 28px auto;
+        padding: 0 18px;
+      }
+      @media (max-width: 980px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+        .sidebar {
+          order: 2;
+        }
+      }
+
+      .sidebar {
+        background: rgba(20, 28, 36, 0.6);
+        padding: 16px;
+        border-radius: 10px;
+        position: sticky;
+        top: 20px;
+        height: fit-content;
+      }
+      .sidebar h4 {
+        margin-bottom: 10px;
+      }
+      .slink {
+        display: block;
+        padding: 10px;
+        border-radius: 8px;
+        color: var(--muted);
+        text-decoration: none;
+        border: 1px solid transparent;
+        margin-bottom: 6px;
+      }
+      .slink.active {
+        background: rgba(255, 255, 255, 0.02);
+        font-weight: 700;
+        border-color: rgba(255, 255, 255, 0.03);
+      }
+
+      .main {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .row-cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+      }
+      @media (max-width: 1100px) {
+        .row-cards {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      .card {
+        background: var(--card);
+        padding: 14px;
+        border-radius: 10px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+      }
+      .card h5 {
+        font-size: 14px;
+        margin-bottom: 8px;
+      }
+      .big-number {
+        font-size: 22px;
+        font-weight: 800;
+      }
+
+      .search-row {
+        display: flex;
+        gap: 10px;
+      }
+      .search-row input {
+        flex: 1;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        background: rgba(255, 255, 255, 0.02);
+        color: inherit;
+      }
+      .btn {
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-weight: 700;
+      }
+      .btn.primary {
+        background: linear-gradient(90deg, #ff3c3c, #ff8a3c);
+        color: #fff;
+      }
+      .btn.ghost {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        color: var(--muted);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 8px;
+      }
+      th,
+      td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        font-size: 13px;
+      }
+      tr:hover td {
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .actions {
+        display: flex;
+        gap: 8px;
+      }
+      .pill {
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.03);
+        font-size: 13px;
+      }
+
+      .flex {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      /* modal */
+      .overlay {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 120;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 160ms;
+      }
+      .overlay.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .modal {
+        background: #0e1620;
+        padding: 16px;
+        border-radius: 10px;
+        width: 520px;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="brand">Slide — Moderator</div>
+      <div class="flex"><div class="pill">Hesab: Moderator</div></div>
+    </nav>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <h4>Moderator paneli</h4>
+        <a class="slink active" data-view="pending"
+          >Gözləyən müraciətlər
+          <span id="pendingCount" style="float: right" class="pill">3</span></a
+        >
+        <a class="slink" data-view="flagged">Hesab xəbərdarlıqları</a>
+        <a class="slink" data-view="reports">İstifadəçi raporları</a>
+        <a class="slink" data-view="search">Axtarış & Nəzarət</a>
+        <div style="margin-top: 12px">
+          <button class="btn ghost" id="refreshBtn">Yenilə</button>
+        </div>
+      </aside>
+
+      <main class="main">
+        <div class="row-cards">
+          <div class="card">
+            <h5>Gözləyən</h5>
+            <div class="big-number" id="c_pending">3</div>
+            <div class="small">Yeni qeydiyyatlar</div>
+          </div>
+          <div class="card">
+            <h5>Aktiv</h5>
+            <div class="big-number" id="c_active">1,240</div>
+            <div class="small">Aktiv nümayəndələr</div>
+          </div>
+          <div class="card">
+            <h5>Raporlar</h5>
+            <div class="big-number" id="c_reports">5</div>
+            <div class="small">Son 7 gün</div>
+          </div>
+          <div class="card">
+            <h5>Bildirişlər</h5>
+            <div class="big-number" id="c_alerts">2</div>
+            <div class="small">Tələblər</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div
+            class="flex"
+            style="justify-content: space-between; align-items: center"
+          >
+            <div>
+              <div style="font-weight: 800">Gözləyən Qeydiyyatlar</div>
+              <div class="small">
+                Buradan moderator hər müraciəti yoxlayıb adminə göndərə, ya da
+                rədd edə bilər.
+              </div>
+            </div>
+            <div class="flex">
+              <input
+                id="q"
+                type="text"
+                placeholder="Axtar — istifadəçi adı, mağaza, telefon"
+                style="
+                  padding: 10px;
+                  border-radius: 8px;
+                  border: 1px solid rgba(255, 255, 255, 0.04);
+                  background: rgba(255, 255, 255, 0.02);
+                  color: inherit;
+                "
+              />
+              <button class="btn primary" id="searchBtn">Axtar</button>
+            </div>
+          </div>
+
+          <table id="pendingTable" aria-live="polite">
+            <thead>
+              <tr>
+                <th>İD</th>
+                <th>İstifadəçi adı</th>
+                <th>Mağaza</th>
+                <th>Telefon</th>
+                <th>Tarix</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- demo rows -->
+              <tr data-id="J10234">
+                <td>J10234</td>
+                <td>musteveliye123</td>
+                <td>Slide Avto — Nərimanov</td>
+                <td>050 999 99 99</td>
+                <td>2025-08-10</td>
+                <td>
+                  <div class="actions">
+                    <button class="btn ghost" data-action="view">Gör</button
+                    ><button class="btn primary" data-action="approve">
+                      Təsdiq et</button
+                    ><button
+                      class="btn"
+                      data-action="reject"
+                      style="
+                        background: transparent;
+                        border: 1px solid rgba(255, 0, 0, 0.12);
+                        color: #ff7b7b;
+                      "
+                    >
+                      Rədd et
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr data-id="J10235">
+                <td>J10235</td>
+                <td>autoservis_baku</td>
+                <td>AutoServis Baku</td>
+                <td>055 444 44 44</td>
+                <td>2025-08-11</td>
+                <td>
+                  <div class="actions">
+                    <button class="btn ghost" data-action="view">Gör</button
+                    ><button class="btn primary" data-action="approve">
+                      Təsdiq et</button
+                    ><button
+                      class="btn"
+                      data-action="reject"
+                      style="
+                        background: transparent;
+                        border: 1px solid rgba(255, 0, 0, 0.12);
+                        color: #ff7b7b;
+                      "
+                    >
+                      Rədd et
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr data-id="J10236">
+                <td>J10236</td>
+                <td>parts_center</td>
+                <td>Parts Center</td>
+                <td>070 333 33 33</td>
+                <td>2025-08-12</td>
+                <td>
+                  <div class="actions">
+                    <button class="btn ghost" data-action="view">Gör</button
+                    ><button class="btn primary" data-action="approve">
+                      Təsdiq et</button
+                    ><button
+                      class="btn"
+                      data-action="reject"
+                      style="
+                        background: transparent;
+                        border: 1px solid rgba(255, 0, 0, 0.12);
+                        color: #ff7b7b;
+                      "
+                    >
+                      Rədd et
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card" id="reportsCard">
+          <h5>Son raporlar</h5>
+          <table>
+            <thead>
+              <tr>
+                <th>İstifadəçi</th>
+                <th>Mövzu</th>
+                <th>Tarix</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>client123</td>
+                <td>Yanlış məlumat</td>
+                <td>2025-08-12</td>
+                <td><span class="pill">Yeni</span></td>
+              </tr>
+              <tr>
+                <td>shop_az</td>
+                <td>Saxta profil</td>
+                <td>2025-08-11</td>
+                <td><span class="pill">Araşdırılır</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+
+    <div class="overlay" id="overlay">
+      <div class="modal" role="dialog" aria-modal="true">
+        <h4 id="modalTitle">Müraciət</h4>
+        <div
+          id="modalBody"
+          style="margin-top: 8px; color: #fff; font-size: 13px"
+        >
+          Yüklənir...
+        </div>
+        <div
+          style="
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-top: 12px;
+          "
+        >
+          <button class="btn ghost" id="modalClose">Bağla</button>
+          <button class="btn primary" id="modalApprove">Adminə göndər</button>
+          <button
+            class="btn"
+            id="modalReject"
+            style="
+              background: transparent;
+              border: 1px solid rgba(255, 0, 0, 0.12);
+              color: #ff7b7b;
+            "
+          >
+            Rədd et
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // simple interactivity for moderator flows
+      document.querySelectorAll(".slink").forEach((s) =>
+        s.addEventListener("click", () => {
+          document
+            .querySelectorAll(".slink")
+            .forEach((x) => x.classList.remove("active"));
+          s.classList.add("active");
+          // for simplicity scroll to top of main
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        })
+      );
+
+      document
+        .getElementById("refreshBtn")
+        .addEventListener("click", () => location.reload());
+
+      // table actions
+      const overlay = document.getElementById("overlay");
+      const modalBody = document.getElementById("modalBody");
+      let currentId = null;
+
+      document.getElementById("pendingTable").addEventListener("click", (e) => {
+        const btn = e.target.closest("button");
+        if (!btn) return;
+        const tr = e.target.closest("tr");
+        const id = tr.dataset.id;
+        currentId = id;
+        const action = btn.dataset.action;
+        if (action === "view") {
+          // load detail demo
+          modalBody.innerHTML = `<strong>ID:</strong> ${id}<br/><strong>İstifadəçi:</strong> ${tr.cells[1].textContent}<br/><strong>Mağaza:</strong> ${tr.cells[2].textContent}<br/><strong>Telefon:</strong> ${tr.cells[3].textContent}<br/><p style="margin-top:8px">Qeyd: əlavə sənədlər burada görünəcək.</p>`;
+          overlay.classList.add("show");
+        } else if (action === "approve") {
+          // quick approve -> send to admin for final
+          if (
+            confirm("Bu müraciəti adminə göndərmək istədiyinizə əminsiniz?")
+          ) {
+            alert("Müraciət adminə göndərildi (demo).");
+            tr.remove();
+            updateCounts();
+          }
+        } else if (action === "reject") {
+          const reason = prompt("Rədd etmə səbəbini qısa yazın:");
+          if (reason !== null) {
+            alert("Müraciət rədd edildi (demo).");
+            tr.remove();
+            updateCounts();
+          }
+        }
+      });
+
+      document
+        .getElementById("modalClose")
+        .addEventListener("click", () => overlay.classList.remove("show"));
+      document.getElementById("modalApprove").addEventListener("click", () => {
+        alert("Müraciət adminə göndərildi (modal).");
+        overlay.classList.remove("show");
+        document.querySelector(`[data-id="${currentId}"]`)?.remove();
+        updateCounts();
+      });
+      document.getElementById("modalReject").addEventListener("click", () => {
+        const r = prompt("Rədd səbəbi:");
+        if (r !== null) {
+          alert("Rədd edildi.");
+          overlay.classList.remove("show");
+          document.querySelector(`[data-id="${currentId}"]`)?.remove();
+          updateCounts();
+        }
+      });
+
+      function updateCounts() {
+        const rows = document.querySelectorAll("#pendingTable tbody tr").length;
+        document.getElementById("pendingCount").textContent = rows;
+        document.getElementById("c_pending").textContent = rows;
+      }
+
+      // search
+      document.getElementById("searchBtn").addEventListener("click", () => {
+        const q = document.getElementById("q").value.trim().toLowerCase();
+        document.querySelectorAll("#pendingTable tbody tr").forEach((tr) => {
+          const text = tr.textContent.toLowerCase();
+          tr.style.display = text.includes(q) || !q ? "table-row" : "none";
+        });
+      });
+    </script>
+  </body>
+</html>

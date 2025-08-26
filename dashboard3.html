@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="az">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Dashboard — Dark</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* --- Palette (from user) --- */
+      :root {
+        --headding-color: #111827;
+        --paragraph-color: #747681;
+        --primary-color: #22c55e;
+        --primary-color-border: #22c55e;
+        --primary-color-2: #e7f7ef;
+        --primary-color-3: #e7f7ef;
+        --warning-color: #facc15;
+        --warning-color-3: #fdf9e9;
+        --warning-color-2: #fdf9e9;
+        --alerts-color: #ff4747;
+        --alerts-color-2: #fcdede;
+        --alerts-color-3: #fcdede;
+        --other-color: #ff784b;
+        --grey-color: #f7fafc;
+        --white-color: #f7fafc;
+        --white-2: #e4fded;
+        --fill-color: #1b1d21;
+        --body-bg-color: #fafafa;
+        --bg-color: #fff;
+        --bg-color-2: #f7fafc;
+        --bg-rgb: rgba(237, 242, 247, 0.5);
+        --greyscale-200: rgba(42, 49, 60, 0.7);
+        --greyscale-1: #edf2f7;
+        --greyscale-3: #eeeff2;
+        --greyscale-4: #cbd5e0;
+        --greyscale-5: #d9fbe6;
+
+        /* dark variants */
+        --dark-headding-color: #fff;
+        --dark-paragraph-color: #e2e8f0;
+        --dark-primary-color: #ef0707;
+        --dark-primary-color-border: #2a313c;
+        --dark-primary-color-2: #23262b;
+        --dark-primary-color-3: #2a313c;
+        --dark-warning-color: #facc15;
+        --dark-warning-color-3: #2a313c;
+        --dark-warning-color-2: #23262b;
+        --dark-alerts-color: #ff4747;
+        --dark-alerts-color-2: #23262b;
+        --dark-alerts-color-3: #2a313c;
+        --dark-other-color: #ff784b;
+        --dark-grey-color: #2a313c;
+        --dark-grey-color-border: #edf2f7;
+        --dark-body-bg-color: #23262b;
+        --dark-greyscale-200: rgba(226, 232, 240, 0.7);
+        --dark-greyscale-1: #2a313c;
+        --dark-greyscale-3: #191b1f;
+        --dark-greyscale-4: #293644;
+        --dark-greyscale-5: #23262b;
+        --dark-bg-color-2: #23262b;
+        --dark-fill-color: #fff;
+        --dark-bg-rgb: #1d1e24;
+
+        /* layout */
+        --sidebar-width: 260px;
+        --radius: 10px;
+        --glass: rgba(255, 255, 255, 0.04);
+        --muted: rgba(255, 255, 255, 0.12);
+        --text-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial;
+      }
+
+      /* --- Base --- */
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: var(--text-sans);
+        background: linear-gradient(
+          180deg,
+          var(--dark-bg-color-2),
+          #17171a 120%
+        );
+        color: var(--dark-headding-color);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-size: 14px;
+      }
+
+      /* --- Navbar --- */
+      .navbar {
+        height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 12px 20px;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(0, 0, 0, 0)
+        );
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        backdrop-filter: blur(6px);
+      }
+      .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--dark-primary-color), #ef0707);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6),
+          inset 0 -6px 12px rgba(0, 0, 0, 0.08);
+        color: #fff;
+        font-weight: 700;
+        font-size: 18px;
+      }
+      .nav-center {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+      }
+      .greeting {
+        font-weight: 600;
+        color: var(--dark-headding-color);
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.03),
+          rgba(255, 255, 255, 0.01)
+        );
+        padding: 10px 18px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .icon-btn {
+        background: transparent;
+        border: 0;
+        color: var(--dark-paragraph-color);
+        padding: 8px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .profile {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 8px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.02);
+      }
+      .avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 999px;
+        background: linear-gradient(180deg, #22333b, #1a2327);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+      }
+
+      /* Dropdown */
+      .dropdown {
+        position: relative;
+      }
+      .dropdown-menu {
+        position: absolute;
+        right: 0;
+        top: 48px;
+        min-width: 180px;
+        background: var(--dark-greyscale-3);
+        border-radius: 8px;
+        padding: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        display: none;
+      }
+      .dropdown.open .dropdown-menu {
+        display: block;
+      }
+      .dropdown-menu button {
+        display: block;
+        width: 100%;
+        background: transparent;
+        border: 0;
+        color: var(--dark-paragraph-color);
+        padding: 8px 10px;
+        text-align: left;
+        border-radius: 6px;
+      }
+      .dropdown-menu button:hover {
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      /* --- Layout --- */
+      .layout {
+        display: flex;
+        min-height: calc(100vh - 72px - 48px);
+      }
+      .sidebar {
+        width: var(--sidebar-width);
+        padding: 18px;
+        background: linear-gradient(180deg, var(--dark-greyscale-5), #16161a);
+        border-right: 1px solid rgba(255, 255, 255, 0.03);
+        overflow: auto;
+      }
+      .sidebar .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+      .sidebar nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .sidebar nav a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px;
+        border-radius: 8px;
+        color: var(--dark-paragraph-color);
+        text-decoration: none;
+      }
+      .sidebar nav a.active {
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.01)
+        );
+        color: var(--dark-headding-color);
+        box-shadow: inset 0 1px rgba(255, 255, 255, 0.02);
+      }
+      .sidebar small {
+        display: block;
+        margin: 12px 0 6px;
+        color: var(--dark-paragraph-color);
+        text-transform: uppercase;
+        font-size: 11px;
+      }
+
+      /* collapse */
+      .sidebar.collapsed {
+        width: 76px;
+      }
+      .sidebar.collapsed .label {
+        display: none;
+      }
+      .sidebar.collapsed .brand-name {
+        display: none;
+      }
+
+      /* content */
+      .main {
+        flex: 1;
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+      }
+      .top-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+      .btn {
+        background: linear-gradient(180deg, var(--dark-primary-color), #ef0707);
+        color: #fff;
+        padding: 10px 14px;
+        border-radius: 10px;
+        border: 0;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .btn.ghost {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        color: var(--dark-paragraph-color);
+      }
+
+      .card {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.01)
+        );
+        padding: 16px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+      }
+
+      /* table */
+      .table-wrap {
+        overflow: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      thead th {
+        padding: 14px 12px;
+        text-align: left;
+        color: var(--dark-paragraph-color);
+        font-weight: 600;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      }
+      tbody td {
+        padding: 12px;
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.02);
+        color: var(--dark-headding-color);
+      }
+      .badge {
+        display: inline-block;
+        padding: 6px 8px;
+        border-radius: 999px;
+        font-size: 12px;
+      }
+      .badge.green {
+        background: rgba(34, 197, 94, 0.12);
+        color: var(--dark-primary-color);
+      }
+      .badge.red {
+        background: rgba(255, 71, 71, 0.09);
+        color: var(--alerts-color);
+      }
+
+      .actions button {
+        border: 0;
+        background: transparent;
+        padding: 6px;
+        border-radius: 8px;
+        cursor: pointer;
+        color: var(--dark-paragraph-color);
+      }
+
+      /* footer */
+      footer {
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--dark-paragraph-color);
+        border-top: 1px solid rgba(255, 255, 255, 0.081);
+        margin-top: 18px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+      }
+
+      /* modal */
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(2, 6, 23, 0.6);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+      }
+      .modal-backdrop.open {
+        display: flex;
+      }
+      .modal {
+        width: 100%;
+        max-width: 720px;
+        background: linear-gradient(180deg, #0f1113, #0b0b0c);
+        padding: 18px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+      }
+      .form-row {
+        display: flex;
+        gap: 12px;
+      }
+      .form-row .col {
+        flex: 1;
+      }
+      label {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--dark-paragraph-color);
+        font-size: 13px;
+      }
+      input[type="text"],
+      select,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        background: transparent;
+        color: var(--dark-headding-color);
+      }
+
+      /* responsive */
+      @media (max-width: 900px) {
+        .sidebar {
+          display: none;
+        }
+        .navbar .nav-center {
+          display: none;
+        }
+        .layout {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="nav-left">
+        <div class="logo" title="Logo">AD</div>
+        <div style="font-weight: 700">WebApp Admin</div>
+      </div>
+
+      <div class="nav-center">
+        <div class="greeting">Salam, Admin — Xoş gəlmisiniz</div>
+      </div>
+
+      <div class="nav-right">
+        <div class="icon-btn" id="toggleSidebarBtn" title="Sidebar toggle">
+          ☰
+        </div>
+
+        <div class="dropdown" id="notify">
+          <button
+            class="icon-btn"
+            onclick="toggleDropdown('notify')"
+            aria-haspopup="true"
+          >
+            🔔
+          </button>
+          <div class="dropdown-menu">
+            <button>Yeni sifariş: #345</button>
+            <button>Yeni istifadəçi qeydiyyatı</button>
+            <button>Server xəbərdarlığı</button>
+          </div>
+        </div>
+
+        <div class="dropdown" id="profile">
+          <div
+            class="profile"
+            onclick="toggleDropdown('profile')"
+            style="cursor: pointer"
+          >
+            <div class="avatar">A</div>
+            <div style="display: flex; flex-direction: column">
+              <strong style="font-size: 13px">Admin</strong>
+              <small style="font-size: 12px; color: var(--dark-paragraph-color)"
+                >superuser</small
+              >
+            </div>
+          </div>
+          <div class="dropdown-menu">
+            <button onclick="openModal('profileModal')">Profil</button>
+            <button>Şərhlər</button>
+            <button>Çıxış</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar" id="sidebar">
+        <div class="brand">
+          <div class="logo" style="width: 44px; height: 44px">AD</div>
+          <div>
+            <div class="brand-name" style="font-weight: 700">Admin Panel</div>
+            <small style="color: var(--dark-paragraph-color)">İdarəetmə</small>
+          </div>
+        </div>
+
+        <small>Ümumi</small>
+        <nav>
+          <ul>
+            <li>
+              <a href="#" class="active"
+                ><span>🏷️</span><span class="label">Mallər</span></a
+              >
+            </li>
+            <li>
+              <a href="#"
+                ><span>👥</span><span class="label">İstifadəçilər</span></a
+              >
+            </li>
+            <li>
+              <a href="#"
+                ><span>🏬</span><span class="label">Mağazalar</span></a
+              >
+            </li>
+            <li>
+              <a href="#"
+                ><span>📦</span><span class="label">Sifarişlər</span></a
+              >
+            </li>
+            <li>
+              <a href="#"
+                ><span>⚙️</span><span class="label">Parametrlər</span></a
+              >
+            </li>
+          </ul>
+        </nav>
+
+        <small>Digər</small>
+        <nav>
+          <ul>
+            <li>
+              <a href="#"
+                ><span>📊</span><span class="label">Hesabatlar</span></a
+              >
+            </li>
+            <li>
+              <a href="#"><span>🧾</span><span class="label">Loglar</span></a>
+            </li>
+            <li>
+              <a href="#"
+                ><span>🔒</span><span class="label">Təhlükəsizlik</span></a
+              >
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main class="main">
+        <div class="top-controls">
+          <div style="display: flex; gap: 10px; align-items: center">
+            <button class="btn" onclick="openModal('addModal')">
+              Malları əlavə et
+            </button>
+            <button class="btn ghost">Kütləvi yükləmə</button>
+          </div>
+          <div style="display: flex; gap: 8px; align-items: center">
+            <div style="color: var(--dark-paragraph-color); font-weight: 600">
+              Göstərilir:
+              <span style="color: var(--dark-primary-color)">Mallər</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 12px;
+            "
+          >
+            <h3 style="margin: 0">Mallər cədvəli</h3>
+            <div style="color: var(--dark-paragraph-color); font-size: 13px">
+              Ümumi: <strong id="totalCount">0</strong>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table id="itemsTable" class="table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Məhsul adı</th>
+                  <th>Mağaza</th>
+                  <th>Qiymət</th>
+                  <th>Stok</th>
+                  <th>Status</th>
+                  <th style="text-align: right">Əməliyyatlar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- rows inserted by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+    <footer>© 2025 WebApp. Bütün hüquqlar qorunur.</footer>
+
+    <!-- Modals -->
+    <div class="modal-backdrop" id="modalBackdrop">
+      <div class="modal card" role="dialog" aria-modal="true" id="modalContent">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+          "
+        >
+          <h3 id="modalTitle">Modal</h3>
+          <button class="btn ghost" onclick="closeModal()">Bağla</button>
+        </div>
+
+        <div id="modalBody">
+          <!-- form injected by JS -->
+        </div>
+      </div>
+    </div>
+    <script src="./js/scrollreveal.min.js"></script>
+    <script>
+      /* --- Sample data --- */
+      const sample = [
+        {
+          id: 1,
+          name: "Apple iPhone 15",
+          store: "AzStore",
+          price: 2399,
+          stock: 12,
+          status: "active",
+        },
+        {
+          id: 2,
+          name: "Samsung Galaxy S24",
+          store: "MobileLand",
+          price: 1999,
+          stock: 0,
+          status: "out",
+        },
+        {
+          id: 3,
+          name: "HP ProBook 450",
+          store: "CompCenter",
+          price: 3299,
+          stock: 5,
+          status: "active",
+        },
+        {
+          id: 4,
+          name: "Logitech MX Master",
+          store: "GadgetShop",
+          price: 269,
+          stock: 23,
+          status: "active",
+        },
+      ];
+
+      const tbody = document.querySelector("#itemsTable tbody");
+      const totalCountEl = document.getElementById("totalCount");
+
+      function renderTable() {
+        tbody.innerHTML = "";
+        sample.forEach((it, idx) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+          <td>${it.id}</td>
+          <td>${it.name}</td>
+          <td>${it.store}</td>
+          <td>${it.price} AZN</td>
+          <td>${it.stock}</td>
+          <td><span class="badge ${it.status === "active" ? "green" : "red"}">${
+            it.status
+          }</span></td>
+          <td class="actions" style="text-align:right">
+            <button title="Dəyiş">✏️</button>
+            <button title="Ad dəyiş">🔤</button>
+            <button title="Sil" onclick="deleteItem(${it.id})">🗑️</button>
+          </td>
+        `;
+          tbody.appendChild(tr);
+        });
+        totalCountEl.textContent = sample.length;
+      }
+
+      function deleteItem(id) {
+        const idx = sample.findIndex((s) => s.id === id);
+        if (idx > -1) {
+          if (confirm("Məhsulu silmək istədiyinizə əminsiniz?")) {
+            sample.splice(idx, 1);
+            renderTable();
+          }
+        }
+      }
+
+      /* --- modal helpers --- */
+      const modalBackdrop = document.getElementById("modalBackdrop");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalBody = document.getElementById("modalBody");
+
+      function openModal(type) {
+        modalBackdrop.classList.add("open");
+        if (type === "addModal") {
+          modalTitle.textContent = "Yeni məhsul əlavə et";
+          modalBody.innerHTML = `
+          <div class="form-row">
+            <div class="col">
+              <label>Ad</label>
+              <input id="mName" type="text" placeholder="Məhsul adı">
+            </div>
+            <div class="col">
+              <label>Mağaza</label>
+              <input id="mStore" type="text" placeholder="Mağaza adı">
+            </div>
+          </div>
+          <div class="form-row" style="margin-top:10px">
+            <div class="col">
+              <label>Qiymət</label>
+              <input id="mPrice" type="text" placeholder="AZN">
+            </div>
+            <div class="col">
+              <label>Stok</label>
+              <input id="mStock" type="text" placeholder="0">
+            </div>
+          </div>
+          <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
+            <button class="btn ghost" onclick="closeModal()">Ləğv et</button>
+            <button class="btn" onclick="saveNew()">Yadda saxla</button>
+          </div>
+        `;
+        } else if (type === "profileModal") {
+          modalTitle.textContent = "Profil";
+          modalBody.innerHTML = `
+          <div>
+            <label>Ad</label>
+            <input type="text" value="Admin">
+            <label style="margin-top:8px">Email</label>
+            <input type="text" value="admin@webapp.local">
+            <div style="margin-top:12px;display:flex;justify-content:flex-end;gap:8px">
+              <button class="btn ghost" onclick="closeModal()">Bağla</button>
+            </div>
+          </div>
+        `;
+        }
+      }
+      function closeModal() {
+        modalBackdrop.classList.remove("open");
+      }
+
+      function saveNew() {
+        const name = document.getElementById("mName").value.trim();
+        const store =
+          document.getElementById("mStore").value.trim() || "Default";
+        const price = parseFloat(document.getElementById("mPrice").value) || 0;
+        const stock = parseInt(document.getElementById("mStock").value) || 0;
+        if (!name) {
+          alert("Ad daxil edin");
+          return;
+        }
+        const id = sample.length ? sample[sample.length - 1].id + 1 : 1;
+        sample.push({
+          id,
+          name,
+          store,
+          price,
+          stock,
+          status: stock > 0 ? "active" : "out",
+        });
+        renderTable();
+        closeModal();
+      }
+
+      /* dropdowns */
+      function toggleDropdown(id) {
+        const el = document.getElementById(id);
+        el.classList.toggle("open");
+        // close others
+        ["notify", "profile"].forEach((i) => {
+          if (i !== id) document.getElementById(i).classList.remove("open");
+        });
+      }
+
+      // sidebar toggle
+      const sidebar = document.getElementById("sidebar");
+      document
+        .getElementById("toggleSidebarBtn")
+        .addEventListener("click", () => {
+          sidebar.classList.toggle("collapsed");
+        });
+
+      // close dropdowns on outside click
+      window.addEventListener("click", (e) => {
+        if (!e.target.closest(".dropdown")) {
+          document.getElementById("notify").classList.remove("open");
+          document.getElementById("profile").classList.remove("open");
+        }
+      });
+
+      // init
+      renderTable();
+
+      const sr = ScrollReveal();
+
+      sr.reveal(".navbar", {
+        duration: 2000,
+        origin: "top",
+        distance: "200px",
+      });
+
+      sr.reveal(".sidebar", {
+        duration: 2000,
+        origin: "left",
+        distance: "200px",
+      });
+
+      sr.reveal(".card", {
+        duration: 2000,
+        origin: "bottom",
+        distance: "200px",
+        delay: 1000,
+      });
+
+      sr.reveal(".top-controls", {
+        duration: 2000,
+        scale: 5,
+        delay: 1000,
+      });
+    </script>
+  </body>
+</html>

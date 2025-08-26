@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="az">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Profilim — Redaktə</title>
+    <link rel="stylesheet" href="./css/style.css" />
+    <style>
+      :root {
+        --background-gradient-start: #343a48;
+        --background-gradient-end: #6b7074;
+        --text-color: #eef2f7;
+        --navbar-bg: rgba(26, 38, 52, 0.95);
+        --input-bg: rgba(255, 255, 255, 0.04);
+        --input-border: rgba(255, 255, 255, 0.06);
+        --accent: rgba(231, 30, 3, 0.95);
+        --card-bg: rgba(20, 28, 36, 0.55);
+        --muted: rgba(255, 255, 255, 0.6);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 1100px;
+        padding: 1rem;
+        margin: 0 1,5rem;
+      }
+      .card {
+        background: var(--card-bg);
+        border-radius: 12px;
+        padding: 26px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+      }
+      .layout {
+        display: grid;
+        grid-template-columns: 420px 1fr;
+        gap: 22px;
+        align-items: start;
+      }
+      @media (max-width: 920px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .profile-pane {
+        padding: 18px;
+      }
+      .profile-head {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+      }
+      .avatar {
+        width: 110px;
+        height: 110px;
+        border-radius: 12px;
+        overflow: hidden;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+      }
+      .avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .change-pic {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 8px;
+      }
+
+      form {
+        margin-top: 14px;
+      }
+      label {
+        display: block;
+        font-size: 13px;
+        margin-bottom: 6px;
+        color: var(--muted);
+      }
+      input[type="text"],
+      input[type="tel"],
+      input[type="email"],
+      select,
+      textarea {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid var(--input-border);
+        background: var(--input-bg);
+        color: var(--text-color);
+        font-size: 14px;
+      }
+      input[readonly] {
+        opacity: 0.8;
+        background: rgba(255, 255, 255, 0.02);
+      }
+      textarea {
+        min-height: 110px;
+        resize: vertical;
+      }
+
+      .row {
+        display: flex;
+        gap: 12px;
+      }
+      .col {
+        flex: 1;
+      }
+
+      .actions {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        margin-top: 14px;
+      }
+      .btn {
+        padding: 10px 16px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        font-weight: 700;
+      }
+      .btn--primary {
+        background: var(--accent);
+        color: #fff;
+      }
+      .btn--ghost {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        color: var(--text-color);
+      }
+
+      .meta {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          transparent
+        );
+        padding: 18px;
+        border-radius: 10px;
+      }
+      .meta h3 {
+        font-size: 15px;
+        margin-bottom: 8px;
+      }
+      .meta p {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.4;
+      }
+
+      .small {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      /* confirmation overlay */
+      .overlay {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.4),
+          rgba(0, 0, 0, 0.6)
+        );
+        z-index: 120;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 200ms;
+      }
+      .overlay.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .modal {
+        background: #0e1620;
+        padding: 22px;
+        border-radius: 12px;
+        max-width: 720px;
+        width: 96%;
+        color: var(--text-color);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar__brand">
+        <a href="search.html">
+          <p data-heading="Slide" class="brand">Slide</p>
+        </a>
+      </div>
+      <form class="navbar__search">
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Nə axtarırıq..."
+          aria-label="Search"
+        />
+        <button type="submit">Axtar</button>
+      </form>
+      <div class="navbar__actions">
+        <button class="icon-button" aria-label="Favorites">❤️</button>
+        <div class="dropdown">
+          <button class="icon-button dropdown-toggle" aria-label="User menu">
+            ⋮
+          </button>
+          <ul class="dropdown__menu">
+            <li><a href="profile.html">Profil</a></li>
+            <li><a href="settings.html">Ayarlar</a></li>
+            <li class="dropdown__divider"></li>
+            <li><a href="login.html" class="text-danger">Çıxış</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <main class="container">
+      <div class="card">
+        <div class="layout">
+          <aside class="profile-pane meta">
+            <div class="profile-head">
+              <div class="avatar">
+                <img id="avatarImg" src="./images/user.png" alt="avatar" />
+              </div>
+              <div>
+                <div style="font-weight: 700; font-size: 16px" id="displayName">
+                  Məmməd Məmmədov
+                </div>
+                <div class="small" id="displayUsername">@musteveliye123</div>
+                <div class="change-pic">
+                  Profil şəklini dəyişmək üçün şəkil üzərinə kliklə
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top: 14px">
+              <h3>Qısa məlumat</h3>
+              <p class="small">
+                Bu səhifədən profil məlumatlarınızı redaktə edə bilərsiniz.
+                Dəyişiklikləri təsdiq etmək üçün cari şifrənizi daxil
+                etməlisiniz. Şifrəni dəyişmək üçün
+                <a href="change-password.html">buraya</a> daxil olun.
+              </p>
+            </div>
+
+            <div style="margin-top: 12px">
+              <strong>Hesab statusu</strong>
+              <div class="small" id="accStatus">Təsdiq olunmuş</div>
+            </div>
+          </aside>
+
+          <section>
+            <form id="profileForm" enctype="multipart/form-data" novalidate>
+              <div class="row">
+                <div class="col">
+                  <label for="username">İstifadəçi adı</label>
+                  <input id="username" name="username" type="text" readonly />
+                </div>
+                <div class="col">
+                  <label for="repName">Əlaqə şəxsi</label>
+                  <input id="repName" name="repName" type="text" required />
+                </div>
+              </div>
+
+              <div style="margin-top: 12px" class="row">
+                <div class="col">
+                  <label for="phone">Telefon</label>
+                  <input id="phone" name="phone" type="tel" required />
+                </div>
+                <div class="col">
+                  <label for="email">E-poçt</label>
+                  <input id="email" name="email" type="email" />
+                </div>
+              </div>
+
+              <div style="margin-top: 12px">
+                <label for="shop">Mağaza / Filial</label>
+                <input id="shop" name="shop" type="text" />
+              </div>
+
+              <div style="margin-top: 12px" class="row">
+                <div class="col">
+                  <label for="city">Şəhər</label>
+                  <input id="city" name="city" type="text" />
+                </div>
+                <div class="col">
+                  <label for="brands">Brendlər</label>
+                  <input
+                    id="brands"
+                    name="brands"
+                    type="text"
+                    placeholder="Toyota, BMW, Mercedes"
+                  />
+                </div>
+              </div>
+
+              <div style="margin-top: 12px">
+                <label for="notes">Qısa təsvir</label>
+                <textarea id="notes" name="notes"></textarea>
+              </div>
+
+              <div style="margin-top: 12px">
+                <label for="profilePicInput">Profil şəkli</label>
+                <input
+                  id="profilePicInput"
+                  name="profilePic"
+                  type="file"
+                  accept="image/*"
+                />
+              </div>
+
+              <div style="margin-top: 12px">
+                <label for="confirmPwd"
+                  >Cari şifrə (dəyişiklikləri təsdiqləmək üçün)</label
+                >
+                <input
+                  id="confirmPwd"
+                  name="confirmPwd"
+                  type="password"
+                  required
+                />
+              </div>
+
+              <div class="actions">
+                <button type="submit" class="btn btn--primary" id="saveBtn">
+                  Yadda saxla
+                </button>
+                <button type="button" class="btn btn--ghost" id="resetBtn">
+                  Sıfırla
+                </button>
+                <div style="margin-left: auto" class="small">
+                  Şifrəni dəyişmək üçün
+                  <a href="change-password.html">kliklə</a>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <div class="footer">
+      &copy; 2025 App |
+      <a href="#" style="color: var(--text-color); text-decoration: underline"
+        >Bizə Qatıl</a
+      >
+    </div>
+
+    <div id="overlay" class="overlay" aria-hidden>
+      <div class="modal" role="dialog" aria-modal="true">
+        <h2>Dəyişikliklər göndərildi</h2>
+        <p>
+          Məlumatlarınız admin tərəfindən və ya sistem tərəfindən təsdiq
+          olunduqdan sonra göstəriləcək. Əgər şifrə səhvdirsə, dəyişiklik qəbul
+          edilməyəcək.
+        </p>
+        <div
+          style="
+            margin-top: 14px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+          "
+        >
+          <button class="btn btn--ghost" onclick="closeOverlay()">Bağla</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // fill with demo data (replace with real data fetch)
+      const demo = {
+        username: "musteveliye123",
+        repName: "Məmməd Məmmədov",
+        phone: "050 999 99 99",
+        email: "example@shop.az",
+        shop: "Slide Avto Baku — Nərimanov",
+        city: "Bakı",
+        brands: "Toyota, Mercedes, BMW",
+        notes: "İş saatları: 09:00 - 19:00",
+        status: "Təsdiq olunmuş",
+      };
+
+      const form = document.getElementById("profileForm");
+      const avatar = document.getElementById("avatarImg");
+      const profilePicInput = document.getElementById("profilePicInput");
+      const saveBtn = document.getElementById("saveBtn");
+      const resetBtn = document.getElementById("resetBtn");
+      const overlay = document.getElementById("overlay");
+
+      function populate() {
+        document.getElementById("username").value = demo.username;
+        document.getElementById("repName").value = demo.repName;
+        document.getElementById("phone").value = demo.phone;
+        document.getElementById("email").value = demo.email;
+        document.getElementById("shop").value = demo.shop;
+        document.getElementById("city").value = demo.city;
+        document.getElementById("brands").value = demo.brands;
+        document.getElementById("notes").value = demo.notes;
+        document.getElementById("displayName").textContent = demo.repName;
+        document.getElementById("displayUsername").textContent =
+          "@" + demo.username;
+        document.getElementById("accStatus").textContent = demo.status;
+      }
+
+      populate();
+
+      // preview avatar
+      profilePicInput.addEventListener("change", (e) => {
+        const f = e.target.files[0];
+        if (!f) return;
+        const url = URL.createObjectURL(f);
+        avatar.src = url;
+      });
+
+      // reset
+      resetBtn.addEventListener("click", () => {
+        form.reset();
+        populate();
+        avatar.src = "./images/user.png";
+      });
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        // basic validation
+        const repName = form.repName.value.trim();
+        const phone = form.phone.value.trim();
+        const confirmPwd = form.confirmPwd.value.trim();
+        if (!repName || !phone || !confirmPwd)
+          return alert(
+            "Zəhmət olmasa tələb olunan sahələri doldurun və cari şifrənizi daxil edin."
+          );
+
+        saveBtn.disabled = true;
+        saveBtn.textContent = "Göndərilir...";
+
+        const payload = new FormData();
+        payload.append("username", form.username.value);
+        payload.append("repName", repName);
+        payload.append("phone", phone);
+        payload.append("email", form.email.value);
+        payload.append("shop", form.shop.value);
+        payload.append("city", form.city.value);
+        payload.append("brands", form.brands.value);
+        payload.append("notes", form.notes.value);
+        payload.append("confirmPwd", confirmPwd);
+        if (profilePicInput.files[0])
+          payload.append("profilePic", profilePicInput.files[0]);
+
+        try {
+          // replace with real endpoint
+          const res = await fetch("/api/profile/update", {
+            method: "POST",
+            body: payload,
+          });
+
+          if (!res || !res.ok) {
+            // demo: show overlay anyway
+            overlay.classList.add("show");
+            overlay.removeAttribute("aria-hidden");
+            saveBtn.textContent = "Yadda saxlandı";
+          } else {
+            const data = await res.json();
+            overlay.classList.add("show");
+            overlay.removeAttribute("aria-hidden");
+            saveBtn.textContent = "Yadda saxlandı";
+          }
+        } catch (err) {
+          console.error(err);
+          overlay.classList.add("show");
+          overlay.removeAttribute("aria-hidden");
+          saveBtn.textContent = "Yadda saxlandı";
+        }
+      });
+
+      function closeOverlay() {
+        overlay.classList.remove("show");
+        overlay.setAttribute("aria-hidden", "true");
+        saveBtn.disabled = false;
+        saveBtn.textContent = "Yadda saxla";
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="az">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Dashboard — Data Table (Centered)</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* --- Palette (from user) --- */
+      :root {
+        --headding-color: #111827;
+        --paragraph-color: #747681;
+        --primary-color: #22c55e;
+        --primary-color-border: #22c55e;
+        --primary-color-2: #e7f7ef;
+        --primary-color-3: #e7f7ef;
+        --warning-color: #facc15;
+        --warning-color-3: #fdf9e9;
+        --warning-color-2: #fdf9e9;
+        --alerts-color: #ff4747;
+        --alerts-color-2: #fcdede;
+        --alerts-color-3: #fcdede;
+        --other-color: #ff784b;
+        --grey-color: #f7fafc;
+        --white-color: #f7fafc;
+        --white-2: #e4fded;
+        --fill-color: #1b1d21;
+        --body-bg-color: #fafafa;
+        --bg-color: #fff;
+        --bg-color-2: #f7fafc;
+        --bg-rgb: rgba(237, 242, 247, 0.5);
+        --greyscale-200: rgba(42, 49, 60, 0.7);
+        --greyscale-1: #edf2f7;
+        --greyscale-3: #eeeff2;
+        --greyscale-4: #cbd5e0;
+        --greyscale-5: #d9fbe6;
+
+        /* dark variants */
+        --dark-headding-color: #fff;
+        --dark-paragraph-color: #e2e8f0;
+        --dark-primary-color: #ef0707;
+        --dark-primary-color-border: #2a313c;
+        --dark-primary-color-2: #23262b;
+        --dark-primary-color-3: #2a313c;
+        --dark-warning-color: #facc15;
+        --dark-warning-color-3: #2a313c;
+        --dark-warning-color-2: #23262b;
+        --dark-alerts-color: #ff4747;
+        --dark-alerts-color-2: #23262b;
+        --dark-alerts-color-3: #2a313c;
+        --dark-other-color: #ff784b;
+        --dark-grey-color: #2a313c;
+        --dark-grey-color-border: #edf2f7;
+        --dark-body-bg-color: #23262b;
+        --dark-greyscale-200: rgba(226, 232, 240, 0.7);
+        --dark-greyscale-1: #2a313c;
+        --dark-greyscale-3: #191b1f;
+        --dark-greyscale-4: #293644;
+        --dark-greyscale-5: #23262b;
+        --dark-bg-color-2: #23262b;
+        --dark-fill-color: #fff;
+        --dark-bg-rgb: #1d1e24;
+
+        /* layout */
+        --radius: 10px;
+        --glass: rgba(255, 255, 255, 0.04);
+        --muted: rgba(255, 255, 255, 0.12);
+        --text-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial;
+
+        --max-width: 1100px;
+      }
+
+      /* --- Base --- */
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: var(--text-sans);
+        background: linear-gradient(180deg, var(--dark-bg-color-2), #17171a 120%);
+        color: var(--dark-headding-color);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-size: 14px;
+      }
+
+      /* --- Navbar (kept intact) --- */
+      .navbar {
+        height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 12px 20px;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0));
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        backdrop-filter: blur(6px);
+      }
+      .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--dark-primary-color), #ef0707);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6), inset 0 -6px 12px rgba(0, 0, 0, 0.08);
+        color: #fff;
+        font-weight: 700;
+        font-size: 18px;
+      }
+      .nav-center {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+      }
+      .greeting {
+        font-weight: 600;
+        color: var(--dark-headding-color);
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+        padding: 10px 18px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .icon-btn {
+        background: transparent;
+        border: 0;
+        color: var(--dark-paragraph-color);
+        padding: 8px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .profile {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 8px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.02);
+      }
+      .avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 999px;
+        background: linear-gradient(180deg, #22333b, #1a2327);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+      }
+
+      /* --- Main centered layout (no sidebar) --- */
+      .main {
+        display: flex;
+        justify-content: center;
+        padding: 28px 18px 86px; /* leave space for fixed footer */
+      }
+
+      .card {
+        width: 100%;
+        max-width: var(--max-width);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+        padding: 16px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+      }
+
+      .top-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+
+      .btn {
+        background: linear-gradient(180deg, var(--dark-primary-color), #ef0707);
+        color: #fff;
+        padding: 10px 14px;
+        border-radius: 10px;
+        border: 0;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .btn.ghost {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        color: var(--dark-paragraph-color);
+      }
+
+      /* table */
+      .table-wrap {
+        overflow: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+        min-width: 900px;
+      }
+      thead th {
+        padding: 14px 12px;
+        text-align: left;
+        color: var(--dark-paragraph-color);
+        font-weight: 600;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        background: transparent;
+      }
+      tbody td {
+        padding: 12px;
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.02);
+        color: var(--dark-headding-color);
+      }
+      tbody tr { transition: background 0.15s, transform 0.08s; }
+      tbody tr:hover { background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); transform: translateY(-2px); }
+
+      .actions button { border: 0; background: transparent; padding: 6px; border-radius: 8px; cursor: pointer; color: var(--dark-paragraph-color); }
+
+      /* tooltip */
+      .tooltip {
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        max-width: 420px;
+        max-height: 320px;
+        overflow: auto;
+        background: linear-gradient(180deg, #0f1113, #0b0b0c);
+        border: 1px solid rgba(255,255,255,0.04);
+        padding: 12px;
+        border-radius: 10px;
+        color: var(--dark-headding-color);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        display: none;
+        font-size: 13px;
+        line-height: 1.4;
+      }
+      .tooltip h4{ margin:0 0 8px 0; color:var(--primary-color); font-size:13px }
+      .tooltip p{ margin:0; color:var(--dark-paragraph-color); white-space:pre-wrap }
+
+      /* footer (kept fixed like original) */
+      footer {
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--dark-paragraph-color);
+        border-top: 1px solid rgba(255, 255, 255, 0.081);
+        margin-top: 18px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.04));
+        backdrop-filter: blur(4px);
+      }
+
+      @media (max-width: 980px) { table{min-width:700px} }
+      @media (max-width: 640px) { table{min-width:600px} thead th:nth-child(3), tbody td:nth-child(3){display:none} }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar (unchanged) -->
+    <header class="navbar">
+      <div class="nav-left">
+        <div class="logo" title="Logo">AD</div>
+        <div style="font-weight: 700">WebApp Admin</div>
+      </div>
+
+      <div class="nav-center">
+        <div class="greeting">Salam, Admin — Xoş gəlmisiniz</div>
+      </div>
+
+      <div class="nav-right">
+        <div class="icon-btn" id="fakeBtn" title="Info">ℹ️</div>
+        <div class="dropdown" id="profile">
+          <div class="profile" style="cursor:pointer">
+            <div class="avatar">A</div>
+            <div style="display:flex;flex-direction:column">
+              <strong style="font-size:13px">Admin</strong>
+              <small style="font-size:12px;color:var(--dark-paragraph-color)">superuser</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main: centered card with table -->
+    <main class="main">
+      <div class="card">
+        <div class="top-controls">
+          <div style="display:flex;gap:10px;align-items:center">
+            <button class="btn" id="addBtn">Yeni əlavə et</button>
+            <button class="btn ghost" id="bulkBtn">Kütləvi yükləmə</button>
+          </div>
+
+          <div style="display:flex;gap:12px;align-items:center">
+            <div style="color:var(--dark-paragraph-color);font-weight:600">Rejim:
+              <strong id="modeLabel">Admin</strong>
+            </div>
+            <button class="btn ghost" id="toggleMode">İstifadəçi rejiminə keç</button>
+          </div>
+        </div>
+
+        <h3 style="margin:0 0 10px 0">Mallar cədvəli</h3>
+        <div class="table-wrap">
+          <table id="dataTable">
+            <thead>
+              <tr>
+                <th style="width:110px">OEM №</th>
+                <th style="width:160px">BREND KODU</th>
+                <th>BREND ADI</th>
+                <th>MAL ADI</th>
+                <th>ÜNVAN</th>
+                <th style="width:140px;text-align:right">Əməliyyatlar</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <footer>© 2025 WebApp. Bütün hüquqlar qorunur.</footer>
+
+    <!-- Tooltip (no data-attrs used) -->
+    <div class="tooltip" id="tooltip" role="tooltip" aria-hidden="true"></div>
+
+    <script>
+      // Sample dataset - include big details in .details (no data-* used)
+      const dataset = [
+        { id: 1, oem: 'OEM-1001', code: 'BR-A1', brand: 'BrandOne', name: 'Məhsul A', address: 'Bakı, Nərimanov', details: 'Şəhər: Bakı\nKontakt: +994501234567\nDepo: 3 ədəd\nQeyd: Nəhəng paketlə göndərilməlidir.\nƏlavə: Uzun mətn dəstəklənir.' },
+        { id: 2, oem: 'OEM-1002', code: 'BR-B2', brand: 'BrandTwo', name: 'Məhsul B', address: 'Gəncə, Mərkəz', details: 'Şəhər: Gəncə\nKontakt: +994503212345\nQeyd: Əlavə info burada olacaq. Bu məlumat çox uzun ola bilər, tooltip scroll olacaq.' },
+        { id: 3, oem: 'OEM-1003', code: 'BR-C3', brand: 'BrandThree', name: 'Məhsul C', address: 'Sumqayıt, 3-cü məh.', details: 'Şəhər: Sumqayıt\nKontakt: +994504567890\nTarix: 12.08.2025' },
+        { id: 4, oem: 'OEM-1004', code: 'BR-D4', brand: 'BrandFour', name: 'Məhsul D', address: 'Şəki, Köhnə bazar', details: 'Şəhər: Şəki\nKontakt: +994505678901\nQeyd: Bu hüceyrənin üzərinə gələn zaman geniş məlumat göstərilir.' }
+      ];
+
+      // State
+      let mode = 'admin'; // or 'user'
+
+      // Elements
+      const tbody = document.querySelector('#dataTable tbody');
+      const tooltip = document.getElementById('tooltip');
+      const modeLabel = document.getElementById('modeLabel');
+      const toggleModeBtn = document.getElementById('toggleMode');
+      const addBtn = document.getElementById('addBtn');
+
+      // Render table rows. For tooltip we attach the long content directly to the element (no data-* attr)
+      function render() {
+        tbody.innerHTML = '';
+        dataset.forEach((row, idx) => {
+          const tr = document.createElement('tr');
+
+          const tdOEM = document.createElement('td'); tdOEM.textContent = row.oem;
+          const tdCode = document.createElement('td'); tdCode.textContent = row.code;
+          const tdBrand = document.createElement('td'); tdBrand.textContent = row.brand;
+          const tdName = document.createElement('td'); tdName.textContent = row.name;
+
+          const tdAddr = document.createElement('td');
+          const addrSpan = document.createElement('span');
+          addrSpan.textContent = row.address;
+          addrSpan.style.cursor = 'help';
+          addrSpan.style.color = 'var(--primary-color)';
+          addrSpan.style.textDecoration = 'underline dotted';
+          // attach large tooltip content via property (not data-attr)
+          addrSpan._tooltipContent = row.details || '';
+
+          // mouse events
+          addrSpan.addEventListener('mouseenter', (e) => showTooltip(e.currentTarget._tooltipContent, e));
+          addrSpan.addEventListener('mousemove', (e) => moveTooltip(e));
+          addrSpan.addEventListener('mouseleave', hideTooltip);
+
+          tdAddr.appendChild(addrSpan);
+
+          const tdActions = document.createElement('td'); tdActions.style.textAlign = 'right';
+
+          if (mode === 'admin') {
+            const editBtn = document.createElement('button'); editBtn.textContent = 'Dəyiş'; editBtn.title = 'Dəyiş'; editBtn.className = 'edit';
+            editBtn.addEventListener('click', () => editItem(idx));
+
+            const delBtn = document.createElement('button'); delBtn.textContent = 'Sil'; delBtn.title = 'Sil'; delBtn.className = 'del';
+            delBtn.style.marginLeft = '8px';
+            delBtn.addEventListener('click', () => deleteItem(idx));
+
+            tdActions.appendChild(editBtn);
+            tdActions.appendChild(delBtn);
+          } else {
+            tdActions.textContent = ''; // users see nothing
+          }
+
+          tr.appendChild(tdOEM);
+          tr.appendChild(tdCode);
+          tr.appendChild(tdBrand);
+          tr.appendChild(tdName);
+          tr.appendChild(tdAddr);
+          tr.appendChild(tdActions);
+
+          tbody.appendChild(tr);
+        });
+      }
+
+      // Tooltip functions
+      function showTooltip(content, event) {
+        if (!content) return;
+        tooltip.innerHTML = `<h4>Ünvan məlumatı</h4><p>${escapeHtml(content)}</p>`;
+        tooltip.style.display = 'block';
+        tooltip.setAttribute('aria-hidden', 'false');
+        moveTooltip(event);
+      }
+      function moveTooltip(e) {
+        const pad = 14;
+        const rect = tooltip.getBoundingClientRect();
+        let x = e.clientX + pad;
+        let y = e.clientY + pad;
+        // keep inside viewport
+        if (x + rect.width > window.innerWidth) x = e.clientX - rect.width - pad;
+        if (y + rect.height > window.innerHeight) y = e.clientY - rect.height - pad;
+        tooltip.style.left = x + 'px';
+        tooltip.style.top = y + 'px';
+      }
+      function hideTooltip() {
+        tooltip.style.display = 'none';
+        tooltip.setAttribute('aria-hidden', 'true');
+      }
+
+      function escapeHtml(str) {
+        // keep newlines (we show them via white-space:pre-wrap in CSS)
+        return (str + '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;');
+      }
+
+      // Admin actions
+      function editItem(idx) {
+        const row = dataset[idx];
+        const newName = prompt('Yeni mal adı', row.name);
+        if (newName !== null) {
+          row.name = newName;
+          render();
+        }
+      }
+      function deleteItem(idx) {
+        if (confirm('Məhsulu silmək istədiyinizə əminsiniz?')) {
+          dataset.splice(idx, 1);
+          render();
+        }
+      }
+
+      // Add new (simple prompts for demo)
+      addBtn.addEventListener('click', () => {
+        const oem = prompt('OEM №'); if (!oem) return;
+        const code = prompt('BREND KODU') || '';
+        const brand = prompt('BREND ADI') || '';
+        const name = prompt('MAL ADI') || '';
+        const addr = prompt('ÜNVAN') || '';
+        const details = prompt('Ünvan üçün geniş məlumat (newline istifadə et)') || '';
+        dataset.push({ id: Date.now(), oem, code, brand, name, address: addr, details });
+        render();
+      });
+
+      // Mode toggle
+      toggleModeBtn.addEventListener('click', () => {
+        mode = mode === 'admin' ? 'user' : 'admin';
+        modeLabel.textContent = mode === 'admin' ? 'Admin' : 'İstifadəçi';
+        toggleModeBtn.textContent = mode === 'admin' ? 'İstifadəçi rejiminə keç' : 'Admin rejiminə keç';
+        addBtn.style.display = mode === 'admin' ? 'inline-block' : 'none';
+        render();
+      });
+
+      // initial render
+      render();
+
+      // Accessibility: hide tooltip on scroll/resize
+      window.addEventListener('scroll', hideTooltip);
+      window.addEventListener('resize', hideTooltip);
+    </script>
+  </body>
+</html>
